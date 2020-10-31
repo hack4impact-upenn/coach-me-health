@@ -7,7 +7,7 @@ import auth from '../api/core/auth';
 const NavbarContainer = styled.div`
   width: 100vw;
   height: 50px;
-  padding: 0px 50px;
+  padding: 0px 20px;
   display: flex;
   align-items: center;
   background-color: #2c3e50;
@@ -40,7 +40,7 @@ const Navbar = () => {
     <NavbarContainer>
       <NavbarItem>
         <a href="/" className="title is-6 has-text-white">
-          🚀 TS-Boilerplate
+          CoachMe Health
         </a>
       </NavbarItem>
       <NavbarItem>
