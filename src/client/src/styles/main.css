@@ -42,3 +42,10 @@ h1 {
     font-weight: 600;
     color: #404040;
 }
+
+.icon {
+    color: #FFFFFF;
+    font-size: 25px;
+    text-align: center;
+    margin: auto;
+}
