@@ -5,18 +5,35 @@ import { useHistory } from 'react-router-dom';
 import auth from '../api/core/auth';
 
 const NavbarContainer = styled.div`
-  width: 100vw;
-  height: 50px;
-  padding: 0px 20px;
   display: flex;
-  align-items: center;
-  background-color: #2c3e50;
-  justify-content: space-between;
+  flex-direction: column;
+  padding-bottom: 40px;
+  max-width: 200px;
+  width: 100%;
+  margin-left: 2.5rem;
+  margin-top: 4%;
+  background-color: #FFFFFF;
+
 `;
 
 const NavbarItem = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  cursor: pointer;
+  width: 34%;
+  margin: 0 auto 20px 0;
+  text-align: center;
+  background-color: #F29DA4;
+  padding: 20px 17px 20px;
+  border-radius: 10px;
   &:hover {
-    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px;
+    opacity: 0.9;
+    background-
+    color: rgba(44, 62, 80, 0.1);
+  }
+  &:active {
+    opacity: 0.6;
   }
 `;
 
@@ -39,11 +56,9 @@ const Navbar = () => {
   return (
     <NavbarContainer>
       <NavbarItem>
-        <a href="/" className="title is-6 has-text-white">
-          CoachMe Health
-        </a>
+        <a><i className="far fa-user icon"></i></a>
       </NavbarItem>
-      <NavbarItem>
+      {/* <NavbarItem>
         {loggedIn && (
           <h1
             className="title is-6 has-text-white"
@@ -52,7 +67,7 @@ const Navbar = () => {
             Logout
           </h1>
         )}
-      </NavbarItem>
+      </NavbarItem> */}
     </NavbarContainer>
   );
 };
