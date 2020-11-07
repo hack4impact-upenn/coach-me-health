@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-interface PatientModel extends mongoose.Document {
+interface IPatient extends mongoose.Document {
   _id: string;
   firstName: string;
   lastName: string;
@@ -31,6 +31,6 @@ const PatientSchema = new Schema({
   }]
 });
 
-const Patient = mongoose.model<PatientModel>('Patient', PatientSchema);
+const Patient = mongoose.model<IPatient>('Patient', PatientSchema);
 
-export { Patient, PatientModel };
+export { Patient, IPatient };
