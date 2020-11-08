@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/add", async (req, res) => {
     // validate phone number
-    if(!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g).length !== 10){
+    if(!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
         return res.status(400).json({
             msg: "Unable to add patient: invalid phone number"
         })
