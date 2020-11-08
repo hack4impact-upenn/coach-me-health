@@ -5,32 +5,30 @@ import { useHistory } from 'react-router-dom';
 import auth from '../api/core/auth';
 
 const NavbarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 40px;
-  max-width: 200px;
-  width: 100%;
-  margin-left: 2.5rem;
-  margin-top: 4%;
-  background-color: #FFFFFF;
+  overflow-x: hidden;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  padding: 30px 20px 30px;
+  // background-color: #000000;
 
 `;
 
 const NavbarItem = styled.div`
-  display: flex;
-  justify-content: flex-start;
+  display: block;
   cursor: pointer;
-  width: 34%;
-  margin: 0 auto 20px 0;
   text-align: center;
   background-color: #F29DA4;
-  padding: 20px 17px 20px;
-  border-radius: 10px;
+  padding: 20px 22px 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 10px;
     opacity: 0.9;
-    background-
-    color: rgba(44, 62, 80, 0.1);
+    background-color: #f2c2c6;
+    transform: scale(1.02)
   }
   &:active {
     opacity: 0.6;
@@ -55,19 +53,16 @@ const Navbar = () => {
 
   return (
     <NavbarContainer>
+      {/* <img src="https://images.typeform.com/images/aBuTPD2X63gc/image/default" width="40px"></img> */}
       <NavbarItem>
         <a><i className="far fa-user icon"></i></a>
       </NavbarItem>
-      {/* <NavbarItem>
-        {loggedIn && (
-          <h1
-            className="title is-6 has-text-white"
-            onClick={() => auth.logout()}
-          >
-            Logout
-          </h1>
-        )}
-      </NavbarItem> */}
+      <NavbarItem>
+        <a><i className="far fa-user icon"></i></a>
+      </NavbarItem>
+      <NavbarItem>
+        <a><i className="far fa-user icon"></i></a>
+      </NavbarItem>
     </NavbarContainer>
   );
 };
