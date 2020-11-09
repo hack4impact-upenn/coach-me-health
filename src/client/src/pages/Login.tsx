@@ -1,36 +1,63 @@
 import { Field, FieldAttributes, Form, Formik } from 'formik';
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import auth from '../api/core/auth';
-
-import '../styles/login.css'
 
 const logo = require('../assets/images/coachme.png');
 
 const FormContainer = styled.div`
-  text-align: center;
-  margin: 200px auto auto auto; 
-  width: 100%;
+    text-align: center;
+    margin: 200px auto auto auto; 
+    width: 100%;
 `;
+
+const LogoColumn = styled.div`
+    background-color: #EEF0F3;
+    padding-top: 200px;
+    height: 105vh
+`;
+
+
 
 const initialValues = {
   email: '',
   password: '',
 };
 
+const GlobalStyle = createGlobalStyle`
+    html {
+        overflow: hidden !important;
+    }
+`
+
+const LoginField = styled.div`
+    width: 70%;
+    max-width: 768px;
+    text-align: center;
+    margin: 20px auto;
+`
+
+const LoginIcon = styled.span`
+    position: absolute !important;
+    left: 14px !important;
+    top: 10px !important;
+    font-size: 10px;
+    color: #637792 !important;
+`
+
 const inputStyles = {
-  backgroundColor: "rgb(221, 225, 231)",
-  borderRadius: "15px",
-  padding: "8px 20px 8px 32px",
-  border: "none",
-  width: "100%"
+    backgroundColor: "rgb(221, 225, 231)",
+    borderRadius: "15px",
+    padding: "8px 20px 8px 32px",
+    border: "none",
+    width: "100%"
 }
 
 const buttonStyles = {
-  backgroundColor: "#F29DA4",
-  borderRadius: "15px",
-  fontWeight: 800
+    backgroundColor: "#F29DA4",
+    borderRadius: "15px",
+    fontWeight: 800
 }
 
 const FieldWrapper = ({
@@ -43,14 +70,14 @@ const FieldWrapper = ({
   if (!icon) return children;
 
   return (
-    <div className="field">
+    <LoginField>
       <p className="control has-icons-left has-icons-right">
         {children}
-        <span className="is-small is-left icon">
+        <LoginIcon className="is-small is-left">
           <i className={`fas ${icon}`}></i>
-        </span>
+        </LoginIcon>
       </p>
-    </div>
+    </LoginField>
   );
 };
 
@@ -77,6 +104,7 @@ const LoginForm = () => {
 
     return (
         <FormContainer>
+            <RegisterLink>Register</RegisterLink>
             <h1 style = {{ fontWeight: 800, fontSize: 36, color: "#637792" }}>Login</h1>
             <p>Please enter your information below</p>
 
@@ -92,7 +120,7 @@ const LoginForm = () => {
                         style = {inputStyles}
                         type="text"
                         placeholder="Email"
-                        className = "add-patient-field"
+                        className = "form-field"
                         />
                     </FieldWrapper>
 
@@ -102,7 +130,7 @@ const LoginForm = () => {
                         style = {inputStyles}
                         type="password"
                         placeholder="Password"
-                        className = "add-patient-field"
+                        className = "form-field"
                         />
                     </FieldWrapper>
 
@@ -115,23 +143,57 @@ const LoginForm = () => {
     )
 }
 
+const LoginLogoContainer = styled.div`
+    height: 108px;
+    width: 370px;
+    margin: 200px auto;
+    position: relative;
+`;
+
+const Subheader = styled.h1`
+    font-weight: 600;
+    position: absolute;
+    color: #637792;
+    top: 65px;
+    left: 105px;
+    font-size: 30px;
+`;
+
+const Logo = styled.img`
+    width: 328px;
+    position: absolute;
+`
+
+const RegisterLink = styled.a`
+    float: right;
+    color: #F29DA4;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    &:hover {
+        color: #EE6772;  
+    }
+`
+
 const LogoContainer = () => {
     return (
-        <div id = "logo-container">
-            <img src = {logo} id = "logo"></img>
-            <h1 id = "logo-subheader">Coach Dashboard</h1>
-        </div>
+        <LoginLogoContainer>
+            <Logo src = {logo} id = "login-logo"></Logo>
+            <Subheader>Coach Dashboard</Subheader>
+        </LoginLogoContainer>
     );
 }
 
 const Login = () => {
     return (
         <div>
+            <GlobalStyle></GlobalStyle>
             <div className="columns is-hidden-touch">
-                <div className="column is-hidden-mobile" id = "logo-column">
+                <LogoColumn className="column is-hidden-mobile">
                     <LogoContainer></LogoContainer>
-                </div>
-                <div className="column is-flex">
+                </LogoColumn>
+                <div className="column is-flex rows">
+                    
                     <LoginForm></LoginForm>
                 </div>
             </div>
