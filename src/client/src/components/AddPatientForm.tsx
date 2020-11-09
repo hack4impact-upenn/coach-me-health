@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import { Field, FieldAttributes, Form, Formik } from 'formik';
 import secureAxios from "../api/core/apiClient";
 
+import styled from 'styled-components';
 
 const inputStyles = {
     backgroundColor: "rgb(221, 225, 231)",
@@ -12,27 +13,29 @@ const inputStyles = {
     width: "100%"
 }
 
-const fieldStyles = {
-    width: "70%",
-    maxWidth: "768px",
-    textAlign: "center" as any,
-    margin: "20px auto"
-}
+const StyledField = styled.div`
+    width: 70%;
+    max-width: 768px;
+    text-align: center;
+    margin: 20px auto
+`
 
-const iconStyles = {
-    position: "absolute" as any,
-    left: "14px",
-    top: "10px",
-    fontSize: "10px",
-    color: "#637792",
-}
+const Icon = styled.span`
+    position: absolute;
+    left: 14px;
+    top: 10px;
+    font-size: 10px;
+    color: #637792;
+`
 
-const buttonStyles = {
-    backgroundColor: "#F29DA4",
-    borderRadius: "15px",
-    fontWeight: 800
-}
-
+const Button = styled.button`
+    background-color: #F29DA4 !important;
+    border-radius: 15px !important;
+    font-weight: 800 !important;
+    &:focus {
+        box-shadow: none !important;
+    }
+`
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -51,14 +54,14 @@ const FieldWrapper = ({
     if (!icon) return children;
   
     return (
-      <div className="field" style = {fieldStyles}>
+      <StyledField className="field">
         <p className="control has-icons-left has-icons-right">
           {children}
-          <span className="is-small is-left" style = {iconStyles}>
+          <Icon className="is-small is-left">
             <i className={`fas ${icon}`}></i>
-          </span>
+          </Icon>
         </p>
-      </div>
+      </StyledField>
     );
   };
 
@@ -140,9 +143,9 @@ const AddPatientForm : React.FC = () => {
                         className = "add-patient-field"
                         />
                     </FieldWrapper>
-                    <button style = {buttonStyles} className={"button is-primary" + (isLoading ? " is-loading" : "")} type="submit">
+                    <Button className={"button is-primary" + (isLoading ? " is-loading" : "")} type="submit">
                         Add Patient
-                    </button>
+                    </Button>
                     </Form>
                     
                 </Formik>
