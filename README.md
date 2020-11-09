@@ -1,22 +1,17 @@
-# TS-Boilerplate
+# CoachMe Health Automated SMS Dashboard
 
-![demo](docs/images/demo.png 'Demo')
+Automated SMS dashboard with chatbot for automatically monitoring and tabulating patient data. Built Fall 2020 under Hack4Impact Penn.
 
-Dead simple monorepo boilerplate web project designed to take you from Git Cloning to Heroku Deployment in less 5 minutes. 🚀🤩
+**Project Manager/Technical Lead:** Ben Demers, Carol Li
 
-It is built using the TypeScript, React, Express, Mongoose, MongoDB stack. If you want to checkout an example project based on TS-Boilerplate, check out [TS-Canvas](https://github.com/orang-utan/ts-canvas).
-
-## Features
-
-Essentially, here're some of its features:
-
-- JWT-based user authentication / authorization system
-- Silent refresh / access token retrieval
-- Clean mono-repo structure with Express Server and React Client
-- Code linting setup according to Airbnb standards
-- Able to connect to MongoDB and WebSockets
-- Pretty UI using Bulma and Styled Components
-- Easy deployability on Heroku (literally 3 steps, it's really easy)
+**Team Members:**
+* Cindy Jiang
+* Jared Asch
+* Subin Lee
+* Alex Xu
+* Gautam Narayan
+* Grace Fujinaga
+* Matthew Dong
 
 ## Setting Up
 
