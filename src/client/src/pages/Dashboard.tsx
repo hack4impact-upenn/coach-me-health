@@ -5,8 +5,6 @@ import auth from '../api/core/auth';
 import { fetchMe } from '../api/userApi';
 import Sidebar from '../components/Sidebar';
 
-import AppContainer from "../components/AppContainer";
-
 const FlexContainer = styled.div`
   display: flex;
 `;
@@ -55,7 +53,6 @@ const Dashboard = () => {
   };
 
   return (
-    <AppContainer>
     <FlexContainer>
       <Sidebar />
       <ContentContainer>
@@ -73,7 +70,6 @@ const Dashboard = () => {
         </button>
       </ContentContainer>
     </FlexContainer>
-    </AppContainer>
   );
 };
 

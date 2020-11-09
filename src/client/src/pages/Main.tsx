@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import '../styles/main.css';
 
-import AppContainer from "../components/AppContainer";
-
 
 const ContentContainer = styled.div`
   text-align: center;
@@ -51,12 +49,10 @@ const Main = () => {
     //     </Button>
     //   </ButtonGroup>
     // </ContentContainer>
-    <AppContainer>
       <ContentContainer>
         <h1>Welcome to the CoachMe Health patient dashboard!</h1>
         <p>This is some placeholder text.</p>
       </ContentContainer>
-    </AppContainer>
   );
 };
 

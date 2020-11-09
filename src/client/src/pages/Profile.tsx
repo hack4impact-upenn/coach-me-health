@@ -16,7 +16,6 @@ const Profile = () => {
   let history = useHistory();
 
   return (
-    <AppContainer>
     <FlexContainer>
       <Sidebar />
       <ContentContainer>
@@ -29,7 +28,6 @@ const Profile = () => {
         </button>
       </ContentContainer>
     </FlexContainer>
-    </AppContainer>
   );
 };
 

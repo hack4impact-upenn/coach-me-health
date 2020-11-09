@@ -104,7 +104,7 @@ const LoginForm = () => {
 
     return (
         <FormContainer>
-            <RegisterLink>Register</RegisterLink>
+            <RegisterLink href = "#">Register</RegisterLink>
             <h1 style = {{ fontWeight: 800, fontSize: 36, color: "#637792" }}>Login</h1>
             <p>Please enter your information below</p>
 
@@ -170,6 +170,7 @@ const RegisterLink = styled.a`
     position: absolute;
     top: 20px;
     right: 20px;
+    font-weight: 800;
     &:hover {
         color: #EE6772;  
     }

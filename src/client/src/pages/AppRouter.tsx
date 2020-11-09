@@ -14,7 +14,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 const AppRouter = () => {
   return (
     <Router>
-      {/* <AppContainer> */}
         <Switch>
           <PublicRoute exact path="/signup" component={Signup} />
           <PublicRoute exact path="/login" component={Login} />
