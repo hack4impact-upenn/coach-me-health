@@ -8,7 +8,7 @@ import connectToDatabase from './utils/mongo';
 import './utils/config';
 
 import patientRouter from './routes/patient.api';
-import coachRouter from './routes/user.api';
+import coachRouter from './routes/coach.auth';
 
 const app = express();
 
