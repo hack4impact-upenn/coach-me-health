@@ -48,7 +48,7 @@ async function refreshTokenAndReattemptRequest(
       isAlreadyFetchingAccessToken = true;
       const response = await axios({
         method: 'POST',
-        url: `${ENDPOINT}/api/users/refreshToken`,
+        url: `${ENDPOINT}/api/coaches/refreshToken`,
         timeout: 0,
         headers: {
           'Content-Type': 'application/json',
