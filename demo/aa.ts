@@ -14,19 +14,19 @@ const port = 3000
 var responseMap = new Map()
 
 // function to add responses to the Map 
-function addResponse(key: string, response: string) {
+function setResponse(key: string, response: string) {
   responseMap.set(key, response)
 }
 
 function initializeState() {
-  addResponse('toolow', 'Your number today is too low :(')
-  addResponse('<80', 'Your number today is between 70 and 80')
-  addResponse('green', 'Green!')
-  addResponse('yellow', 'Yellow!')
-  addResponse('red', 'Red!')
-  addResponse('green', 'Green!')
-  addResponse('>=301', 'Too high (it is greater than 300!)')
-  addResponse('no', 'you have entered no in your response')
+  setResponse('toolow', 'Your number today is too low :(')
+  setResponse('<80', 'Your number today is between 70 and 80')
+  setResponse('green', 'Green!')
+  setResponse('yellow', 'Yellow!')
+  setResponse('red', 'Red!')
+  setResponse('green', 'Green!')
+  setResponse('>=301', 'Too high (it is greater than 300!)')
+  setResponse('no', 'you have entered no in your response')
 }
 
 // regex function to see if input string contains a number
