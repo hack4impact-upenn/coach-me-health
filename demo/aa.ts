@@ -1,6 +1,6 @@
 // setup variables and express/twilio etc.
-const accountSid = 'AC7feb1563904b5ec34a73f25b1384b171'
-const authToken = '02b7c05bd577dd90612599cb1802c790'
+const accountSid = 'aaa'
+const authToken = 'aaa'
 
 const twilio = require('twilio')(accountSid, authToken)
 const http = require('http')
@@ -12,6 +12,22 @@ const port = 3000
 
 // map for the sample responses. The key is the result category and the value is the response. Populate the map as necessary
 var responseMap = new Map()
+
+// function to add responses to the Map 
+function addResponse(key: string, response: string) {
+  responseMap.set(key, response)
+}
+
+function initializeState() {
+  addResponse('toolow', 'Your number today is too low :(')
+  addResponse('<80', 'Your number today is between 70 and 80')
+  addResponse('green', 'Green!')
+  addResponse('yellow', 'Yellow!')
+  addResponse('red', 'Red!')
+  addResponse('green', 'Green!')
+  addResponse('>=301', 'Too high (it is greater than 300!)')
+  addResponse('no', 'you have entered no in your response')
+}
 
 // regex function to see if input string contains a number
 function containsNumber(input: string) {
@@ -78,7 +94,7 @@ app.post('/sms', function(req, res) {
   }
 
   // if contains no then respond with the default no response
-  else if (response.toLowerCase.includes('no')) {
+  else if (response.toLowerCase.trim() === ('no')) {
     message.body(responseMap.get('no'));
   }
 
