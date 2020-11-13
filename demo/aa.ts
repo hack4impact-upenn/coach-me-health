@@ -1,6 +1,6 @@
 // setup variables and express/twilio etc.
-const accountSid = 'aaa'
-const authToken = 'aaa'
+const accountSid = 'hidden'
+const authToken = 'hidden'
 
 const twilio = require('twilio')(accountSid, authToken)
 const http = require('http')
@@ -19,6 +19,7 @@ function setResponse(key: string, response: string) {
 }
 
 function initializeState() {
+  setResponse('many nums', 'You sent more than one number! Please send only the result')
   setResponse('toolow', 'Your number today is too low :(')
   setResponse('<80', 'Your number today is between 70 and 80')
   setResponse('green', 'Green!')
@@ -26,24 +27,40 @@ function initializeState() {
   setResponse('red', 'Red!')
   setResponse('green', 'Green!')
   setResponse('>=301', 'Too high (it is greater than 300!)')
-  setResponse('no', 'you have entered no in your response')
+  setResponse('no', 'You have entered no in your response')
 }
+
+initializeState();
 
 // regex function to see if input string contains a number
 function containsNumber(input: string) {
   return /\d/.test(input)
 }
 
+// regex function to see if input string contains multiple numbers
+function containsMany(input: string) {
+  const rex = /-?\d(?:[\d]*\.\d+|[\d]*)/g;
+  let match;
+  let nums = 0;
+  while ((match = rex.exec(input)) !== null) {
+    nums++
+    if (nums > 1) { 
+      return true
+    }
+  }
+  return false
+}
+
 // regex function to get the number from the string (use in conjunction with contains)
 // check for 2 digit number and if null check for 3 digit number
 function getNumber(input_s: string) {
   
-  if (input_s.match(/\b\d{2}\b/g) != null)
+  if (input_s.match(/\d{3}/g) != null)
   {
-    return input_s.match(/\b\d{2}\b/g)
+    return input_s.match(/\d{3}/g)
   }
   else {
-      return input_s.match(/\b\d{3}\b/g)
+      return input_s.match(/\d{2}/g)
   }
 }
 
@@ -71,6 +88,7 @@ function classifyNumeric(input) {
   }
 }
 
+console.log(responseMap)
 // send initial message to the user
 twilio.messages
   .create({
@@ -82,19 +100,24 @@ twilio.messages
 
 // this route receives and parses the message from one user, than responds accordingly with the appropriate output 
 app.post('/sms', function(req, res) {
-  const MessagingResponse = twilio.twiml.MessagingResponse 
+  const MessagingResponse = require('twilio').twiml.MessagingResponse 
   const twiml = new MessagingResponse()
   const message = twiml.message()
   var response = req.body.Body
-
+  
+  // if contains many numbers then respond with "too many number inputs"
+  if (containsMany(response)) {
+    message.body(responseMap.get('many nums'));
+  }
+  
   // if contains number then classify
-  if (containsNumber(response)) {
+  else if (containsNumber(response)) {
     var value = getNumber(response)
     message.body(responseMap.get(classifyNumeric(value)))
   }
 
   // if contains no then respond with the default no response
-  else if (response.toLowerCase.trim() === ('no')) {
+  else if (response.toLowerCase() === ('no')) {
     message.body(responseMap.get('no'));
   }
 
