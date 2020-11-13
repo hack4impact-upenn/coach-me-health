@@ -9,6 +9,7 @@ import './utils/config';
 
 import userRouter from './routes/user.api';
 import patientRouter from './routes/patient.api';
+import twilioRouter from './routes/twilio.api';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(cors());
 // API Routes
 app.use('/api/users', userRouter);
 app.use('/api/patients', patientRouter);
+app.use('/api/twilio', twilioRouter);
 
 // Serving static files
 if (process.env.NODE_ENV === 'production') {
@@ -37,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const server = app.listen(app.get('port'), () => {
   console.log(`Listening on port ${app.get('port')} 🚀`);
-  console.log('  Press Command C to stop\n');
+  console.log('Press Command C to stop\n');
 });
 
 const io = socket(server);
