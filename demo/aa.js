@@ -1,6 +1,6 @@
 // setup variables and express/twilio etc.
-var accountSid = AC7feb1563904b5ec34a73f25b1384b171;
-var authToken = 02, b7c05bd577dd90612599cb1802c790;
+var accountSid = aaa;
+var authToken = 02, aaa;
 var twilio = require('twilio')(accountSid, authToken);
 var http = require('http');
 var express = require('express');
