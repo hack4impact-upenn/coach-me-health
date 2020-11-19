@@ -8,6 +8,7 @@ import connectToDatabase from './utils/mongo';
 import './utils/config';
 
 import patientRouter from './routes/patient.api';
+import messageRouter from './routes/messages.api';
 import coachRouter from './routes/coach.auth';
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(cors());
 // API Routes
 app.use('/api/patients', patientRouter);
 app.use('/api/coaches', coachRouter);
+app.use('/api/messages', messageRouter);
 
 // Serving static files
 if (process.env.NODE_ENV === 'production') {
