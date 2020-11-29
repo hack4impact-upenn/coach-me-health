@@ -2,12 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import '../styles/main.css';
+import PatientHeader from '../components/PatientHeader'
+import PatientSearchBar from '../components/PatientSearchBar'
 
 
 const ContentContainer = styled.div`
   text-align: center;
   margin: 10vh auto;
   width: 80vw;
+  background: #E5E5E5;
 `;
 
 const ButtonGroup = styled.div`
@@ -17,6 +20,7 @@ const ButtonGroup = styled.div`
 const Button = styled.button`
   margin: 5px;
 `;
+
 
 const Main = () => {
   const history = useHistory();
@@ -48,10 +52,12 @@ const Main = () => {
     //       Login
     //     </Button>
     //   </ButtonGroup>
+    //<h1>Welcome to the CoachMe Health patient dashboard!</h1>
+     // <p>This is some placeholder text.</p>
     // </ContentContainer>
     <ContentContainer>
-      <h1>Welcome to the CoachMe Health patient dashboard!</h1>
-      <p>This is some placeholder text.</p>
+      <PatientHeader>
+      </PatientHeader>
     </ContentContainer>
   );
 };
