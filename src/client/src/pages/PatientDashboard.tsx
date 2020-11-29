@@ -1,14 +1,77 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
+import SearchBar from "../components/SearchBar";
+
+import { useQuery } from 'react-query';
+import auth from '../api/core/auth';
+import { fetchMe } from '../api/userApi';
 
 const DashboardContainer = styled.div`
     margin-left: 106px;
+    padding: 20px;
+`
+
+const PatientDashboardHeader = styled.h1`
+    font-weight: 800;
+    font-size: 32px;
+`
+
+const SearchBarContainer = styled.div`
+    padding-top: 5px;
+`
+
+const GlobalStyle = createGlobalStyle`
+    body {
+        background-color: whitesmoke;
+        padding-top: 20px !important;
+    }
+`
+
+const Header = styled.div`
+    margin-bottom: 20px !important;
+    padding: 20px;
 `
 
 const PatientDashboard: React.FC = () => {
+
+    const profileQuery = useQuery(
+        ['fetchMe', { accessToken: auth.getAccessToken() }],
+        fetchMe,
+        {
+            refetchOnWindowFocus: false,
+        }
+    );
+
+    const onSearch = (query : string) => {
+        alert(query);
+    }
+
+    const firstName = profileQuery.data ? (profileQuery.data as any).data.firstName : null;
+
     return (
         <DashboardContainer>
+            <GlobalStyle />
+            <Header className="columns is-hidden-touch">
+                <div className="column is-two-fifths">
+                    <PatientDashboardHeader>{firstName}'s Patient Dashboard</PatientDashboardHeader>
+                </div>
+                <div className="column">
+                    <SearchBarContainer>
+                        <SearchBar onSearch={ onSearch }></SearchBar>
+                    </SearchBarContainer>
+                </div>
+            </Header>
+            <div className="columns is-hidden-desktop">
+                <div className="column is-two-fifths">
+                    <PatientDashboardHeader>{firstName}'s Patient Dashboard</PatientDashboardHeader>
+                </div>
+                <div className="column">
+                    <SearchBarContainer>
+                        <SearchBar onSearch={ onSearch }></SearchBar>
+                    </SearchBarContainer>
+                </div>
+            </div>
             <Table options={tableOptions} title="Assigned Patients" data={testData} columns={cols}></Table>
         </DashboardContainer>
     )
