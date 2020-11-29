@@ -3,6 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
+import ResultsTable from "../components/ResultsTable";
+
 
 const DashboardContainer = styled.div`
     margin-left: 106px;
@@ -12,11 +14,11 @@ const TwoColumn: React.FC = () => {
     return (
     <DashboardContainer>
     <Title>Bokuto Kotaro's Patient Records</Title>
-    <Subtitle>Bokuto is the best</Subtitle>
+    <Subtitle>Bokuto is the best!</Subtitle>
     <div className="columns">
         <div className="column">
             <ExportButton>Export to CSV</ExportButton>
-            <Table options={table1Options} title="" data={testData} columns={cols}></Table>
+            <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
             <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
         </div>
         <div className="column">
@@ -101,7 +103,7 @@ const cols2: Column[] = [
 
 const Title = styled.p`
     position: absolute;
-    left: 10%;
+    left: 5%;
     right: -47.05%;
     top: 0%;
     bottom: 88.3%;
@@ -117,7 +119,7 @@ const Title = styled.p`
 
 const Subtitle = styled.p`
     position: absolute;
-    left: 10%;
+    left: 5%;
     right: -65.43%;
     top: 5.22%;
     bottom: 88.62%;
@@ -150,6 +152,12 @@ const CheckBox = styled.input`
 
 
 const ExportButton = styled.button`
+    position: absolute;
+    left: 43.82%;
+    right: 48.4%;
+    top: 8.63%;
+    bottom: 72.27%;
+
     width: 112px !important; 
     height: 42px !important;
     background-color: #F29DA4 !important;
