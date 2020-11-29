@@ -4,28 +4,47 @@ import styled from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
 import ResultsTable from "../components/ResultsTable";
-
+import SearchBar from "../components/SearchBar";
 
 const DashboardContainer = styled.div`
-    margin-left: 106px;
+    margin-left: 20px;
 `
 
+const SearchBarContainer = styled.div`
+
+`
+
+
 const TwoColumn: React.FC = () => {
+    const onSearch = (query : string) => {
+        alert(`You searched ${query}`);
+    }
+
     return (
-    <DashboardContainer>
-    <Title>Bokuto Kotaro's Patient Records</Title>
-    <Subtitle>Bokuto is the best!</Subtitle>
-    <div className="columns">
-        <div className="column">
-            <ExportButton>Export to CSV</ExportButton>
-            <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
-            <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
+        <DashboardContainer>
+            <div className="columns">
+                <div className="column">
+                    <Title>Bokuto Kotaro's Patient Records</Title>
+                    <Subtitle>Bokuto is the best!</Subtitle>
+
+                    <div className = "columns"> 
+                        <SearchBarContainer className = "column is-three-quarters">
+                            <SearchBar onSearch = {onSearch}></SearchBar>
+                        </SearchBarContainer>
+                        <div className = "column">
+                            <ExportButton>Export to CSV</ExportButton>
+                        </div>
+                    </div>
+
+        
+                    <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
+                    <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
+                </div>
+                <div className="column">
+                    Second column
         </div>
-        <div className="column">
-            Second column
-        </div>
-    </div>
-    </DashboardContainer>
+            </div>
+        </DashboardContainer>
     )
 }
 
@@ -93,21 +112,15 @@ const cols2: Column[] = [
         data: (row) => row.enabled == "Yes" ? (
             <CheckBox type="checkbox" checked>
             </CheckBox>
-            ) : (
+        ) : (
                 <CheckBox type="checkbox">
                 </CheckBox>
-                ),
+            ),
         key: "enabled"
     },
 ]
 
-const Title = styled.p`
-    position: absolute;
-    left: 5%;
-    right: -47.05%;
-    top: 0%;
-    bottom: 88.3%;
-
+const Title = styled.h1`
     font-family: Avenir;
     font-style: normal;
     font-weight: 800;
@@ -118,12 +131,6 @@ const Title = styled.p`
 `;
 
 const Subtitle = styled.p`
-    position: absolute;
-    left: 5%;
-    right: -65.43%;
-    top: 5.22%;
-    bottom: 88.62%;
-
     font-family: Avenir;
     font-style: normal;
     font-weight: normal;
@@ -131,6 +138,8 @@ const Subtitle = styled.p`
     line-height: 20px;
 
     color: #404040;
+
+    padding: 30px 0;
 `;
 
 const CheckBox = styled.input`
@@ -152,14 +161,9 @@ const CheckBox = styled.input`
 
 
 const ExportButton = styled.button`
-    position: absolute;
-    left: 43.82%;
-    right: 48.4%;
-    top: 8.63%;
-    bottom: 72.27%;
+    float: right;
 
-    width: 112px !important; 
-    height: 42px !important;
+    padding: 9px 20px;
     background-color: #F29DA4 !important;
     font-size: 13px !important;
     border-radius: 15px !important;
@@ -170,6 +174,7 @@ const ExportButton = styled.button`
     &:hover {
         box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
         border: none !important;
+        cursor: pointer;
     }
 
     &:focus {

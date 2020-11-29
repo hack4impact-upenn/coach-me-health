@@ -53,14 +53,6 @@ export interface Column {
     key: string
 }
 
-const GlobalStyle = createGlobalStyle`
-    body {
-        background-color: whitesmoke;
-        padding-top: 100px !important;
-        padding-bottom: 100px !important;
-    }
-`
-
 const StyledTable = styled.table`
 `
 
@@ -182,7 +174,6 @@ const Table: React.FC<TableProps> = ({ title, data, columns, options }: TablePro
 
     return (
         <TableContainer>
-            <GlobalStyle />
             <StyledTitle>{title}</StyledTitle>
 
             { options.sortsChoiceEnabled && options.sortOptions && options.sortOptions.length > 1 && 

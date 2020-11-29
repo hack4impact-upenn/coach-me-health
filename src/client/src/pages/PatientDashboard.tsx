@@ -8,7 +8,6 @@ import auth from '../api/core/auth';
 import { fetchMe } from '../api/userApi';
 
 const DashboardContainer = styled.div`
-    margin-left: 106px;
     padding: 20px;
 `
 
@@ -23,7 +22,7 @@ const SearchBarContainer = styled.div`
 
 const GlobalStyle = createGlobalStyle`
     body {
-        background-color: whitesmoke;
+        background-color: #E5E5E5;
         padding-top: 20px !important;
     }
 `

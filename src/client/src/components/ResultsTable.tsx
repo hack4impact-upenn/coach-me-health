@@ -2,14 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import {SortOption, TableProps, TableOptions, Column} from './Table';
 
-const GlobalStyle = createGlobalStyle`
-    body {
-        background-color: whitesmoke;
-        padding-top: 100px !important;
-        padding-bottom: 100px !important;
-    }
-`
-
 const StyledTable = styled.table`
 `
 
@@ -37,7 +29,6 @@ const TableContainer = styled.div`
     border-radius: 20px;
     width: 100%;
     padding: 30px 50px;
-    margin-top: 50px !important;
     box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
     position: relative;
     overflow: auto;
@@ -132,7 +123,6 @@ const ResultsTable: React.FC<TableProps> = ({ title, data, columns, options }: T
 
     return (
         <TableContainer>
-            <GlobalStyle />
             <StyledTitle>{title}</StyledTitle>
 
             { options.sortsChoiceEnabled && options.sortOptions && options.sortOptions.length > 1 && 
