@@ -9,10 +9,12 @@ const DashboardContainer = styled.div`
 const TwoColumn: React.FC = () => {
     return (
     <DashboardContainer>
+        <Title>Bokuto Kotaro's Patient Records</Title>
     <div className="columns">
         <div className="column">
             First column
             <Table options={table1Options} title="" data={testData} columns={cols}></Table>
+            <Table options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></Table>
         </div>
         <div className="column">
             Second column
@@ -27,6 +29,11 @@ const table1Options: TableOptions = {
     sortsChoiceEnabled: false
 }
 
+const table2Options: TableOptions = {
+    sortOptions: [],
+    sortsChoiceEnabled: false
+}
+
 const testData = new Array(5).fill(undefined).map((_, i) => ({
     Indicator: Math.random() > 0.5 ? "Jared Asch" : "Matthew Dong",
     status: "Active",
@@ -36,6 +43,12 @@ const testData = new Array(5).fill(undefined).map((_, i) => ({
     added: new Date(2020, 11, 20 + i),
     coach: "Subin Lee",
     responseRate: Math.ceil(Math.random() * 100)
+}));
+
+const testData2 = new Array(2).fill(undefined).map((_, i) => ({
+    message: "Happy Thanksgiving bois!",
+    time: "02:00 AM KST",
+    enabled: "Yes"
 }));
 
 const cols: Column[] = [
@@ -88,6 +101,40 @@ const cols: Column[] = [
         key: "view"
     }
 ]
+
+const cols2: Column[] = [
+    {
+        name: "Message",
+        data: "message",
+        key: "message"
+    },
+    {
+        name: "Time",
+        data: "time",
+        key: "time"
+    },
+    {
+        name: "Enabled",
+        data: "enabled",
+        key: "enabled"
+    },
+]
+
+const Title = styled.p`
+    position: absolute;
+    left: 0%;
+    right: -47.05%;
+    top: 0%;
+    bottom: 88.3%;
+
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 49px;
+
+    color: #404040;
+`;
 
 const UnreadButton = styled.button`
     width: 100%;
