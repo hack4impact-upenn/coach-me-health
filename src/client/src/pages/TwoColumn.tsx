@@ -11,7 +11,8 @@ const DashboardContainer = styled.div`
 const TwoColumn: React.FC = () => {
     return (
     <DashboardContainer>
-        <Title>Bokuto Kotaro's Patient Records</Title>
+    <Title>Bokuto Kotaro's Patient Records</Title>
+    <Subtitle>Bokuto is the best</Subtitle>
     <div className="columns">
         <div className="column">
             <ExportButton>Export to CSV</ExportButton>
@@ -100,7 +101,7 @@ const cols2: Column[] = [
 
 const Title = styled.p`
     position: absolute;
-    left: 0%;
+    left: 10%;
     right: -47.05%;
     top: 0%;
     bottom: 88.3%;
@@ -110,6 +111,22 @@ const Title = styled.p`
     font-weight: 800;
     font-size: 36px;
     line-height: 49px;
+
+    color: #404040;
+`;
+
+const Subtitle = styled.p`
+    position: absolute;
+    left: 10%;
+    right: -65.43%;
+    top: 5.22%;
+    bottom: 88.62%;
+
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 20px;
 
     color: #404040;
 `;
@@ -131,25 +148,6 @@ const CheckBox = styled.input`
     color: #404040;
 `;
 
-const UnreadButton = styled.button`
-    width: 100%;
-    background-color: #FAD246 !important;
-    font-size: 13px !important;
-    border-radius: 15px !important;
-    color: white !important;
-    border: none !important;
-    font-weight: 600;
-
-    &:hover {
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
-        border: none !important;
-    }
-
-    &:focus {
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
-        border: none !important;
-    }
-`;
 
 const ExportButton = styled.button`
     width: 112px !important; 
