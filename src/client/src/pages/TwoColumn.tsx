@@ -1,7 +1,8 @@
+import { time } from 'console';
 import React from 'react';
 import styled from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
-// import ImageGallery from 'react-image-gallery';
+import ScheduledMessageTable from "../components/ScheduledMessageTable";
 
 const DashboardContainer = styled.div`
     margin-left: 106px;
@@ -10,15 +11,12 @@ const DashboardContainer = styled.div`
 const TwoColumn: React.FC = () => {
     return (
     <DashboardContainer>
+        <Title>Bokuto Kotaro's Patient Records</Title>
     <div className="columns">
         <div className="column">
-            <Title>Bokuto Kotaro's Patient Records</Title>
             <ExportButton>Export to CSV</ExportButton>
-            {/* Carousel very broken commenting it out.
-            <ImageGallery items={images} showThumbnails={false} showFullscreenButton={false} useBrowserFullscreen={false} disableSwipe={true}></ImageGallery>
-            */}
-            <Table options={table1Options} title="" data={testData} columns={cols1}></Table>
-
+            <Table options={table1Options} title="" data={testData} columns={cols}></Table>
+            <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
         </div>
         <div className="column">
             Second column
@@ -46,7 +44,13 @@ const testData = new Array(5).fill(undefined).map((_, i) => ({
     timeRecorded: "11:20AM 2020-10-30"
 }));
 
-const cols1: Column[] = [
+const testData2 = new Array(2).fill(undefined).map((_, i) => ({
+    message: "Happy Thanksgiving bois!",
+    time: "02:00 AM KST",
+    enabled: "Yes"
+}));
+
+const cols: Column[] = [
     {
         name: "Indicator",
         data: "indicator",
@@ -70,20 +74,82 @@ const cols1: Column[] = [
     }
 ]
 
-const images = [
+const cols2: Column[] = [
     {
-      original: 'https://picsum.photos/id/1018/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1018/250/150/',
+        name: "Message",
+        data: "message",
+        key: "message"
     },
     {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/250/150/',
+        name: "Time",
+        data: "time",
+        key: "time"
     },
     {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+        name: "Enabled",
+        data: (row) => row.enabled == "Yes" ? (
+            <CheckBox type="checkbox" checked>
+            </CheckBox>
+            ) : (
+                <CheckBox type="checkbox">
+                </CheckBox>
+                ),
+        key: "enabled"
     },
-  ];
+]
+
+const Title = styled.p`
+    position: absolute;
+    left: 0%;
+    right: -47.05%;
+    top: 0%;
+    bottom: 88.3%;
+
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 49px;
+
+    color: #404040;
+`;
+
+const CheckBox = styled.input`
+    width: 11.51px;
+    height: 12px;
+    left: 653.93px;
+    top: 736px;
+
+    font-family: Font Awesome 5 Free;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 11px;
+    /* identical to box height */
+
+
+    color: #404040;
+`;
+
+const UnreadButton = styled.button`
+    width: 100%;
+    background-color: #FAD246 !important;
+    font-size: 13px !important;
+    border-radius: 15px !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 600;
+
+    &:hover {
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
+        border: none !important;
+    }
+
+    &:focus {
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
+        border: none !important;
+    }
+`;
 
 const ExportButton = styled.button`
     width: 112px !important; 
@@ -104,11 +170,6 @@ const ExportButton = styled.button`
         box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
         border: none !important;
     }
-    position: absolute;
-    left: 43.82%;
-    right: 48.4%;
-    top: 23.63%;
-    bottom: 72.27%;
 `;
 
 const ActiveText = styled.p`
