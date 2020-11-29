@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 
-interface OutComeModel extends mongoose.Document {
+interface IOutcome extends mongoose.Document {
   _id: string;
   patientID: number;
   phoneNumber: string;
@@ -21,7 +21,7 @@ const OutcomeSchema = new Schema({
   alertType: { type: String, required: false }
 });
 
-const Outcome = mongoose.model<OutComeModel>('Outcome', OutcomeSchema);
+const Outcome = mongoose.model<IOutcome>('Outcome', OutcomeSchema);
 
-export { Outcome, OutComeModel };
+export { Outcome, IOutcome };
 

@@ -50,7 +50,7 @@ h1 {
     margin: auto;
 }
 
-.add-patient-field:focus {
+.form-field:focus {
     outline: none;
     box-shadow: inset 0px 0px 4px 0px rgb(99, 119, 146);
 }

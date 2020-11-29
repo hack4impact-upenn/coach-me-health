@@ -100,7 +100,7 @@ const AddPatientForm : React.FC = () => {
                         style = {inputStyles}
                         type="text"
                         placeholder="Patient first name"
-                        className = "add-patient-field"
+                        className = "form-field"
                         />
                     </FieldWrapper>
 
@@ -110,7 +110,7 @@ const AddPatientForm : React.FC = () => {
                         style = {inputStyles}
                         type="text"
                         placeholder="Patient last name"
-                        className = "add-patient-field"
+                        className = "form-field"
                         />
                     </FieldWrapper>
 
@@ -120,7 +120,7 @@ const AddPatientForm : React.FC = () => {
                         style = {inputStyles}
                         type="text"
                         placeholder="Patient Language"
-                        className = "add-patient-field"
+                        className = "form-field"
                         />
                     </FieldWrapper>
 
@@ -130,7 +130,7 @@ const AddPatientForm : React.FC = () => {
                         style = {inputStyles}
                         type="text"
                         placeholder="Patient Coach"
-                        className = "add-patient-field"
+                        className = "form-field"
                         />
                     </FieldWrapper>
 
@@ -140,7 +140,7 @@ const AddPatientForm : React.FC = () => {
                         style = {inputStyles}
                         type="tel"
                         placeholder="Patient Phone Number"
-                        className = "add-patient-field"
+                        className = "form-field"
                         />
                     </FieldWrapper>
                     <Button className={"button is-primary" + (isLoading ? " is-loading" : "")} type="submit">

@@ -55,10 +55,17 @@ const Main = () => {
     //<h1>Welcome to the CoachMe Health patient dashboard!</h1>
      // <p>This is some placeholder text.</p>
     // </ContentContainer>
+<<<<<<< HEAD
     <ContentContainer>
       <PatientHeader>
       </PatientHeader>
     </ContentContainer>
+=======
+      <ContentContainer>
+        <h1>Welcome to the CoachMe Health patient dashboard!</h1>
+        <p>This is some placeholder text.</p>
+      </ContentContainer>
+>>>>>>> master
   );
 };
 
