@@ -1,3 +1,4 @@
+import { time } from 'console';
 import React from 'react';
 import styled from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
@@ -28,22 +29,14 @@ const table1Options: TableOptions = {
 }
 
 const testData = new Array(5).fill(undefined).map((_, i) => ({
-    Indicator: Math.random() > 0.5 ? "Jared Asch" : "Matthew Dong",
-    status: "Active",
-    phoneNumber: "1234567890",
-    week: Math.ceil(Math.random() * 10),
-    unread: 10 * i,
-    added: new Date(2020, 11, 20 + i),
-    coach: "Subin Lee",
-    responseRate: Math.ceil(Math.random() * 100)
+    indicator: "Blood Glucose Levels",
+    measure: Math.ceil(Math.random() * 1000),
+    // create logic for analysis here I guess?
+    analysis: "placeholder",
+    timeRecorded: "11:20AM 2020-10-30"
 }));
 
 const cols: Column[] = [
-    {
-        name: "Status",
-        data: () => <ActiveText>Active</ActiveText>,
-        key: "status"
-    },
     {
         name: "Indicator",
         data: "indicator",
@@ -55,37 +48,15 @@ const cols: Column[] = [
         key: "measure"
     },
     {
+        // need to create logic for the text color, possible do it down in activetext
         name: "Analysis",
-        data: "analysis",
+        data: (row) => <ActiveText>Green</ActiveText>,
         key: "analysis"
     },
     {
         name: "Time Recorded",
         data: "timeRecorded",
         key: "timeRecorded"
-    },
-    {
-        name: "Response Rate",
-        data: (row) => <React.Fragment>{row.responseRate}%</React.Fragment>,
-        key: "responseRate"
-    },
-    {
-        name: "",
-        data: (row) => (
-            <UnreadButton className="button" type="submit">
-                { row.unread} unread
-            </UnreadButton>
-        ),
-        key: "unread"
-    },
-    {
-        name: "",
-        data: (row) => (
-            <ViewButton className="button" type="submit">
-                VIEW
-            </ViewButton>
-        ),
-        key: "view"
     }
 ]
 
