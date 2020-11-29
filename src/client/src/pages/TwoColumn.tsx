@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
+import ScheduledMessageTable from "../components/ScheduledMessageTable";
 
 const DashboardContainer = styled.div`
     margin-left: 106px;
@@ -14,7 +15,7 @@ const TwoColumn: React.FC = () => {
         <div className="column">
             First column
             <Table options={table1Options} title="" data={testData} columns={cols}></Table>
-            <Table options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></Table>
+            <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
         </div>
         <div className="column">
             Second column
