@@ -116,7 +116,13 @@ const cols2: Column[] = [
     },
     {
         name: "Enabled",
-        data: "enabled",
+        data: (row) => row.enabled == "Yes" ? (
+            <CheckBox type="checkbox" checked>
+            </CheckBox>
+            ) : (
+                <CheckBox type="checkbox">
+                </CheckBox>
+                ),
         key: "enabled"
     },
 ]
@@ -133,6 +139,23 @@ const Title = styled.p`
     font-weight: 800;
     font-size: 36px;
     line-height: 49px;
+
+    color: #404040;
+`;
+
+const CheckBox = styled.input`
+    width: 11.51px;
+    height: 12px;
+    left: 653.93px;
+    top: 736px;
+
+    font-family: Font Awesome 5 Free;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 11px;
+    /* identical to box height */
+
 
     color: #404040;
 `;

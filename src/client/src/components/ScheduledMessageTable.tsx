@@ -33,15 +33,15 @@ const BodyRow = styled.tr`
 `
 
 const TableContainer = styled.div`
-    position: absolute;
-    left: 14.51%;
-    right: 48.02%;
-    top: 64.75%;
-    bottom: 22.56%;
-
-    background: #FFFFFF;
+    background-color: white;
+    border-radius: 20px;
+    width: 100%;
+    padding: 30px 50px;
+    margin-top: 50px !important;
     box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
-    border-radius: 15px;
+    position: relative;
+    overflow: auto;
+    margin: auto
 `
 
 const StyledTitle = styled.h1`
