@@ -87,11 +87,11 @@ const TableContainer = styled.div`
     background-color: white;
     border-radius: 20px;
     width: fit-content;
-    margin: 0 200px;
     padding: 30px 50px;
     box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
     position: relative;
     overflow: auto;
+    margin: auto
 `
 
 const StyledTitle = styled.h1`
