@@ -12,6 +12,7 @@ const TwoColumn: React.FC = () => {
     <DashboardContainer>
     <div className="columns">
         <div className="column">
+            <Title>Bokuto Kotaro's Patient Records</Title>
             <ExportButton>Export to CSV</ExportButton>
             {/* Carousel very broken commenting it out.
             <ImageGallery items={images} showThumbnails={false} showFullscreenButton={false} useBrowserFullscreen={false} disableSwipe={true}></ImageGallery>
@@ -28,6 +29,11 @@ const TwoColumn: React.FC = () => {
 }
 
 const table1Options: TableOptions = {
+    sortOptions: [],
+    sortsChoiceEnabled: false
+}
+
+const table2Options: TableOptions = {
     sortOptions: [],
     sortsChoiceEnabled: false
 }
