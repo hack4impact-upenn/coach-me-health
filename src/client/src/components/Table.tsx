@@ -175,7 +175,6 @@ const Table: React.FC<TableProps> = ({ title, data, columns, options }: TablePro
     return (
         <TableContainer>
             <StyledTitle>{title}</StyledTitle>
-
             { options.sortsChoiceEnabled && options.sortOptions && options.sortOptions.length > 1 && 
                 <div>
                     <StyledSelect onChange={handleSortChange}>
