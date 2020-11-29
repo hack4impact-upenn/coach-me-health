@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import auth from '../api/core/auth';
+import AppContainer from './AppContainer';
 
 const PrivateRoute: React.FC<{
   component: React.FC;
@@ -10,7 +11,9 @@ const PrivateRoute: React.FC<{
   const condition = auth.isAuthenticated();
 
   return condition ? (
-    <Route path={props.path} exact={props.exact} component={props.component} />
+    <AppContainer>
+      <Route path={props.path} exact={props.exact} component={props.component} />
+    </AppContainer>
   ) : (
     <Redirect to="/login" />
   );

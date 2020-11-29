@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import AppContainer from "../components/AppContainer";
 
 const FlexContainer = styled.div`
   display: flex;

@@ -3,7 +3,7 @@ import secureAxios from './core/apiClient';
 const signup = ({ firstName, lastName, email, password }: IUserSignup) => {
   return new Promise((resolve, reject) => {
     secureAxios({
-      url: '/api/users/signup',
+      url: '/api/coaches/signup',
       method: 'POST',
       timeout: 0,
       headers: {
@@ -24,7 +24,7 @@ const signup = ({ firstName, lastName, email, password }: IUserSignup) => {
 const login = ({ email, password }: IUserLogin) => {
   return new Promise((resolve, reject) => {
     secureAxios({
-      url: '/api/users/login',
+      url: '/api/coaches/login',
       method: 'POST',
       timeout: 0,
       headers: {
@@ -45,7 +45,7 @@ const login = ({ email, password }: IUserLogin) => {
 const fetchMe = (key: string, { accessToken }: { accessToken: string }) => {
   return new Promise((resolve, reject) => {
     secureAxios({
-      url: '/api/users/me',
+      url: '/api/coaches/me',
       method: 'GET',
       timeout: 0,
       headers: {

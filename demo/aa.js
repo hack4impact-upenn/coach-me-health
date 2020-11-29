@@ -1,6 +1,6 @@
 // setup variables and express/twilio etc.
-var accountSid = 'hidden';
-var authToken = 'hidden';
+var accountSid = 'AC7feb1563904b5ec34a73f25b1384b171';
+var authToken = '23b509dd17498c085053fa766eb27ca3';
 var twilio = require('twilio')(accountSid, authToken);
 var http = require('http');
 var express = require('express');
@@ -28,7 +28,7 @@ function initializeState() {
 initializeState();
 // regex function to see if input string contains a number
 function containsNumber(input) {
-    return /\d/.test(input);
+    return (/\b\d{2}\b/.test(input) || /\b\d{3}\b/.test(input));
 }
 // regex function to see if input string contains multiple numbers
 function containsMany(input) {
@@ -46,11 +46,11 @@ function containsMany(input) {
 // regex function to get the number from the string (use in conjunction with contains)
 // check for 2 digit number and if null check for 3 digit number
 function getNumber(input_s) {
-    if (input_s.match(/\d{3}/g) != null) {
+    if (input_s.match(/\b\d{3}\b/g) != null) {
         return input_s.match(/\d{3}/g);
     }
     else {
-        return input_s.match(/\d{2}/g);
+        return input_s.match(/\b\d{2}\b/g);
     }
 }
 // classify numeric user responses. We do not use spacing for the inequalities to be consistent, mostly for the mapping

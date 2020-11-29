@@ -1,6 +1,6 @@
 // setup variables and express/twilio etc.
-const accountSid = 'hidden'
-const authToken = 'hidden'
+const accountSid = 'AC7feb1563904b5ec34a73f25b1384b171'
+const authToken = '23b509dd17498c085053fa766eb27ca3'
 
 const twilio = require('twilio')(accountSid, authToken)
 const http = require('http')
@@ -34,7 +34,7 @@ initializeState();
 
 // regex function to see if input string contains a number
 function containsNumber(input: string) {
-  return /\d/.test(input)
+  return (/\b\d{2}\b/.test(input) || /\b\d{3}\b/.test(input))
 }
 
 // regex function to see if input string contains multiple numbers
@@ -53,14 +53,13 @@ function containsMany(input: string) {
 
 // regex function to get the number from the string (use in conjunction with contains)
 // check for 2 digit number and if null check for 3 digit number
-function getNumber(input_s: string) {
-  
-  if (input_s.match(/\d{3}/g) != null)
+function getNumber(input_s: string) {  
+  if (input_s.match(/\b\d{3}\b/g) != null)
   {
     return input_s.match(/\d{3}/g)
   }
   else {
-      return input_s.match(/\d{2}/g)
+      return input_s.match(/\b\d{2}\b/g)
   }
 }
 

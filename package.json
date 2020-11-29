@@ -53,6 +53,7 @@
     "shortid": "^2.2.15",
     "socket.io": "^2.3.0",
     "ts-node": "^8.10.2",
+    "twilio": "^3.51.0",
     "typescript": "^3.9.5"
   }
 }
