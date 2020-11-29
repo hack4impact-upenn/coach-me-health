@@ -53,14 +53,6 @@ export interface Column {
     key: string
 }
 
-const GlobalStyle = createGlobalStyle`
-    body {
-        background-color: whitesmoke;
-        padding-top: 100px !important;
-        padding-bottom: 100px !important;
-    }
-`
-
 const StyledTable = styled.table`
 `
 
