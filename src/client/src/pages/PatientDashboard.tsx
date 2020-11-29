@@ -2,9 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 
+const DashboardContainer = styled.div`
+    margin-left: 106px;
+`
+
 const PatientDashboard: React.FC = () => {
     return (
-        <Table options={tableOptions} title="Assigned Patients" data={testData} columns={cols}></Table>
+        <DashboardContainer>
+            <Table options={tableOptions} title="Assigned Patients" data={testData} columns={cols}></Table>
+        </DashboardContainer>
     )
 }
 
