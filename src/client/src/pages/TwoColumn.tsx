@@ -3,6 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
+import ResultsTable from "../components/ResultsTable";
+
 
 const DashboardContainer = styled.div`
     margin-left: 106px;
@@ -11,11 +13,12 @@ const DashboardContainer = styled.div`
 const TwoColumn: React.FC = () => {
     return (
     <DashboardContainer>
-        <Title>Bokuto Kotaro's Patient Records</Title>
+    <Title>Bokuto Kotaro's Patient Records</Title>
+    <Subtitle>Bokuto is the best!</Subtitle>
     <div className="columns">
         <div className="column">
             <ExportButton>Export to CSV</ExportButton>
-            <Table options={table1Options} title="" data={testData} columns={cols}></Table>
+            <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
             <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
         </div>
         <div className="column">
@@ -100,7 +103,7 @@ const cols2: Column[] = [
 
 const Title = styled.p`
     position: absolute;
-    left: 0%;
+    left: 5%;
     right: -47.05%;
     top: 0%;
     bottom: 88.3%;
@@ -110,6 +113,22 @@ const Title = styled.p`
     font-weight: 800;
     font-size: 36px;
     line-height: 49px;
+
+    color: #404040;
+`;
+
+const Subtitle = styled.p`
+    position: absolute;
+    left: 5%;
+    right: -65.43%;
+    top: 5.22%;
+    bottom: 88.62%;
+
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 20px;
 
     color: #404040;
 `;
@@ -131,27 +150,14 @@ const CheckBox = styled.input`
     color: #404040;
 `;
 
-const UnreadButton = styled.button`
-    width: 100%;
-    background-color: #FAD246 !important;
-    font-size: 13px !important;
-    border-radius: 15px !important;
-    color: white !important;
-    border: none !important;
-    font-weight: 600;
-
-    &:hover {
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
-        border: none !important;
-    }
-
-    &:focus {
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
-        border: none !important;
-    }
-`;
 
 const ExportButton = styled.button`
+    position: absolute;
+    left: 43.82%;
+    right: 48.4%;
+    top: 8.63%;
+    bottom: 72.27%;
+
     width: 112px !important; 
     height: 42px !important;
     background-color: #F29DA4 !important;
