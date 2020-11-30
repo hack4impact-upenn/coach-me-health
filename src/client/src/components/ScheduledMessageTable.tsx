@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import {SortOption, TableProps, TableOptions, Column} from '../components/Table';
 
 const StyledTable = styled.table`
+    width: 100%;
 `
 
 const HeaderRow = styled.tr`
@@ -28,7 +29,7 @@ const TableContainer = styled.div`
     background-color: white;
     border-radius: 20px;
     width: 100%;
-    padding: 30px 50px;
+    padding: 20px 40px;
     margin-top: 50px !important;
     box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
     position: relative;
