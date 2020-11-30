@@ -1,18 +1,35 @@
 import { time } from 'console';
 import React from 'react';
+import ImageGallery from "react-image-gallery";
+import "../styles/image-gallery.css"
 import styled from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
 import ResultsTable from "../components/ResultsTable";
 import SearchBar from "../components/SearchBar";
 
+
 const DashboardContainer = styled.div`
     margin-left: 20px;
 `
 
 const SearchBarContainer = styled.div`
-
 `
+
+const images = [
+    {
+      original: 'https://picsum.photos/id/1018/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1018/250/150/',
+    },
+    {
+      original: 'https://picsum.photos/id/1015/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1015/250/150/',
+    },
+    {
+      original: 'https://picsum.photos/id/1019/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+    },
+  ];
 
 
 const TwoColumn: React.FC = () => {
@@ -35,7 +52,7 @@ const TwoColumn: React.FC = () => {
                             <ExportButton>Export to CSV</ExportButton>
                         </div>
                     </div>
-
+                    <ImageGallery items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
         
                     <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
                     <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
