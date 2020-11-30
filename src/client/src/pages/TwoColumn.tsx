@@ -2,12 +2,50 @@ import { time } from 'console';
 import React from 'react';
 import ImageGallery from "react-image-gallery";
 import "../styles/image-gallery.css"
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
 import ResultsTable from "../components/ResultsTable";
 import SearchBar from "../components/SearchBar";
 
+
+const ImageGalleryStyles = createGlobalStyle`
+    .image-gallery {
+        padding: 40px 100px; 
+        background-color: white;
+        margin-bottom: 30px;
+        border-radius: 20px;
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
+    }
+
+    .image-gallery-svg {
+        stroke-width: 1.5px;
+    }
+
+    .image-gallery-right-nav {
+        right: -90px;
+    }
+
+    .image-gallery-left-nav {
+        left: -90px;
+    }
+
+    .image-gallery-left-nav, .image-gallery-right-nav {
+        filter: none;
+        color: #F29DA4;
+
+        &:hover {
+            filter: drop-shadow(0 0 4px #c4c4c4);
+            color: #F29DA4;
+        }
+
+        &:focus {
+            filter: drop-shadow(0 0 4px #c4c4c4);
+            color: #F29DA4;
+            outline: none;
+        }
+    }
+`
 
 const DashboardContainer = styled.div`
     margin-left: 20px;
@@ -39,6 +77,7 @@ const TwoColumn: React.FC = () => {
 
     return (
         <DashboardContainer>
+            <ImageGalleryStyles></ImageGalleryStyles>
             <div className="columns">
                 <div className="column">
                     <Title>Bokuto Kotaro's Patient Records</Title>
@@ -52,7 +91,7 @@ const TwoColumn: React.FC = () => {
                             <ExportButton>Export to CSV</ExportButton>
                         </div>
                     </div>
-                    <ImageGallery items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
+                    <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
         
                     <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
                     <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
