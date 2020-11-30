@@ -4,6 +4,7 @@ import { Field, FieldAttributes, Form, Formik } from 'formik';
 
 interface SearchBarProps {
     onSearch: (query: string) => void
+    placeholder: string
 }
 
 const SearchField = styled.div`
@@ -29,7 +30,7 @@ const inputStyles = {
 
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder }) => {
     const onSubmit = (values : any) => {
         onSearch(values.query);
     }
@@ -43,7 +44,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
                             name="query"
                             style={inputStyles}
                             type="text"
-                            placeholder="Search by patient or phone number"
+                            placeholder={placeholder}
                             className="form-field"
                         />
                         <SearchIcon className="is-small is-left">

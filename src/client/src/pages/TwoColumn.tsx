@@ -29,7 +29,7 @@ const TwoColumn: React.FC = () => {
 
                     <div className = "columns"> 
                         <SearchBarContainer className = "column is-three-quarters">
-                            <SearchBar onSearch = {onSearch}></SearchBar>
+                            <SearchBar placeholder = {"Search for Patient Indicator"} onSearch = {onSearch}></SearchBar>
                         </SearchBarContainer>
                         <div className = "column">
                             <ExportButton>Export to CSV</ExportButton>

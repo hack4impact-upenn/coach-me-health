@@ -98,6 +98,7 @@ const StyledSelect = styled.select`
     right: 50px;
     border: none;
     border-bottom: 1px solid #c4c4c4;
+    background-color: white;
 
     &:focus {
         outline: none;
