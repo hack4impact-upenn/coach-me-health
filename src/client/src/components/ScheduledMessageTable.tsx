@@ -30,7 +30,7 @@ const TableContainer = styled.div`
     border-radius: 20px;
     width: 100%;
     padding: 20px 40px;
-    margin-top: 50px !important;
+    margin-top: 30px !important;
     box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
     position: relative;
     overflow: auto;
