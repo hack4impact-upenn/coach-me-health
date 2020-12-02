@@ -5,9 +5,8 @@ import {
   classifyNumeric,
   containsMany
 } from './twilio.util';
+import { accountSid, authToken } from './keys';
 
-const accountSid = 'AC7feb1563904b5ec34a73f25b1384b171';
-const authToken = '23b509dd17498c085053fa766eb27ca3';
 const twilio = require('twilio')(accountSid, authToken);
 const bodyParser = require('body-parser');
 
@@ -39,15 +38,16 @@ function initializeState() {
 
 initializeState();
 
-router.post('/init', function (message) {
-  twilio.messages
-    .create({
-      body: 'hello!',
-      from: '+14155286397',
-      to: '+12482382012'
-    });
-  return console.log('Message sent');
-});
+
+// send initial message to the user
+twilio.messages
+  .create({
+    body: 'hello!',
+    from: '+14155286397',
+    to: '+12482382012'
+  })
+  .then(function (message:any) { return console.log(message.sid); });
+
     
 // this route receives and parses the message from one user, than responds accordingly with the appropriate output 
 router.post('/reply', function (req, res) {
@@ -80,9 +80,10 @@ router.post('/reply', function (req, res) {
   res.end(twiml.toString());
 });
 
-
+// VERY IMPORTANT NOTE TO RUN THIS ON PORT 5000 FOR NGROK OR ELSE IT WON'T WORK
+// ./ngrok http 5000
 http.createServer(router).listen(port, function() {
-  console.log('Express server listening on port 3000');
+  console.log('Express server listening on port 5000');
 });
 
 export default router;

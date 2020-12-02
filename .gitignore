@@ -104,3 +104,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# temp demo files
+src\routes\keys.ts
