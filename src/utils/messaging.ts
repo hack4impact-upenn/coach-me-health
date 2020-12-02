@@ -3,6 +3,8 @@ import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 import schedule from 'node-schedule';
 
+const twilio = require('twilio')(accountSid, authToken);
+
 // time in seconds between each run of scheduler
 const schedulingInterval = 5;
 
@@ -31,7 +33,12 @@ const scheduleMessages = (interval : number) => {
 // sends message, marks it as sent
 const sendMessage = (msg : IMessage) => {
     console.log(`Sent message "${msg.message}" to ${msg.phoneNumber}`);
-    // Twilio people do your thing here
+    twilio.messages
+        .create({
+        body: msg.message,
+        from: '+14155286397',
+        to: msg.phoneNumber
+     });
  
     //         _    _                  _       
     //        | |  | |                | |      
