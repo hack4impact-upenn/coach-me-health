@@ -244,4 +244,26 @@ const ActiveText = styled.p`
     font-weight: 800;
 `
 
+function classifyNumeric(input:any) {
+    var number = parseInt(input);
+    if (number < 70) {
+        return "toolow";
+    }
+    else if (70 <= number && number <= 79) {
+        return "<80";
+    }
+    else if (80 <= number && number <= 130) {
+        return "Green";
+    }
+    else if (131 <= number && number <= 180) {
+        return "Yellow";
+    }
+    else if (181 <= number && number <= 300) {
+        return "Red";
+    }
+    else {
+        return ">=301";
+    }
+}
+
 export default TwoColumn;
