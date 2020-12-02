@@ -11,7 +11,7 @@ const HeaderRow = styled.tr`
 `
 
 const HeaderCell = styled.th`
-    padding: 10px 30px 10px 20px;
+    padding: 10px 30px 10px 10px;
     vertical-align: middle;
 `
 

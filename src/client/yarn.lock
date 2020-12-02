@@ -1674,6 +1674,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-image-gallery@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-image-gallery/-/react-image-gallery-1.0.1.tgz#7cd5319ed5c1f1d979eaed63b553272eed99d341"
+  integrity sha512-0iTbHwozxxRfG32hq/BccA6FXP66ooWylWh3ZQMx2TIeofSrzklcAAksiHN+a+ye3Wnq71NlYiwbmBNOlMPVlA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-native@*":
   version "0.63.1"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.1.tgz#81da30aeaaa034039efd23ccb1c54786b1630966"
