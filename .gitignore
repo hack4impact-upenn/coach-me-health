@@ -106,4 +106,4 @@ dist
 .tern-port
 
 # twilio keys
-keys/twilio.ts
+src/keys/twilio.ts
