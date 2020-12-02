@@ -8,12 +8,9 @@ import connectToDatabase from './utils/mongo';
 import './utils/config';
 
 import patientRouter from './routes/patient.api';
-<<<<<<< HEAD
 import twilioRouter from './routes/twilio.api';
-=======
 import messageRouter from './routes/messages.api';
 import coachRouter from './routes/coach.auth';
->>>>>>> f36e74255bf6545d747616732f213a21f4f12c2c
 
 const app = express();
 
@@ -28,12 +25,9 @@ app.use(cors());
 
 // API Routes
 app.use('/api/patients', patientRouter);
-<<<<<<< HEAD
 app.use('/api/twilio', twilioRouter);
-=======
 app.use('/api/coaches', coachRouter);
 app.use('/api/messages', messageRouter);
->>>>>>> f36e74255bf6545d747616732f213a21f4f12c2c
 
 // Serving static files
 if (process.env.NODE_ENV === 'production') {
