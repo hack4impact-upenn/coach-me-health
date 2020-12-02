@@ -106,4 +106,4 @@ dist
 .tern-port
 
 # temp demo files
-src\routes\keys.ts
+.src\routes\keys.ts
