@@ -3,8 +3,8 @@ import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 
 import auth from "../middleware/auth";
-import initializeScheduler from "../utils/messaging";
-import initaializeScheduler from '../utils/messaging';
+import initializeScheduler from "../utils/scheduling";
+import initaializeScheduler from '../utils/scheduling';
 
 const router = express.Router();
 initaializeScheduler();

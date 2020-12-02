@@ -5,7 +5,7 @@ import {
   classifyNumeric,
   containsMany
 } from './twilio.util';
-import { accountSid, authToken } from './keys';
+import { accountSid, authToken } from '../keys/twilio';
 
 const twilio = require('twilio')(accountSid, authToken);
 const bodyParser = require('body-parser');
