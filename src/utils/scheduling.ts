@@ -11,7 +11,7 @@ const schedulingInterval = 5;
 
 // selects all messages which should be sent within the next __ seconds, and schedules them to be sent
 const scheduleMessages = (interval : number) => {
-    console.log("Scheduling messages to be sent...")
+    // console.log("Scheduling messages to be sent...")
     const intervalStart = new Date();
     const intervalEnd = new Date(intervalStart.getTime());
     intervalEnd.setSeconds(intervalEnd.getSeconds() + interval);
@@ -23,7 +23,7 @@ const scheduleMessages = (interval : number) => {
         sent: false
     }, (err, docs) => {
         docs.forEach( (doc) => {
-            console.log(`Scheduled to send message "${doc.message}" to ${doc.phoneNumber}`)
+            // console.log(`Scheduled to send message "${doc.message}" to ${doc.phoneNumber}`)
             schedule.scheduleJob(doc.date, () => {
                 sendMessage(doc);
             })
@@ -33,7 +33,7 @@ const scheduleMessages = (interval : number) => {
 
 // sends message, marks it as sent
 const sendMessage = (msg : IMessage) => {
-    console.log(`Sent message "${msg.message}" to ${msg.phoneNumber}`);
+    // console.log(`Sent message "${msg.message}" to ${msg.phoneNumber}`);
     twilio.messages
         .create({
         body: msg.message,
