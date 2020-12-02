@@ -40,6 +40,7 @@ initializeState();
 
 
 // send initial message to the user
+/*
 twilio.messages
   .create({
     body: 'hello!',
@@ -47,6 +48,7 @@ twilio.messages
     to: '+12482382012'
   })
   .then(function (message:any) { return console.log(message.sid); });
+*/
 
     
 // this route receives and parses the message from one user, than responds accordingly with the appropriate output 
