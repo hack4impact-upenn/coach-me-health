@@ -105,5 +105,5 @@ dist
 # TernJS port file
 .tern-port
 
-# temp demo files
-keys.ts
+# twilio keys
+keys/twilio.ts
