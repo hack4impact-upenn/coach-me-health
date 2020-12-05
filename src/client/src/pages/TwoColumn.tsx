@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import SMSTile from '../components/SMSTile';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 
-//import ScheduledMessageTable from "../components/ScheduledMessageTable";
+import ScheduledMessageTable from "../components/ScheduledMessageTable";
 
 const DashboardContainer = styled.div`
     margin-left: 106px;
