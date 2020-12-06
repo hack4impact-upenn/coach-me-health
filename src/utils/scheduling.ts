@@ -2,7 +2,7 @@ import express from 'express';
 import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 import schedule from 'node-schedule';
-import { accountSid, authToken } from '../keys/twilio';
+import { accountSid, authToken } from "../keys/twilio";
 
 const twilio = require('twilio')(accountSid, authToken);
 
@@ -23,7 +23,7 @@ const scheduleMessages = (interval : number) => {
         sent: false
     }, (err, docs) => {
         docs.forEach( (doc) => {
-            // console.log(`Scheduled to send message "${doc.message}" to ${doc.phoneNumber}`)
+            console.log(`Scheduled to send message "${doc.message}" to ${doc.phoneNumber}`)
             schedule.scheduleJob(doc.date, () => {
                 sendMessage(doc);
             })
@@ -33,7 +33,7 @@ const scheduleMessages = (interval : number) => {
 
 // sends message, marks it as sent
 const sendMessage = (msg : IMessage) => {
-    // console.log(`Sent message "${msg.message}" to ${msg.phoneNumber}`);
+    console.log(`Sent message "${msg.message}" to ${msg.phoneNumber}`);
     twilio.messages
         .create({
         body: msg.message,
