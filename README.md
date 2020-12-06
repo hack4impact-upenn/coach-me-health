@@ -47,10 +47,11 @@ REACT_APP_API_URL="http://localhost:5000"
 ```
 
 Create a file called `twilio.ts` in src/keys/, it should look like the following: 
-```
+```ts
 const accountSid = '<insert_here>';
 const authToken = '<insert_here>';
 export {accountSid, authToken};
+```
 
 #### Running Project
 
