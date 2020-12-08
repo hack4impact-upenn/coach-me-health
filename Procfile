@@ -1,2 +1,2 @@
-web:ts-node/src/index.ts
+web: yarn dev
 
