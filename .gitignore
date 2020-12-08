@@ -70,6 +70,8 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
+# removed let's hope
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
@@ -102,4 +104,6 @@ dist
 .tern-port
 
 # twilio keys
-src/keys/twilio.ts
+# removed let's hope
+
+# src/keys/twilio.ts
