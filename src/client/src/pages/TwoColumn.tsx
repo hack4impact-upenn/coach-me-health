@@ -116,7 +116,7 @@ const table2Options: TableOptions = {
 
 const testData = new Array(5).fill(undefined).map((_, i) => ({
     indicator: "Blood Glucose Levels",
-    measure: Math.ceil(Math.random() * 1000),
+    measure: Math.ceil(Math.random() * 200),
     // create logic for analysis later here I guess?
     analysis: "placeholder",
     timeRecorded: "11:20AM 2020-10-30"
@@ -142,7 +142,10 @@ const cols: Column[] = [
     {
         // need to create logic for the text color, possible do it down in activetext
         name: "Analysis",
-        data: (row) => <ActiveText>Green</ActiveText>,
+        data: (row) => classifyNumeric(row.measure) == "Green" ? <ActiveTextG>{classifyNumeric(row.measure)}</ActiveTextG>:
+                       classifyNumeric(row.measure) == "Yellow" ? <ActiveTextY>{classifyNumeric(row.measure)}</ActiveTextY>:
+                       classifyNumeric(row.measure) == "Red" ? <ActiveTextR>{classifyNumeric(row.measure)}</ActiveTextR>:
+                       <ActiveTextB>{classifyNumeric(row.measure)}</ActiveTextB>,
         key: "analysis"
     },
     {
@@ -239,15 +242,27 @@ const ExportButton = styled.button`
     }
 `;
 
-const ActiveText = styled.p`
+const ActiveTextG = styled.p`
     color: #B4D983;
+    font-weight: 800;
+`
+const ActiveTextY = styled.p`
+    color: #fbf36f;
+    font-weight: 800;
+`
+const ActiveTextR = styled.p`
+    color: #c92c1a;
+    font-weight: 800;
+`
+const ActiveTextB = styled.p`
+    color: #1f1e1d;
     font-weight: 800;
 `
 
 function classifyNumeric(input:any) {
     var number = parseInt(input);
     if (number < 70) {
-        return "toolow";
+        return "Too Low";
     }
     else if (70 <= number && number <= 79) {
         return "<80";
