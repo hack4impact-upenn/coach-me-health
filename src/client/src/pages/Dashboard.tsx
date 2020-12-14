@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import auth from '../api/core/auth';
 import { fetchMe } from '../api/userApi';
+import { useHistory } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 
 const FlexContainer = styled.div`
@@ -23,6 +24,7 @@ interface MyProfileResponse extends IAPIResponse {
 }
 
 const Dashboard = () => {
+  let history = useHistory();
   const profileQuery = useQuery(
     ['fetchMe', { accessToken: auth.getAccessToken() }],
     fetchMe,
@@ -32,6 +34,7 @@ const Dashboard = () => {
   );
 
   const MyProfile = (res: MyProfileResponse) => {
+    
     const { data: myProfile } = res;
     return (
       <div>
@@ -53,6 +56,7 @@ const Dashboard = () => {
   };
 
   return (
+    
     <FlexContainer>
       <Sidebar />
       <ContentContainer>
@@ -68,6 +72,22 @@ const Dashboard = () => {
         >
           Clear Cache and Reload
         </button>
+        <ContentContainer>
+        <button
+          className="button is-primary"
+          onClick={() => history.push('/patients')}
+        >
+          View Patient List
+        </button>
+
+        <button
+          className="button is-primary"
+          onClick={() => history.push('/2c')}
+        >
+          View Patient Page
+        </button>
+        
+      </ContentContainer>
       </ContentContainer>
     </FlexContainer>
   );
