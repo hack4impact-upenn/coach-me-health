@@ -79,7 +79,8 @@ const Dashboard = () => {
         >
           View Patient List
         </button>
-
+        </ContentContainer>
+        <ContentContainer>
         <button
           className="button is-primary"
           onClick={() => history.push('/2c')}
