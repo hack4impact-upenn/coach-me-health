@@ -96,6 +96,7 @@ router.post('/newOutcome', async (req, res) => {
     alertType: req.body.alertType
   });
   return newOutcome.save().then( () => {
+    // TODO increase messages sent
     res.status(200).json({
       success: true
     });
