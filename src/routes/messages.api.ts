@@ -71,19 +71,19 @@ router.post('/newOutcome', async (req, res) => {
   // validate phone number
   if (!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
     return res.status(400).json({
-      msg: 'Unable to add patient: invalid phone number'
+      msg: 'Unable to add outcome: invalid phone number'
     });
   }
 
   if (req.body.patientID == ''){
     return res.status(400).json({
-      msg: 'Unable to add message: must include patient ID'
+      msg: 'Unable to add outcome: must include patient ID'
     });
   }
 
   if (req.body.language == ''){
     return res.status(400).json({
-      msg: 'Unable to add patient: must include language'
+      msg: 'Unable to add outcome: must include language'
     });
   }
 
