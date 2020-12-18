@@ -60,9 +60,9 @@ const sendMessage = (msg : IMessage) => {
     });
 };
 
-const initaializeScheduler = () => {
+const initializeScheduler = () => {
     scheduleMessages(schedulingInterval);
     setInterval(() => scheduleMessages(schedulingInterval), schedulingInterval * 1000);
 }
 
-export default initaializeScheduler;
+export default initializeScheduler;
