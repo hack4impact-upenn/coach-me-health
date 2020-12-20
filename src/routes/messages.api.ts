@@ -13,7 +13,7 @@ import { update } from 'lodash';
 const router = express.Router();
 initializeScheduler();
 
-const updatePatient = (patient: Patient) => {
+const updatePatient = (patient: any) => {
   Patient.updateOne({_id: patient.patientID}, patient).then( () => {
       return true;
     });
