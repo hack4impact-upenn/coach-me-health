@@ -1,12 +1,23 @@
+/* eslint-disable no-shadow */
 import express from 'express';
 import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
+import { Patient, IPatient } from '../models/patient.model';
+
 
 import auth from '../middleware/auth';
 import initializeScheduler from '../utils/scheduling';
+import secureAxios from '../../glacial-falls-14734/src/client/src/api/core/apiClient';
+import { update } from 'lodash';
 
 const router = express.Router();
 initializeScheduler();
+
+const updatePatient = (patient: Patient) => {
+  Patient.updateOne({_id: patient.patientID}, patient).then( () => {
+      return true;
+    });
+};
 
 router.post('/newMessage', async (req, res) => {
   // validate phone number
@@ -43,7 +54,7 @@ router.post('/newMessage', async (req, res) => {
       date: req.body.date
     });
     return newMessage.save().then( () => {
-      // TODO Increase patient ID message sent
+      
       res.status(200).json({
         success: true
       });
@@ -59,6 +70,20 @@ router.post('/newMessage', async (req, res) => {
   });
   return newMessage.save().then( () => {
     // TODO Increase message count for patient ID message sent to depending on user
+    // done?
+    secureAxios.get(`/api/patients/getPatient/${newMessage.patientID}`).then( (res) => {
+      res.data.responseCount += 1;
+      const patient = new Patient({
+        firstName: res.data.firstName,
+        lastName: res.data.lastName,
+        language: res.data.language,
+        phoneNumber: res.data.phoneNumber,
+        reports: [],
+        responseCount: res.data.responseCount,
+        messagesSent: res.data.messagesSent,
+      });
+      updatePatient(patient);
+    });
     res.status(200).json({
       success: true
     });
@@ -97,6 +122,20 @@ router.post('/newOutcome', async (req, res) => {
   });
   return newOutcome.save().then( () => {
     // TODO increase messages sent
+    // done?
+    secureAxios.get(`/api/patients/getPatient/${newOutcome.patientID}`).then( (res) => {
+      res.data.messagesSent += 1;
+      const patient = new Patient({
+        firstName: res.data.firstName,
+        lastName: res.data.lastName,
+        language: res.data.language,
+        phoneNumber: res.data.phoneNumber,
+        reports: [],
+        responseCount: res.data.responseCount,
+        messagesSent: res.data.messagesSent,
+      });
+      updatePatient(patient);
+    });
     res.status(200).json({
       success: true
     });

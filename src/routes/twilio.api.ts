@@ -14,10 +14,6 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 
 router.use(bodyParser.urlencoded({ extended: true }));
-const http = require('http');
-
-const port = 3000;
-
 
 const responseMap = new Map();
 
@@ -83,11 +79,5 @@ router.post('/reply', function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
 });
-
-// VERY IMPORTANT NOTE TO RUN THIS ON PORT 5000 FOR NGROK OR ELSE IT WON'T WORK
-// ./ngrok http 5000
-// http.createServer(router).listen(port, function() {
-//   console.log('Express server listening on port 5000');
-// });
 
 export default router;

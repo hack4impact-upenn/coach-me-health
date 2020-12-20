@@ -37,7 +37,7 @@ const sendMessage = (msg : IMessage) => {
     twilio.messages
         .create({
         body: msg.message,
-        from: '+14155286397',
+        from: '+14155286397', // this is hardcoded right now
         to: msg.phoneNumber
      });
  
