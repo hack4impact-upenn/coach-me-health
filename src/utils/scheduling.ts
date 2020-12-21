@@ -2,7 +2,10 @@ import express from 'express';
 import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 import schedule from 'node-schedule';
-import { accountSid, authToken } from "../keys/twilio";
+//import { accountSid, authToken } from "../keys/twilio";
+
+const accountSid = "ACTEST";
+const authToken = "";
 
 const twilio = require('twilio')(accountSid, authToken);
 
