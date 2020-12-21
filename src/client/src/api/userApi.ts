@@ -1,7 +1,7 @@
 import secureAxios from './core/apiClient';
 
 const signup = ({ firstName, lastName, email, password }: IUserSignup) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     secureAxios({
       url: '/api/coaches/signup',
       method: 'POST',

@@ -80,7 +80,7 @@ const PatientDashboard: React.FC = () => {
                 </div>
             </div>
             {patientQuery.isLoading && <div>Loading...</div>}
-            {patientQuery.data &&  <Table options={tableOptions} title="Assigned Patients" data={patientQuery.data} columns={cols}></Table>}
+            {patientQuery.data &&  <Table options={tableOptions} title="Assigned Patients" data={patientQuery.data as any} columns={cols}></Table>}
         </DashboardContainer>
     )
 }

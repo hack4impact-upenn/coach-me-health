@@ -102,7 +102,7 @@ const TwoColumn: React.FC = () => {
                     </div>
                     <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
                     {patientQuery.isLoading && <div>Loading...</div>}
-                    {patientQuery.data && <ResultsTable options={table1Options} title="" data={patientQuery.data} columns={cols}></ResultsTable>}
+                    {patientQuery.data && <ResultsTable options={table1Options} title="" data={patientQuery.data as any} columns={cols}></ResultsTable>}
                     
                 </div>
                 <div className="column">
