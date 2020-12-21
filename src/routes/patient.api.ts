@@ -1,5 +1,8 @@
 import express from 'express';
 import { Patient, IPatient } from '../models/patient.model';
+import auth from '../middleware/auth';
+import errorHandler from './error';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -44,5 +47,25 @@ router.post("/add", async (req, res) => {
         });
     });
 })
+
+// get patient by ID
+// protected route
+router.get('/:id', auth, (req, res) => {
+    const patientID = req.params.id;
+    mongoose.connection.db.collection('testRecords', async function (err, collection) {
+        const docs = collection.find().toArray(function(err, data){
+            if (data) {
+                data.sort(date_sort);
+                return res.status(200).json(data);
+            } else {
+                errorHandler(res, err.message); 
+            }
+        });
+    });
+  });
+
+function date_sort(a: any, b: any) {
+    return new Date(b.TimeRecorded).getTime() -  new Date(a.TimeRecorded).getTime();
+}
 
 export default router;

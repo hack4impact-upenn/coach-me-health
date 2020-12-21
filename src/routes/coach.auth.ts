@@ -8,6 +8,7 @@ import {
   generateRefreshToken,
   validateRefreshToken,
 } from './coach.util';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 
@@ -108,7 +109,6 @@ router.post('/refreshToken', (req, res) => {
 // protected route
 router.get('/me', auth, (req, res) => {
   const { userId } = req;
-
   return Coach.findById(userId)
     .select('firstName lastName email _id')
     .then((coach) => {
@@ -117,6 +117,19 @@ router.get('/me', auth, (req, res) => {
       return res.status(200).json({ success: true, data: coach });
     })
     .catch((err) => errorHandler(res, err.message));
+});
+
+router.get('/getPatients', auth, (req, res) => {
+  const patientID = req.params.id;
+  mongoose.connection.db.collection('testPatients', async function (err, collection) {
+      const docs = collection.find().toArray(function(err, data){
+          if (data) {
+              return res.status(200).json(data);
+          } else {
+              errorHandler(res, err.message); 
+          }
+      });
+  });
 });
 
 export default router;

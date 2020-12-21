@@ -7,7 +7,9 @@ import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
 import ResultsTable from "../components/ResultsTable";
 import SearchBar from "../components/SearchBar";
-
+import { getPatient } from '../api/patientApi';
+import { useQuery } from 'react-query';
+import auth from '../api/core/auth';
 
 const ImageGalleryStyles = createGlobalStyle`
     .image-gallery {
@@ -56,16 +58,16 @@ const SearchBarContainer = styled.div`
 
 const images = [
     {
-      original: 'https://picsum.photos/id/1018/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1018/250/150/',
+      original: 'https://i.imgur.com/TjlRhlP.png',
+      thumbnail: 'https://i.imgur.com/TjlRhlP.png',
     },
     {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/250/150/',
+      original: 'https://i.imgur.com/TjlRhlP.png',
+      thumbnail: 'https://i.imgur.com/TjlRhlP.png',
     },
     {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+      original: 'https://i.imgur.com/TjlRhlP.png',
+      thumbnail: 'https://i.imgur.com/TjlRhlP.png',
     },
   ];
 
@@ -75,13 +77,20 @@ const TwoColumn: React.FC = () => {
         alert(`You searched ${query}`);
     }
 
+    const patientQuery = useQuery(
+        ['1', { accessToken: auth.getAccessToken() }],
+        getPatient,
+        {
+          refetchOnWindowFocus: false,
+        }
+      );
     return (
         <DashboardContainer>
             <ImageGalleryStyles></ImageGalleryStyles>
             <div className="columns">
                 <div className="column">
-                    <Title>Bokuto Kotaro's Patient Records</Title>
-                    <Subtitle>Bokuto is the best!</Subtitle>
+                    <Title>Test Patient's Records</Title>
+                    <Subtitle></Subtitle>
 
                     <div className = "columns"> 
                         <SearchBarContainer className = "column is-three-quarters">
@@ -92,9 +101,9 @@ const TwoColumn: React.FC = () => {
                         </div>
                     </div>
                     <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
-        
-                    <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
-                    <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
+                    {patientQuery.isLoading && <div>Loading...</div>}
+                    {patientQuery.data && <ResultsTable options={table1Options} title="" data={patientQuery.data} columns={cols}></ResultsTable>}
+                    
                 </div>
                 <div className="column">
                     Second column
@@ -131,27 +140,27 @@ const testData2 = new Array(2).fill(undefined).map((_, i) => ({
 const cols: Column[] = [
     {
         name: "Indicator",
-        data: "indicator",
-        key: "indicator"
+        data: "Indicator",
+        key: "Indicator"
     },
     {
         name: "Measure",
-        data: "measure",
-        key: "measure"
+        data: "Measure",
+        key: "Measure"
     },
     {
         // need to create logic for the text color, possible do it down in activetext
         name: "Analysis",
-        data: (row) => classifyNumeric(row.measure) == "Green" ? <ActiveTextG>{classifyNumeric(row.measure)}</ActiveTextG>:
-                       classifyNumeric(row.measure) == "Yellow" ? <ActiveTextY>{classifyNumeric(row.measure)}</ActiveTextY>:
-                       classifyNumeric(row.measure) == "Red" ? <ActiveTextR>{classifyNumeric(row.measure)}</ActiveTextR>:
-                       <ActiveTextB>{classifyNumeric(row.measure)}</ActiveTextB>,
+        data: (row) => classifyNumeric(row.Measure) == "Green" ? <ActiveTextG>{classifyNumeric(row.Measure)}</ActiveTextG>:
+                       classifyNumeric(row.Measure) == "Yellow" ? <ActiveTextY>{classifyNumeric(row.Measure)}</ActiveTextY>:
+                       classifyNumeric(row.Measure) == "Red" ? <ActiveTextR>{classifyNumeric(row.Measure)}</ActiveTextR>:
+                       <ActiveTextB>{classifyNumeric(row.Measure)}</ActiveTextB>,
         key: "analysis"
     },
     {
         name: "Time Recorded",
-        data: "timeRecorded",
-        key: "timeRecorded"
+        data: "TimeRecorded",
+        key: "TimeRecorded"
     }
 ]
 
@@ -277,7 +286,7 @@ function classifyNumeric(input:any) {
         return "Red";
     }
     else {
-        return ">=301";
+        return "Invalid";
     }
 }
 

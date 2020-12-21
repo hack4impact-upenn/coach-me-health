@@ -2,10 +2,10 @@ import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import SearchBar from "../components/SearchBar";
-
+import { useHistory } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import auth from '../api/core/auth';
-import { fetchMe } from '../api/userApi';
+import { fetchMe, getPatients } from '../api/userApi';
 
 const DashboardContainer = styled.div`
     padding: 20px;
@@ -42,6 +42,14 @@ const PatientDashboard: React.FC = () => {
         }
     );
 
+    const patientQuery = useQuery(
+        ['getPatients', { accessToken: auth.getAccessToken() }],
+        getPatients,
+        {
+            refetchOnWindowFocus: false,
+        }
+    );
+
     const onSearch = (query : string) => {
         alert(query);
     }
@@ -71,7 +79,8 @@ const PatientDashboard: React.FC = () => {
                     </SearchBarContainer>
                 </div>
             </div>
-            <Table options={tableOptions} title="Assigned Patients" data={testData} columns={cols}></Table>
+            {patientQuery.isLoading && <div>Loading...</div>}
+            {patientQuery.data &&  <Table options={tableOptions} title="Assigned Patients" data={patientQuery.data} columns={cols}></Table>}
         </DashboardContainer>
     )
 }
