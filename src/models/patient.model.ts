@@ -9,12 +9,14 @@ interface IPatient extends mongoose.Document {
   coachID: string;
   language: string;
   phoneNumber: string;
+  prefTime: string;
   messagesSent: number;
   responseCount: number;
   reports: [{
     data: Buffer,
     contentType: String;
   }];
+  enabled: boolean;
 };
 
 const PatientSchema = new Schema({
@@ -23,12 +25,14 @@ const PatientSchema = new Schema({
   coachID: { type: mongoose.Schema.Types.ObjectId },
   language: { type: String, required: true },
   phoneNumber: { type: String, required: true },
+  prefTime: { type: String, required: true },
   messagesSent: { type: Number, required: true },
   responseCount: { type: Number, required: true },
   reports: [{
     data: {type: Buffer, required: true},
     contentType: {type: String, required: true}
-  }]
+  }],
+  enabled: { type: Boolean, required: true },
 });
 
 const Patient = mongoose.model<IPatient>('Patient', PatientSchema);
