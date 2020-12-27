@@ -21,7 +21,7 @@ const AppRouter = () => {
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/patient_add" component={AddPatientForm} />
           <PrivateRoute exact path="/profile" component={Profile} />
-          <PublicRoute exact path="/patients" component={PatientDashboard}/>
+          <PrivateRoute exact path="/patients" component={PatientDashboard}/>
           <PrivateRoute exact path="/patient/:id" component={PatientRecords}/>
           <PublicRoute exact={false} path="/" component={Login} />
         </Switch>

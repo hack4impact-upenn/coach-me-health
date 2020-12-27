@@ -318,9 +318,7 @@ function classifyNumeric(input:any) {
     }
 }
 
-<<<<<<< HEAD:src/client/src/pages/PatientRecords.tsx
-export default PatientRecords;
-=======
+
 function outcomesToCSV(data: any) {
     const csvRows = [];
     const headers = ["Type", "Measurement", "Classification", "Date"];
@@ -347,5 +345,4 @@ function downloadCSV(data: string, id: string) {
     document.body.removeChild(a);
 };
 
-export default TwoColumn;
->>>>>>> 6d68ee9f1bebb205a5002a781c3f7af1636087d8:src/client/src/pages/TwoColumn.tsx
+export default PatientRecords;
