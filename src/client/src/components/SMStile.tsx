@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import TextSendBar from "../components/TextSendBar"
 
 const SMSTileContainer = styled.div`
     display: flex;
@@ -33,41 +34,131 @@ const BoxTop = styled.div`
     border-radius: 16px 16px 0px 0px;
 `;
 
-const TextContainer = styled.div`
-    background: #87ceeb;
+const TextContainer = styled.table`
+    background: #FFFFFF;
     width: 100%;
-    height: 90%;
+    height: 80%;
+    overflow-y: scroll;
 `
 
-const ResponseBar = styled.div`
-    background: #DDE1E7;
-    border-radius: 5px;
-    width: 50%;
-`
-
-export enum TextType {
-    Patient,
-    Bot,
-    Coach
+enum Texter {
+    PATIENT,
+    BOT,
+    COACH
 }
 
-interface Props {}
+interface SMSProps {
+    messages: any[]
+}
 
-const SMSTile: React.FC<Props> = ({}) => {
-  return (
-    <SMSTileContainer>
-        <BoxTop> 
-            <PhoneNumber>914-304-3919</PhoneNumber> 
-        </BoxTop>
-        <TextContainer> </TextContainer>
-        <div className = "columns"> 
-            <ResponseBar> asdf </ResponseBar>
-            <div className = "column">
-                hello
+interface TextProps {
+    message: string,
+    type: Texter
+}
+
+const TextBubblePatient = styled.div`
+    background: #D3D3D3;
+    border-radius: 0px 15px 15px 15px;
+    float: left
+`
+
+const TextBubbleBot = styled.div`
+    background: #A6CEE3;
+    border-radius: 15px 0px 15px 15px;
+    float: right
+`
+
+const TextBubbleCoach = styled.div`
+    background: #637792;
+    border-radius: 15px 0px 15px 15px;
+    float: right
+`
+
+const TextBubbleRow = styled.div`
+    max-height: 5px;
+`
+
+const TextBubbleText = styled.div`
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 25px;
+    color: #404040;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center
+`
+const SendButton = styled.button`
+    float: right;
+
+    padding: 9px 20px;
+    background-color: #F29DA4 !important;
+    font-size: 13px !important;
+    border-radius: 15px !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 600;
+
+    &:hover {
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
+        border: none !important;
+        cursor: pointer;
+    }
+
+    &:focus {
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
+        border: none !important;
+    }
+`
+
+const TextBubble: React.FC<TextProps> = ({message, type}: TextProps) => {
+    if (type == Texter.PATIENT) {
+        return (
+            <TextBubblePatient> 
+                <TextBubbleText> {message} </TextBubbleText>
+            </TextBubblePatient>
+        );
+    }
+    else if (type == Texter.BOT) {
+        return (
+            <TextBubbleBot> 
+                <TextBubbleText> {message} </TextBubbleText>
+            </TextBubbleBot>
+        );
+    }
+    else {
+        return (
+            <TextBubbleCoach> 
+                <TextBubbleText> {message} </TextBubbleText>
+            </TextBubbleCoach>
+        );
+    }
+}
+
+const SMSTile: React.FC<SMSProps> = ({messages}: SMSProps) => {
+    const onSend = () => {
+        alert(`You sent a message!`);
+    }
+    
+    return (
+        <SMSTileContainer>
+            <BoxTop> 
+                <PhoneNumber>914-304-3919</PhoneNumber> 
+            </BoxTop>
+            <TextContainer>
+                {messages.map((message) => <tr><TextBubbleRow><TextBubble message={message.message} type={message.type}></TextBubble></TextBubbleRow></tr>)}
+            </TextContainer>
+            <div className = "columns">
+                    <TextSendBar placeholder = {"Enter your response"} onSend = {onSend}> </TextSendBar>
+                <div className="column">
+                    <SendButton> Send </SendButton>
+                </div>
             </div>
-        </div>
-    </SMSTileContainer>
-  );
+        </SMSTileContainer>
+    );
 };
 
-export default SMSTile;
+export {SMSTile, Texter};

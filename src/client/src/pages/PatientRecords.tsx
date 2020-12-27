@@ -7,7 +7,7 @@ import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
 import ResultsTable from "../components/ResultsTable";
 import SearchBar from "../components/SearchBar";
-import SMStile from "../components/SMStile";
+import {SMSTile, Texter} from "../components/SMStile";
 
 const PatientRecords: React.FC = () => {
     const onSearch = (query : string) => {
@@ -37,7 +37,7 @@ const PatientRecords: React.FC = () => {
                     <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
                 </div>
                 <div className="column">
-                    <SMStile></SMStile>
+                    <SMSTile messages={testData3}> </SMSTile>
                 </div>
             </div>
         </DashboardContainer>
@@ -69,6 +69,20 @@ const testData2 = new Array(2).fill(undefined).map((_, i) => ({
     time: "02:00 AM KST",
     enabled: "Yes"
 }));
+
+// change the size of this array to increase the number of sample texts
+let testData3 = new Array(15);
+for (let i = 0; i < testData3.length; i++) {
+    if (i % 3 == 0) {
+        testData3[i] = {message: "I am a patient", type: Texter.PATIENT}
+    }
+    else if (i % 3 == 1) {
+        testData3[i] = {message: "I am a bot", type: Texter.BOT}
+    }
+    else {
+        testData3[i] = {message: "I am a coach", type: Texter.COACH}
+    }
+}
 
 const images = [
     {
