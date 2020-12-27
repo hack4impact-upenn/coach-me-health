@@ -1,5 +1,4 @@
 import React from 'react';
-import Main from './Main';
 import Signup from './Signup';
 import Login from './Login';
 import Dashboard from './Dashboard';
@@ -23,8 +22,8 @@ const AppRouter = () => {
           <PrivateRoute exact path="/patient_add" component={AddPatientForm} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/patients" component={PatientDashboard}/>
-          <PrivateRoute exact path="/2c" component={TwoColumn}/>
-          <PublicRoute exact={false} path="/" component={Main} />
+          <PublicRoute exact path="/2c" component={TwoColumn}/>
+          <PublicRoute exact={false} path="/" component={Login} />
         </Switch>
     </Router>
   );

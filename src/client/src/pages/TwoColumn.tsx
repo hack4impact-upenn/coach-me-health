@@ -7,52 +7,67 @@ import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
 import ResultsTable from "../components/ResultsTable";
 import SearchBar from "../components/SearchBar";
+import SMStile from "../components/SMStile";
 
-
-const ImageGalleryStyles = createGlobalStyle`
-    .image-gallery {
-        padding: 40px 100px; 
-        background-color: white;
-        margin-bottom: 30px;
-        border-radius: 20px;
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
+const TwoColumn: React.FC = () => {
+    const onSearch = (query : string) => {
+        alert(`You searched ${query}`);
     }
 
-    .image-gallery-svg {
-        stroke-width: 1.5px;
-    }
+    return (
+        <DashboardContainer>
+            <ImageGalleryStyles></ImageGalleryStyles>
+            <div className="columns">
+                <div className="column">
+                    <Title>Android's Patient Records</Title>
+                    <Subtitle>View patient records, edit data, and send diagnoses for Android</Subtitle>
 
-    .image-gallery-right-nav {
-        right: -90px;
-    }
+                    <div className = "columns"> 
+                        <SearchBarContainer className = "column is-three-quarters">
+                            <SearchBar placeholder = {"Search for Patient Indicator"} onSearch = {onSearch}></SearchBar>
+                        </SearchBarContainer>
+                        <div className = "column">
+                            <ExportButton>Export to CSV</ExportButton>
+                        </div>
+                    </div>
+                    <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
+        
+                    <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
+                    <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
+                </div>
+                <div className="column">
+                    <SMStile></SMStile>
+                </div>
+            </div>
+        </DashboardContainer>
+    )
+}
 
-    .image-gallery-left-nav {
-        left: -90px;
-    }
+// options for sorting the tables on the right 
+const table1Options: TableOptions = {
+    sortOptions: [],
+    sortsChoiceEnabled: false
+}
 
-    .image-gallery-left-nav, .image-gallery-right-nav {
-        filter: none;
-        color: #F29DA4;
+const table2Options: TableOptions = {
+    sortOptions: [],
+    sortsChoiceEnabled: false
+}
 
-        &:hover {
-            filter: drop-shadow(0 0 4px #c4c4c4);
-            color: #F29DA4;
-        }
+// test data for the right side of the page
+const testData = new Array(5).fill(undefined).map((_, i) => ({
+    indicator: "Blood Glucose Levels",
+    measure: Math.ceil(Math.random() * 200),
+    // create logic for analysis later here I guess?
+    analysis: "placeholder",
+    timeRecorded: "11:20AM 2020-10-30"
+}));
 
-        &:focus {
-            filter: drop-shadow(0 0 4px #c4c4c4);
-            color: #F29DA4;
-            outline: none;
-        }
-    }
-`
-
-const DashboardContainer = styled.div`
-    margin-left: 20px;
-`
-
-const SearchBarContainer = styled.div`
-`
+const testData2 = new Array(2).fill(undefined).map((_, i) => ({
+    message: "Happy Thanksgiving bois!",
+    time: "02:00 AM KST",
+    enabled: "Yes"
+}));
 
 const images = [
     {
@@ -69,65 +84,7 @@ const images = [
     },
   ];
 
-
-const TwoColumn: React.FC = () => {
-    const onSearch = (query : string) => {
-        alert(`You searched ${query}`);
-    }
-
-    return (
-        <DashboardContainer>
-            <ImageGalleryStyles></ImageGalleryStyles>
-            <div className="columns">
-                <div className="column">
-                    <Title>Bokuto Kotaro's Patient Records</Title>
-                    <Subtitle>Bokuto is the best!</Subtitle>
-
-                    <div className = "columns"> 
-                        <SearchBarContainer className = "column is-three-quarters">
-                            <SearchBar placeholder = {"Search for Patient Indicator"} onSearch = {onSearch}></SearchBar>
-                        </SearchBarContainer>
-                        <div className = "column">
-                            <ExportButton>Export to CSV</ExportButton>
-                        </div>
-                    </div>
-                    <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
-        
-                    <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
-                    <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
-                </div>
-                <div className="column">
-                    Second column
-        </div>
-            </div>
-        </DashboardContainer>
-    )
-}
-
-const table1Options: TableOptions = {
-    sortOptions: [],
-    sortsChoiceEnabled: false
-}
-
-const table2Options: TableOptions = {
-    sortOptions: [],
-    sortsChoiceEnabled: false
-}
-
-const testData = new Array(5).fill(undefined).map((_, i) => ({
-    indicator: "Blood Glucose Levels",
-    measure: Math.ceil(Math.random() * 200),
-    // create logic for analysis later here I guess?
-    analysis: "placeholder",
-    timeRecorded: "11:20AM 2020-10-30"
-}));
-
-const testData2 = new Array(2).fill(undefined).map((_, i) => ({
-    message: "Happy Thanksgiving bois!",
-    time: "02:00 AM KST",
-    enabled: "Yes"
-}));
-
+// columns for the right side of the page
 const cols: Column[] = [
     {
         name: "Indicator",
@@ -179,6 +136,7 @@ const cols2: Column[] = [
     },
 ]
 
+// CSS for the page
 const Title = styled.h1`
     font-family: Avenir;
     font-style: normal;
@@ -200,6 +158,13 @@ const Subtitle = styled.p`
 
     padding: 30px 0;
 `;
+
+const DashboardContainer = styled.div`
+    margin-left: 50px;
+`
+
+const SearchBarContainer = styled.div`
+`
 
 const CheckBox = styled.input`
     width: 11.51px;
@@ -257,6 +222,44 @@ const ActiveTextR = styled.p`
 const ActiveTextB = styled.p`
     color: #1f1e1d;
     font-weight: 800;
+`
+
+const ImageGalleryStyles = createGlobalStyle`
+    .image-gallery {
+        padding: 40px 100px; 
+        background-color: white;
+        margin-bottom: 30px;
+        border-radius: 20px;
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
+    }
+
+    .image-gallery-svg {
+        stroke-width: 1.5px;
+    }
+
+    .image-gallery-right-nav {
+        right: -90px;
+    }
+
+    .image-gallery-left-nav {
+        left: -90px;
+    }
+
+    .image-gallery-left-nav, .image-gallery-right-nav {
+        filter: none;
+        color: #F29DA4;
+
+        &:hover {
+            filter: drop-shadow(0 0 4px #c4c4c4);
+            color: #F29DA4;
+        }
+
+        &:focus {
+            filter: drop-shadow(0 0 4px #c4c4c4);
+            color: #F29DA4;
+            outline: none;
+        }
+    }
 `
 
 function classifyNumeric(input:any) {
