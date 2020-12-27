@@ -75,20 +75,20 @@ const Navbar = () => {
             <Link
             to = '/dashboard'>
                 <NavbarItem>
-                    <a><i className="fas fa-user icon"></i></a>
+                    <i className="fas fa-user icon"></i>
                 </NavbarItem>
             </Link>
             
             <Link
             to = '/patients'>
             <NavbarItem>
-                <a><i className="fas fa-list icon"></i></a>
+                <i className="fas fa-list icon"></i>
             </NavbarItem>
             </Link>
             <Link
             to = '/'>
                 <NavbarItem >
-                    <a><i className="fas fa-cog icon"></i></a>
+                    <i className="fas fa-cog icon"></i>
                 </NavbarItem>
             </Link>
             

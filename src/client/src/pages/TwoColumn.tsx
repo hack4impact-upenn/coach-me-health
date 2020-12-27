@@ -79,18 +79,36 @@ const TwoColumn: React.FC = () => {
         alert(`You searched ${query}`);
     }
     const id  = useParams<{ id: string }>();
-    const recordsQuery = useQuery(
+    
+    const { 
+        data: patient,
+        isLoading: loadingPatient,
+      } = useQuery(
+        [id.id, { accessToken: auth.getAccessToken() }, "Hello"],
+        getPatient,
+        {
+          refetchOnWindowFocus: false,
+        }
+      );
+
+    const { 
+        data: outcomes,
+        isLoading: loadingOutcomes,
+      } = useQuery(
         [id.id, { accessToken: auth.getAccessToken() }],
         getPatientOutcomes,
         {
           refetchOnWindowFocus: false,
         }
       );
+    
     return (
         <DashboardContainer>
             <ImageGalleryStyles></ImageGalleryStyles>
             <div className="columns">
                 <div className="column">
+                    {loadingPatient && <div>Loading...</div>}
+                    {patient && <Title>{patient.firstName} {patient.lastName}'s Patient Records</Title>}
                     <Subtitle>Weekly Reports, Measurements, and SMS Chat logs</Subtitle>
 
                     <div className = "columns"> 
@@ -103,11 +121,13 @@ const TwoColumn: React.FC = () => {
                     </div>
                     <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
         
-                    {recordsQuery.isLoading && <div>Loading...</div>}
-                    {recordsQuery.data && <ResultsTable options={table1Options} title="" data={recordsQuery.data as any} columns={cols}></ResultsTable>}                </div>
+                    {loadingOutcomes && <div>Loading...</div>}
+                    {outcomes && <ResultsTable options={table1Options} title="" data={outcomes as any} columns={cols}></ResultsTable>}                </div>
                 <div className="column">
+                    
                     Second column
-        </div>
+
+                </div>
             </div>
         </DashboardContainer>
     )
