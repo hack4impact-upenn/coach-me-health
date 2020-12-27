@@ -2,7 +2,12 @@ import express from 'express';
 import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 
+import auth from "../middleware/auth";
+import initializeScheduler from "../utils/scheduling";
+import initaializeScheduler from '../utils/scheduling';
+
 const router = express.Router();
+initaializeScheduler();
 
 router.post("/newMessage", async (req, res) => {
     // validate phone number
@@ -12,19 +17,19 @@ router.post("/newMessage", async (req, res) => {
         })
     }
 
-    if(req.body.patientID == ""){
+    if(!req.body.patientID || req.body.patientID == ""){
         return res.status(400).json({
             msg: "Unable to add message: must include patient ID"
         })
     }
 
-    if(req.body.sender == ""){
+    if(!req.body.sender || req.body.sender == ""){
         return res.status(400).json({
             msg: "Unable to add message: must include sender"
         })
     }
 
-    if(req.body.date == ""){
+    if(!req.body.date || req.body.date == ""){
         return res.status(400).json({
             msg: "Unable to add message: must include date"
         })
@@ -34,7 +39,7 @@ router.post("/newMessage", async (req, res) => {
         const newMessage = new Message({
             phoneNumber: req.body.phoneNumber,
             patientID: req.body.patientID,
-            messsage: req.body.messsage,
+            message: req.body.message,
             sender: req.body.sender,
             date: req.body.date
         })
@@ -48,7 +53,7 @@ router.post("/newMessage", async (req, res) => {
         const newMessage = new Message({
             phoneNumber: req.body.phoneNumber,
             patientID: req.body.patientID,
-            messsage: req.body.messsage,
+            message: req.body.messsage,
             sender: req.body.sender,
             image: req.body.image,
             date: req.body.date

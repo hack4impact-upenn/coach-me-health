@@ -36,6 +36,24 @@ const Button = styled.button`
         box-shadow: none !important;
     }
 `
+
+const FormContainer = styled.div`
+    box-shadow: 5px 5px 10px rgba(221,225,231,0.5);
+    padding: 30px;
+    background-color: white;
+    text-align: center;
+    max-width: 768px;
+    margin: auto;
+    border-radius: 20px;
+`
+
+const AddPatientHeader = styled.h1`
+    font-weight: 800;
+    font-size: 36px;
+    color: #637792;
+`
+
+
 const initialValues = {
     firstName: "",
     lastName: "",
@@ -85,8 +103,8 @@ const AddPatientForm : React.FC = () => {
     }
 
     return (
-        <div style = {{ padding: 30, backgroundColor: "white", textAlign: "center", maxWidth: 768, margin: "auto"}}>
-            <h1 style = {{ fontWeight: 800, fontSize: 36, color: "#637792" }}>Add Patient</h1>
+        <FormContainer>
+            <AddPatientHeader>Add Patient</AddPatientHeader>
             <p>Please enter patient information below</p>
             { message != null && 
                 <p style = {{color: isError ? "red" : "#637792"}}>{ message }</p>
@@ -149,8 +167,7 @@ const AddPatientForm : React.FC = () => {
                     </Form>
                     
                 </Formik>
-
-        </div>
+        </FormContainer>
     )
 }
 

@@ -13,6 +13,7 @@ interface IMessage extends mongoose.Document {
     contentType: String;
   };
   date: Date;
+  sent: Boolean;
 }
 
 const MessageSchema = new Schema({
@@ -23,6 +24,7 @@ const MessageSchema = new Schema({
   image: { data: {type: mongoose.Schema.Types.Buffer, required: false}, 
            contentType: { type: String, required: false} },
   date: { type: mongoose.Schema.Types.Date, required: true },
+  sent: { type: mongoose.Schema.Types.Boolean, default: false}
 });
 
 const Message = mongoose.model<IMessage>('Message', MessageSchema);
