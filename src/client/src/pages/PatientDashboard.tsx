@@ -5,7 +5,7 @@ import SearchBar from "../components/SearchBar";
 
 import { useQuery } from 'react-query';
 import auth from '../api/core/auth';
-import { fetchMe } from '../api/userApi';
+import { fetchMe, getPatients } from '../api/userApi';
 
 const DashboardContainer = styled.div`
     padding: 20px;
@@ -42,11 +42,20 @@ const PatientDashboard: React.FC = () => {
         }
     );
 
+    const patientQuery = useQuery(
+        ['getPatients', { accessToken: auth.getAccessToken() }],
+        getPatients,
+        {
+            refetchOnWindowFocus: false,
+        }
+    );
+    
     const onSearch = (query : string) => {
         alert(query);
     }
 
     const firstName = profileQuery.data ? (profileQuery.data as any).data.firstName : null;
+
 
     return (
         <DashboardContainer>
@@ -71,7 +80,12 @@ const PatientDashboard: React.FC = () => {
                     </SearchBarContainer>
                 </div>
             </div>
-            <Table options={tableOptions} title="Assigned Patients" data={testData} columns={cols}></Table>
+            {patientQuery.isLoading && <div>Loading...</div>}
+            {patientQuery.data &&  <Table options={tableOptions} 
+                                          title="Assigned Patients"
+                                          data={patientQuery.data as any} 
+                                          columns={cols}>
+                                          </Table>}
         </DashboardContainer>
     )
 }
@@ -120,12 +134,12 @@ const testData = new Array(30).fill(undefined).map((_, i) => ({
 const cols: Column[] = [
     {
         name: "Status",
-        data: () => <ActiveText>Active</ActiveText>,
+        data: "status",
         key: "status"
     },
     {
         name: "Patient Name",
-        data: "name",
+        data: (row) => <React.Fragment>{row.firstName} {row.lastName} </React.Fragment>,
         key: "name"
     },
     {
@@ -140,8 +154,8 @@ const cols: Column[] = [
     },
     {
         name: "Assigned Coach",
-        data: "coach",
-        key: "coach"
+        data: "coachName",
+        key: "coachName"
     },
     {
         name: "Response Rate",
@@ -151,7 +165,7 @@ const cols: Column[] = [
     {
         name: "",
         data: (row) => (
-            <UnreadButton className="button" type="submit">
+            <UnreadButton className="button" type="submit" >
                 { row.unread} unread
             </UnreadButton>
         ),
@@ -160,7 +174,7 @@ const cols: Column[] = [
     {
         name: "",
         data: (row) => (
-            <ViewButton className="button" type="submit">
+            <ViewButton className="button" type="submit" onClick={()=> window.location.href = '/patient/' + row._id} >
                 VIEW
             </ViewButton>
         ),

@@ -1,7 +1,8 @@
 import secureAxios from './core/apiClient';
+import mongoose from 'mongoose';
 
 const signup = ({ firstName, lastName, email, password }: IUserSignup) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     secureAxios({
       url: '/api/coaches/signup',
       method: 'POST',
@@ -60,4 +61,32 @@ const fetchMe = (key: string, { accessToken }: { accessToken: string }) => {
   });
 };
 
-export { signup, login, fetchMe };
+const getPatients = (key: string, { accessToken }: { accessToken: string }) => {
+  return new Promise((resolve, reject) => {
+    secureAxios({
+      url: '/api/coaches/getPatients',
+      method: 'GET',
+      timeout: 0,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        for(var i = 0; i < res.data.length; i++) {
+          if (res.data[i].enabled) {
+            res.data[i].status = "Enabled";
+          } else {
+            res.data[i].status = "Disabled";
+          }
+          res.data[i].week = Math.floor(res.data[i].messagesSent/7);
+          var respRate = (parseInt(res.data[i].responseCount)) / parseInt((res.data[i].messagesSent));
+          res.data[i].responseRate = Math.round(100 * respRate);
+        }
+        resolve(res.data);
+      })
+      .catch((err: Error) => reject(err));
+  });
+};
+
+export { signup, login, fetchMe, getPatients };
