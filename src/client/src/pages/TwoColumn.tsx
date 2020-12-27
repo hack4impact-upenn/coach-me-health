@@ -101,14 +101,18 @@ const TwoColumn: React.FC = () => {
           refetchOnWindowFocus: false,
         }
       );
-    
+    const loadHeader = (res: any) => {;
+        return (
+            <Title>{res.firstName} {res.lastName}'s Patient Records</Title>
+        );
+      };
     return (
         <DashboardContainer>
             <ImageGalleryStyles></ImageGalleryStyles>
             <div className="columns">
                 <div className="column">
                     {loadingPatient && <div>Loading...</div>}
-                    {patient && <Title>{patient.firstName} {patient.lastName}'s Patient Records</Title>}
+                    {patient && loadHeader(patient)}
                     <Subtitle>Weekly Reports, Measurements, and SMS Chat logs</Subtitle>
 
                     <div className = "columns"> 
@@ -119,10 +123,12 @@ const TwoColumn: React.FC = () => {
                             <ExportButton>Export to CSV</ExportButton>
                         </div>
                     </div>
-                    <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
-        
-                    {loadingOutcomes && <div>Loading...</div>}
-                    {outcomes && <ResultsTable options={table1Options} title="" data={outcomes as any} columns={cols}></ResultsTable>}                </div>
+                        <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
+            
+                        {loadingOutcomes && <div>Loading...</div>}
+                        {outcomes && <ResultsTable options={table1Options} title="" data={outcomes as any} columns={cols}></ResultsTable>}
+                        {!loadingOutcomes && <p>No measuremnts found.</p>}
+                    </div>
                 <div className="column">
                     
                     Second column
