@@ -8,6 +8,9 @@ import {
   generateRefreshToken,
   validateRefreshToken,
 } from './coach.util';
+import mongoose from 'mongoose';
+import { Patient } from '../models/patient.model';
+
 
 const router = express.Router();
 
@@ -29,14 +32,12 @@ router.post('/signup', async (req, res) => {
     if (err) {
       return errorHandler(res, err.message);
     }
-
     const newCoach = new Coach({
       firstName,
       lastName,
       email,
       password: hashedPassword,
     });
-
     return newCoach
       .save()
       .then(() => res.status(200).json({ success: true }))
@@ -117,6 +118,14 @@ router.get('/me', auth, (req, res) => {
       return res.status(200).json({ success: true, data: coach });
     })
     .catch((err) => errorHandler(res, err.message));
+});
+
+router.get('/getPatients', auth, (req, res) => {
+  const patientID = req.params.id;
+  return Patient.find().then((patients) => {
+    
+    return res.status(200).json(patients);
+  });
 });
 
 export default router;

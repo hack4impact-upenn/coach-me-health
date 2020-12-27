@@ -7,6 +7,7 @@ interface IPatient extends mongoose.Document {
   firstName: string;
   lastName: string;
   coachID: string;
+  coachName: string;
   language: string;
   phoneNumber: string;
   prefTime: string;
@@ -23,6 +24,7 @@ const PatientSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   coachID: { type: mongoose.Schema.Types.ObjectId },
+  coachName:{ type: String, required: true },
   language: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   prefTime: { type: String, required: true },

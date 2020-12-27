@@ -7,6 +7,10 @@ import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
 import ResultsTable from "../components/ResultsTable";
 import SearchBar from "../components/SearchBar";
+import { getPatientOutcomes, getPatient } from '../api/patientApi';
+import { useQuery } from 'react-query';
+import auth from '../api/core/auth';
+import { useParams } from 'react-router-dom';
 
 
 const ImageGalleryStyles = createGlobalStyle`
@@ -56,16 +60,16 @@ const SearchBarContainer = styled.div`
 
 const images = [
     {
-      original: 'https://picsum.photos/id/1018/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1018/250/150/',
+        original: 'https://i.imgur.com/TjlRhlP.png',
+        thumbnail: 'https://i.imgur.com/TjlRhlP.png',
     },
     {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/250/150/',
+        original: 'https://i.imgur.com/TjlRhlP.png',
+        thumbnail: 'https://i.imgur.com/TjlRhlP.png',
     },
     {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+        original: 'https://i.imgur.com/TjlRhlP.png',
+        thumbnail: 'https://i.imgur.com/TjlRhlP.png',
     },
   ];
 
@@ -74,14 +78,20 @@ const TwoColumn: React.FC = () => {
     const onSearch = (query : string) => {
         alert(`You searched ${query}`);
     }
-
+    const id  = useParams<{ id: string }>();
+    const recordsQuery = useQuery(
+        [id.id, { accessToken: auth.getAccessToken() }],
+        getPatientOutcomes,
+        {
+          refetchOnWindowFocus: false,
+        }
+      );
     return (
         <DashboardContainer>
             <ImageGalleryStyles></ImageGalleryStyles>
             <div className="columns">
                 <div className="column">
-                    <Title>Bokuto Kotaro's Patient Records</Title>
-                    <Subtitle>Bokuto is the best!</Subtitle>
+                    <Subtitle>Weekly Reports, Measurements, and SMS Chat logs</Subtitle>
 
                     <div className = "columns"> 
                         <SearchBarContainer className = "column is-three-quarters">
@@ -93,9 +103,8 @@ const TwoColumn: React.FC = () => {
                     </div>
                     <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
         
-                    <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
-                    <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
-                </div>
+                    {recordsQuery.isLoading && <div>Loading...</div>}
+                    {recordsQuery.data && <ResultsTable options={table1Options} title="" data={recordsQuery.data as any} columns={cols}></ResultsTable>}                </div>
                 <div className="column">
                     Second column
         </div>
@@ -109,75 +118,34 @@ const table1Options: TableOptions = {
     sortsChoiceEnabled: false
 }
 
-const table2Options: TableOptions = {
-    sortOptions: [],
-    sortsChoiceEnabled: false
-}
-
-const testData = new Array(5).fill(undefined).map((_, i) => ({
-    indicator: "Blood Glucose Levels",
-    measure: Math.ceil(Math.random() * 200),
-    // create logic for analysis later here I guess?
-    analysis: "placeholder",
-    timeRecorded: "11:20AM 2020-10-30"
-}));
-
-const testData2 = new Array(2).fill(undefined).map((_, i) => ({
-    message: "Happy Thanksgiving bois!",
-    time: "02:00 AM KST",
-    enabled: "Yes"
-}));
-
 const cols: Column[] = [
     {
         name: "Indicator",
-        data: "indicator",
+        data: (row) => <React.Fragment>Blood Glucose</React.Fragment>, 
         key: "indicator"
     },
     {
         name: "Measure",
-        data: "measure",
-        key: "measure"
+        data: "value",
+        key: "value"
     },
     {
         // need to create logic for the text color, possible do it down in activetext
         name: "Analysis",
-        data: (row) => classifyNumeric(row.measure) == "Green" ? <ActiveTextG>{classifyNumeric(row.measure)}</ActiveTextG>:
-                       classifyNumeric(row.measure) == "Yellow" ? <ActiveTextY>{classifyNumeric(row.measure)}</ActiveTextY>:
-                       classifyNumeric(row.measure) == "Red" ? <ActiveTextR>{classifyNumeric(row.measure)}</ActiveTextR>:
-                       <ActiveTextB>{classifyNumeric(row.measure)}</ActiveTextB>,
+        data: (row) => classifyNumeric(row.value) == "Green" ? <ActiveTextG>{classifyNumeric(row.value)}</ActiveTextG>:
+                       classifyNumeric(row.value) == "Yellow" ? <ActiveTextY>{classifyNumeric(row.value)}</ActiveTextY>:
+                       classifyNumeric(row.value) == "Red" ? <ActiveTextR>{classifyNumeric(row.value)}</ActiveTextR>:
+                       <ActiveTextB>{classifyNumeric(row.value)}</ActiveTextB>,
         key: "analysis"
     },
     {
         name: "Time Recorded",
-        data: "timeRecorded",
-        key: "timeRecorded"
+        data: (row) => <React.Fragment>{new Date(row.date).toDateString()}</React.Fragment>,
+        key: "date"
     }
 ]
 
-const cols2: Column[] = [
-    {
-        name: "Message",
-        data: "message",
-        key: "message"
-    },
-    {
-        name: "Time",
-        data: "time",
-        key: "time"
-    },
-    {
-        name: "Enabled",
-        data: (row) => row.enabled == "Yes" ? (
-            <CheckBox type="checkbox" checked>
-            </CheckBox>
-        ) : (
-                <CheckBox type="checkbox">
-                </CheckBox>
-            ),
-        key: "enabled"
-    },
-]
+
 
 const Title = styled.h1`
     font-family: Avenir;
