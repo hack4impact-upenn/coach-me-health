@@ -11,70 +11,9 @@ import { getPatientOutcomes, getPatient } from '../api/patientApi';
 import { useQuery } from 'react-query';
 import auth from '../api/core/auth';
 import { useParams } from 'react-router-dom';
+import {SMSTile, Texter} from "../components/SMStile";
 
-
-const ImageGalleryStyles = createGlobalStyle`
-    .image-gallery {
-        padding: 40px 100px; 
-        background-color: white;
-        margin-bottom: 30px;
-        border-radius: 20px;
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
-    }
-
-    .image-gallery-svg {
-        stroke-width: 1.5px;
-    }
-
-    .image-gallery-right-nav {
-        right: -90px;
-    }
-
-    .image-gallery-left-nav {
-        left: -90px;
-    }
-
-    .image-gallery-left-nav, .image-gallery-right-nav {
-        filter: none;
-        color: #F29DA4;
-
-        &:hover {
-            filter: drop-shadow(0 0 4px #c4c4c4);
-            color: #F29DA4;
-        }
-
-        &:focus {
-            filter: drop-shadow(0 0 4px #c4c4c4);
-            color: #F29DA4;
-            outline: none;
-        }
-    }
-`
-
-const DashboardContainer = styled.div`
-    margin-left: 20px;
-`
-
-const SearchBarContainer = styled.div`
-`
-
-const images = [
-    {
-        original: 'https://i.imgur.com/TjlRhlP.png',
-        thumbnail: 'https://i.imgur.com/TjlRhlP.png',
-    },
-    {
-        original: 'https://i.imgur.com/TjlRhlP.png',
-        thumbnail: 'https://i.imgur.com/TjlRhlP.png',
-    },
-    {
-        original: 'https://i.imgur.com/TjlRhlP.png',
-        thumbnail: 'https://i.imgur.com/TjlRhlP.png',
-    },
-  ];
-
-
-const TwoColumn: React.FC = () => {
+const PatientRecords: React.FC = () => {
     const onSearch = (query : string) => {
         alert(`You searched ${query}`);
     }
@@ -108,13 +47,13 @@ const TwoColumn: React.FC = () => {
       };
     return (
         <DashboardContainer>
+            <GlobalStyle />
             <ImageGalleryStyles></ImageGalleryStyles>
             <div className="columns">
                 <div className="column">
                     {loadingPatient && <div>Loading...</div>}
                     {patient && loadHeader(patient)}
                     <Subtitle>Weekly Reports, Measurements, and SMS Chat logs</Subtitle>
-
                     <div className = "columns"> 
                         <SearchBarContainer className = "column is-three-quarters">
                             <SearchBar placeholder = {"Search for Patient Indicator"} onSearch = {onSearch}></SearchBar>
@@ -130,20 +69,64 @@ const TwoColumn: React.FC = () => {
                         {!loadingOutcomes && !outcomes && <p>No measuremnts found.</p>}
                     </div>
                 <div className="column">
-                    
-                    Second column
-
+                    <SMSTile messages={testData3}> </SMSTile>
                 </div>
             </div>
         </DashboardContainer>
     )
 }
 
+// options for sorting the tables on the right 
 const table1Options: TableOptions = {
     sortOptions: [],
     sortsChoiceEnabled: false
 }
 
+// test data for the right side of the page
+const testData = new Array(5).fill(undefined).map((_, i) => ({
+    indicator: "Blood Glucose Levels",
+    measure: Math.ceil(Math.random() * 200),
+    // create logic for analysis later here I guess?
+    analysis: "placeholder",
+    timeRecorded: "11:20AM 2020-10-30"
+}));
+
+const testData2 = new Array(2).fill(undefined).map((_, i) => ({
+    message: "Happy Thanksgiving bois!",
+    time: "02:00 AM KST",
+    enabled: "Yes"
+}));
+
+// change the size of this array to increase the number of sample texts
+let testData3 = new Array(15);
+for (let i = 0; i < testData3.length; i++) {
+    if (i % 3 == 0) {
+        testData3[i] = {message: "I am a patient", type: Texter.PATIENT}
+    }
+    else if (i % 3 == 1) {
+        testData3[i] = {message: "I am a bot", type: Texter.BOT}
+    }
+    else {
+        testData3[i] = {message: "I am a coach", type: Texter.COACH}
+    }
+}
+
+const images = [
+    {
+      original: 'https://picsum.photos/id/1018/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1018/250/150/',
+    },
+    {
+      original: 'https://picsum.photos/id/1015/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1015/250/150/',
+    },
+    {
+      original: 'https://picsum.photos/id/1019/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+    },
+  ];
+
+// columns for the right side of the page
 const cols: Column[] = [
     {
         name: "Indicator",
@@ -173,6 +156,7 @@ const cols: Column[] = [
 
 
 
+// CSS for the page
 const Title = styled.h1`
     font-family: Avenir;
     font-style: normal;
@@ -194,6 +178,20 @@ const Subtitle = styled.p`
 
     padding: 30px 0;
 `;
+
+const DashboardContainer = styled.div`
+    padding: 20px;
+`
+
+const GlobalStyle = createGlobalStyle`
+    body {
+        background-color: #E5E5E5;
+        padding-top: 20px !important;
+    }
+`
+
+const SearchBarContainer = styled.div`
+`
 
 const CheckBox = styled.input`
     width: 11.51px;
@@ -253,6 +251,44 @@ const ActiveTextB = styled.p`
     font-weight: 800;
 `
 
+const ImageGalleryStyles = createGlobalStyle`
+    .image-gallery {
+        padding: 40px 100px; 
+        background-color: white;
+        margin-bottom: 30px;
+        border-radius: 20px;
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
+    }
+
+    .image-gallery-svg {
+        stroke-width: 1.5px;
+    }
+
+    .image-gallery-right-nav {
+        right: -90px;
+    }
+
+    .image-gallery-left-nav {
+        left: -90px;
+    }
+
+    .image-gallery-left-nav, .image-gallery-right-nav {
+        filter: none;
+        color: #F29DA4;
+
+        &:hover {
+            filter: drop-shadow(0 0 4px #c4c4c4);
+            color: #F29DA4;
+        }
+
+        &:focus {
+            filter: drop-shadow(0 0 4px #c4c4c4);
+            color: #F29DA4;
+            outline: none;
+        }
+    }
+`
+
 function classifyNumeric(input:any) {
     var number = parseInt(input);
     if (number < 70) {
@@ -275,4 +311,4 @@ function classifyNumeric(input:any) {
     }
 }
 
-export default TwoColumn;
+export default PatientRecords;
