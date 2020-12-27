@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import auth from '../api/core/auth';
@@ -67,16 +67,31 @@ const Navbar = () => {
     return (
         <NavbarContainer>
             <GlobalStyle/>
-            <NavbarImg src="https://images.typeform.com/images/aBuTPD2X63gc/image/default" />
+            <Link
+            to = '/patients'>
+                <NavbarImg src="https://images.typeform.com/images/aBuTPD2X63gc/image/default" />
+            </Link>
+            
+            <Link
+            to = '/dashboard'>
+                <NavbarItem>
+                    <i className="fas fa-user icon"></i>
+                </NavbarItem>
+            </Link>
+            
+            <Link
+            to = '/patients'>
             <NavbarItem>
-                <a><i className="fas fa-user icon"></i></a>
+                <i className="fas fa-list icon"></i>
             </NavbarItem>
-            <NavbarItem>
-                <a><i className="fas fa-list icon"></i></a>
-            </NavbarItem>
-            <NavbarItem>
-                <a><i className="fas fa-cog icon"></i></a>
-            </NavbarItem>
+            </Link>
+            <Link
+            to = '/'>
+                <NavbarItem >
+                    <i className="fas fa-cog icon"></i>
+                </NavbarItem>
+            </Link>
+            
         </NavbarContainer>
     );
 };

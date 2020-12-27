@@ -1,106 +1,29 @@
 import { time } from 'console';
 import React from 'react';
-import ImageGallery from "react-image-gallery";
-import "../styles/image-gallery.css"
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
+import SMSTile from '../components/SMSTile';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
-import ScheduledMessageTable from "../components/ScheduledMessageTable";
-import ResultsTable from "../components/ResultsTable";
-import SearchBar from "../components/SearchBar";
 
-
-const ImageGalleryStyles = createGlobalStyle`
-    .image-gallery {
-        padding: 40px 100px; 
-        background-color: white;
-        margin-bottom: 30px;
-        border-radius: 20px;
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
-    }
-
-    .image-gallery-svg {
-        stroke-width: 1.5px;
-    }
-
-    .image-gallery-right-nav {
-        right: -90px;
-    }
-
-    .image-gallery-left-nav {
-        left: -90px;
-    }
-
-    .image-gallery-left-nav, .image-gallery-right-nav {
-        filter: none;
-        color: #F29DA4;
-
-        &:hover {
-            filter: drop-shadow(0 0 4px #c4c4c4);
-            color: #F29DA4;
-        }
-
-        &:focus {
-            filter: drop-shadow(0 0 4px #c4c4c4);
-            color: #F29DA4;
-            outline: none;
-        }
-    }
-`
+//import ScheduledMessageTable from "../components/ScheduledMessageTable";
 
 const DashboardContainer = styled.div`
-    margin-left: 20px;
+    margin-left: 106px;
 `
-
-const SearchBarContainer = styled.div`
-`
-
-const images = [
-    {
-      original: 'https://picsum.photos/id/1018/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1018/250/150/',
-    },
-    {
-      original: 'https://picsum.photos/id/1015/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1015/250/150/',
-    },
-    {
-      original: 'https://picsum.photos/id/1019/1000/600/',
-      thumbnail: 'https://picsum.photos/id/1019/250/150/',
-    },
-  ];
-
 
 const TwoColumn: React.FC = () => {
-    const onSearch = (query : string) => {
-        alert(`You searched ${query}`);
-    }
-
     return (
-        <DashboardContainer>
-            <ImageGalleryStyles></ImageGalleryStyles>
-            <div className="columns">
-                <div className="column">
-                    <Title>Bokuto Kotaro's Patient Records</Title>
-                    <Subtitle>Bokuto is the best!</Subtitle>
-
-                    <div className = "columns"> 
-                        <SearchBarContainer className = "column is-three-quarters">
-                            <SearchBar placeholder = {"Search for Patient Indicator"} onSearch = {onSearch}></SearchBar>
-                        </SearchBarContainer>
-                        <div className = "column">
-                            <ExportButton>Export to CSV</ExportButton>
-                        </div>
-                    </div>
-                    <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
-        
-                    <ResultsTable options={table1Options} title="" data={testData} columns={cols}></ResultsTable>
-                    <ScheduledMessageTable options={table2Options} title="Scheduled Messages" data={testData2} columns={cols2}></ScheduledMessageTable>
-                </div>
-                <div className="column">
-                    Second column
+    <DashboardContainer>
+        <Title>Bokuto Kotaro's Patient Records</Title>
+    <div className="columns">
+        <div className="column">
+            <ExportButton>Export to CSV</ExportButton>
+            <Table options={table1Options} title="" data={testData} columns={cols}></Table>
         </div>
-            </div>
-        </DashboardContainer>
+        <div className="column">
+            <SMSTile> </SMSTile>
+        </div>
+    </div>
+    </DashboardContainer>
     )
 }
 
@@ -116,7 +39,7 @@ const table2Options: TableOptions = {
 
 const testData = new Array(5).fill(undefined).map((_, i) => ({
     indicator: "Blood Glucose Levels",
-    measure: Math.ceil(Math.random() * 200),
+    measure: Math.ceil(Math.random() * 1000),
     // create logic for analysis later here I guess?
     analysis: "placeholder",
     timeRecorded: "11:20AM 2020-10-30"
@@ -142,10 +65,7 @@ const cols: Column[] = [
     {
         // need to create logic for the text color, possible do it down in activetext
         name: "Analysis",
-        data: (row) => classifyNumeric(row.measure) == "Green" ? <ActiveTextG>{classifyNumeric(row.measure)}</ActiveTextG>:
-                       classifyNumeric(row.measure) == "Yellow" ? <ActiveTextY>{classifyNumeric(row.measure)}</ActiveTextY>:
-                       classifyNumeric(row.measure) == "Red" ? <ActiveTextR>{classifyNumeric(row.measure)}</ActiveTextR>:
-                       <ActiveTextB>{classifyNumeric(row.measure)}</ActiveTextB>,
+        data: (row) => <ActiveText>Green</ActiveText>,
         key: "analysis"
     },
     {
@@ -171,34 +91,26 @@ const cols2: Column[] = [
         data: (row) => row.enabled == "Yes" ? (
             <CheckBox type="checkbox" checked>
             </CheckBox>
-        ) : (
+            ) : (
                 <CheckBox type="checkbox">
                 </CheckBox>
-            ),
+                ),
         key: "enabled"
     },
 ]
 
-const Title = styled.h1`
+const Title = styled.p`
+    position: absolute;
+    left: 0%;
+    right: -47.05%;
+    top: 0%;
+    bottom: 88.3%;
     font-family: Avenir;
     font-style: normal;
     font-weight: 800;
     font-size: 36px;
     line-height: 49px;
-
     color: #404040;
-`;
-
-const Subtitle = styled.p`
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 15px;
-    line-height: 20px;
-
-    color: #404040;
-
-    padding: 30px 0;
 `;
 
 const CheckBox = styled.input`
@@ -206,79 +118,55 @@ const CheckBox = styled.input`
     height: 12px;
     left: 653.93px;
     top: 736px;
-
     font-family: Font Awesome 5 Free;
     font-style: normal;
     font-weight: normal;
     font-size: 10px;
     line-height: 11px;
     /* identical to box height */
-
-
     color: #404040;
 `;
 
-
-const ExportButton = styled.button`
-    float: right;
-
-    padding: 9px 20px;
-    background-color: #F29DA4 !important;
+const UnreadButton = styled.button`
+    width: 100%;
+    background-color: #FAD246 !important;
     font-size: 13px !important;
     border-radius: 15px !important;
     color: white !important;
     border: none !important;
     font-weight: 600;
-
     &:hover {
         box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
         border: none !important;
-        cursor: pointer;
     }
-
     &:focus {
         box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
         border: none !important;
     }
 `;
 
-const ActiveTextG = styled.p`
+const ExportButton = styled.button`
+    width: 112px !important; 
+    height: 42px !important;
+    background-color: #F29DA4 !important;
+    font-size: 13px !important;
+    border-radius: 15px !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 600;
+    &:hover {
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
+        border: none !important;
+    }
+    &:focus {
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
+        border: none !important;
+    }
+`;
+
+const ActiveText = styled.p`
     color: #B4D983;
     font-weight: 800;
 `
-const ActiveTextY = styled.p`
-    color: #fbf36f;
-    font-weight: 800;
-`
-const ActiveTextR = styled.p`
-    color: #c92c1a;
-    font-weight: 800;
-`
-const ActiveTextB = styled.p`
-    color: #1f1e1d;
-    font-weight: 800;
-`
-
-function classifyNumeric(input:any) {
-    var number = parseInt(input);
-    if (number < 70) {
-        return "Too Low";
-    }
-    else if (70 <= number && number <= 79) {
-        return "<80";
-    }
-    else if (80 <= number && number <= 130) {
-        return "Green";
-    }
-    else if (131 <= number && number <= 180) {
-        return "Yellow";
-    }
-    else if (181 <= number && number <= 300) {
-        return "Red";
-    }
-    else {
-        return ">=301";
-    }
-}
 
 export default TwoColumn;

@@ -104,7 +104,7 @@ const LoginForm = () => {
 
     return (
         <FormContainer>
-            <RegisterLink href = "#">Register</RegisterLink>
+            <RegisterLink href = "/signup">Register</RegisterLink>
             <h1 style = {{ fontWeight: 800, fontSize: 36, color: "#637792" }}>Login</h1>
             <p>Please enter your information below</p>
 
