@@ -6,6 +6,7 @@ import Profile from './Profile';
 import PatientDashboard from './PatientDashboard';
 import PatientRecords from './PatientRecords';
 import AddPatientForm from '../components/AddPatientForm';
+import MessageTemplateForm from '../components/MessageTemplateForm';
 import AppContainer from '../components/AppContainer';
 import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
@@ -23,6 +24,7 @@ const AppRouter = () => {
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/patients" component={PatientDashboard}/>
           <PrivateRoute exact path="/patient/:id" component={PatientRecords}/>
+          <PrivateRoute exact path="/messageTemplate" component={MessageTemplateForm}/>
           <PublicRoute exact={false} path="/" component={Login} />
         </Switch>
     </Router>

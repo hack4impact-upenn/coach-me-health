@@ -11,6 +11,7 @@ import patientRouter from './routes/patient.api';
 import messageRouter from './routes/messages.api';
 import coachRouter from './routes/coach.auth';
 import twilioRouter from './routes/twilio.api';
+import messageTemplateRouter from './routes/messageTemplate.api';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/api/patients', patientRouter);
 app.use('/api/coaches', coachRouter);
 app.use('/api/messages', messageRouter);
 app.use('/api/twilio', twilioRouter);
+app.use('/api/messageTemplate', messageTemplateRouter);
 
 // Serving static files
 if (process.env.NODE_ENV === 'production') {

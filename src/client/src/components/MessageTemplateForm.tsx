@@ -38,8 +38,8 @@ const Button = styled.button`
 `
 const initialValues = {
     messageTxt: "",
-    language: "",
-    type: "",
+    language: "Spanish",
+    type: "Green",
 }
 
 const ColoredLine = (
@@ -93,14 +93,16 @@ const MessageTemplateForm : React.FC = () => {
     const [message, setMessage] = useState<string | null>(null);
     const [isError, setError] = useState(false);
     
-    const handleSubmit = (data : any) => {
+    const handleSubmit = (data : any) => {        
         setLoading(true);
         secureAxios.post("/api/messageTemplate/newTemplate", data).then( (res) => {
-            setMessage(`Message template added successfully`)
+            setMessage(`Message template added successfully`);
             setError(false);
             setLoading(false);
+            document.forms[0].reset();
+            
         }).catch( (err) => {
-            setMessage(err.response.data.msg)
+            setMessage(err.response.data);
             setLoading(false)
             setError(true);
         })
@@ -110,7 +112,7 @@ const MessageTemplateForm : React.FC = () => {
     return (
         <div style = {{ padding: 30, backgroundColor: "white", textAlign: "center", maxWidth: 768, margin: "auto"}}>
             <h1 style = {{ fontWeight: 800, fontSize: 36, color: "#637792" }}>Add Message Template</h1>
-            <p>Please enter the message information below: </p>
+            <h3>Please enter the message information below: </h3>
             { message != null && 
                 <p style = {{color: isError ? "red" : "#637792"}}>{ message }</p>
             }
@@ -119,7 +121,7 @@ const MessageTemplateForm : React.FC = () => {
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
                 <Form>
                     <FieldWrapperSelect>
-                        <p>Select language: </p>
+                        <label>Select language: </label> 
                         <Field as="select" name="language">
                             <option value="Spanish">Spanish</option>
                             <option value="English">English</option>
@@ -127,8 +129,8 @@ const MessageTemplateForm : React.FC = () => {
                     </FieldWrapperSelect>
 
                     <FieldWrapperSelect>
-                        <p>Select message type: </p>
-                        <Field as="select" name="color">
+                        <label>Select message type: </label>
+                        <Field as="select" name="type">
                             <option value="green">Green</option>
                             <option value="yellow">Yellow</option>
                             <option value="red">Red</option>
@@ -137,7 +139,7 @@ const MessageTemplateForm : React.FC = () => {
 
                     <FieldWrapper icon="fa-info">
                         <Field 
-                        name="message text"
+                        name="messageTxt"
                         style = {inputStyles}
                         type="text"
                         placeholder="Message text"
