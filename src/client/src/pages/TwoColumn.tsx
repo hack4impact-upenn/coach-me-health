@@ -127,7 +127,7 @@ const TwoColumn: React.FC = () => {
             
                         {loadingOutcomes && <div>Loading...</div>}
                         {outcomes && <ResultsTable options={table1Options} title="" data={outcomes as any} columns={cols}></ResultsTable>}
-                        {!loadingOutcomes && <p>No measuremnts found.</p>}
+                        {!loadingOutcomes && !outcomes && <p>No measuremnts found.</p>}
                     </div>
                 <div className="column">
                     

@@ -8,7 +8,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 const router = express.Router();
 
-router.post("/add", async (req, res) => {
+router.post("/add", auth, async (req, res) => {
     // validate phone number
     if(!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
         return res.status(400).json({
@@ -51,7 +51,7 @@ router.post("/add", async (req, res) => {
 })
 
 
-router.get('/getPatientOutcomes/:patientID', (req, res) => {
+router.get('/getPatientOutcomes/:patientID', auth, (req, res) => {
     const id = req.params.patientID;
     return Outcome.find( {patientID: new ObjectId(id)})
     .then((outcomeList) => {
@@ -62,7 +62,7 @@ router.get('/getPatientOutcomes/:patientID', (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
-router.get('/getPatient/:patientID', (req, res) => {
+router.get('/getPatient/:patientID', auth, (req, res) => {
     const id = req.params.patientID;
     return Patient.findById(new ObjectId(id))
     .then((patient) => {
@@ -72,7 +72,7 @@ router.get('/getPatient/:patientID', (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
-router.get('/getPatientMessages/:patientID', (req, res) => {
+router.get('/getPatientMessages/:patientID', auth, (req, res) => {
     const id = req.params.patientID;
     return Message.find( {patientID: new ObjectId(id)})
     .then((outcomeList) => {
