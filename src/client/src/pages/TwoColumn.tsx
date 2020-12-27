@@ -11,6 +11,7 @@ import { getPatientOutcomes, getPatient } from '../api/patientApi';
 import { useQuery } from 'react-query';
 import auth from '../api/core/auth';
 import { useParams } from 'react-router-dom';
+import { type } from 'os';
 
 
 const ImageGalleryStyles = createGlobalStyle`
@@ -101,6 +102,11 @@ const TwoColumn: React.FC = () => {
           refetchOnWindowFocus: false,
         }
       );
+    const getCSV = (data: any, patient: any) => {
+        const id = patient._id;
+        const csvData = outcomesToCSV(data);
+        downloadCSV(csvData, id);
+    }
     const loadHeader = (res: any) => {;
         return (
             <Title>{res.firstName} {res.lastName}'s Patient Records</Title>
@@ -120,7 +126,8 @@ const TwoColumn: React.FC = () => {
                             <SearchBar placeholder = {"Search for Patient Indicator"} onSearch = {onSearch}></SearchBar>
                         </SearchBarContainer>
                         <div className = "column">
-                            <ExportButton>Export to CSV</ExportButton>
+                        {loadingOutcomes && loadingPatient &&  <ExportButton disabled={true}>Export to CSV</ExportButton>}
+                        {outcomes && patient && <ExportButton onClick = {() => getCSV(outcomes, patient)}>Export to CSV</ExportButton>}
                         </div>
                     </div>
                         <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
@@ -166,7 +173,7 @@ const cols: Column[] = [
     },
     {
         name: "Time Recorded",
-        data: (row) => <React.Fragment>{new Date(row.date).toDateString()}</React.Fragment>,
+        data: (row) => <React.Fragment>{new Date(row.date).toString()}</React.Fragment>,
         key: "date"
     }
 ]
@@ -274,5 +281,31 @@ function classifyNumeric(input:any) {
         return ">=301";
     }
 }
+
+function outcomesToCSV(data: any) {
+    const csvRows = [];
+    const headers = ["Type", "Measurement", "Classification", "Date"];
+    csvRows.push(headers.join(','));
+    for (const row of data) {
+        const values = ["Blood Glucose", row.value, classifyNumeric(row.value), new Date(row.date).toString()];
+        csvRows.push(values.join(','));
+    }
+    console.log();
+    return csvRows.join('\n');
+};
+
+function downloadCSV(data: string, id: string) {
+    const csvObj = new Blob([data], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(csvObj);
+    const a = document.createElement('a');
+    a.setAttribute('hidden', '');
+    a.setAttribute('href', url);
+    console.log('Patient ' + id + ' outcomes.csv');
+    const fileName = "Patient_".concat(id, "_Outcomes.csv");
+    a.setAttribute('download', fileName);
+    document.body.append(a);
+    a.click();
+    document.body.removeChild(a);
+};
 
 export default TwoColumn;
