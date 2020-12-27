@@ -11,7 +11,7 @@ import { getPatientOutcomes, getPatient } from '../api/patientApi';
 import { useQuery } from 'react-query';
 import auth from '../api/core/auth';
 import { useParams } from 'react-router-dom';
-import {SMSTile, Texter} from "../components/SMStile";
+import {SMSTile, Texter} from '../components/SMSTile';
 import { type } from 'os';
 
 const PatientRecords: React.FC = () => {

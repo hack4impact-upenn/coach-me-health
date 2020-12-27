@@ -1,5 +1,4 @@
 import secureAxios from './core/apiClient';
-import mongoose from 'mongoose';
 
 const signup = ({ firstName, lastName, email, password }: IUserSignup) => {
   return new Promise<void>((resolve, reject) => {
