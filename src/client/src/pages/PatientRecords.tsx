@@ -9,7 +9,7 @@ import ResultsTable from "../components/ResultsTable";
 import SearchBar from "../components/SearchBar";
 import SMStile from "../components/SMStile";
 
-const TwoColumn: React.FC = () => {
+const PatientRecords: React.FC = () => {
     const onSearch = (query : string) => {
         alert(`You searched ${query}`);
     }
@@ -284,4 +284,4 @@ function classifyNumeric(input:any) {
     }
 }
 
-export default TwoColumn;
+export default PatientRecords;

@@ -26,7 +26,7 @@ const PhoneNumber = styled.p`
 
 const MessageBox = styled.div`
     width: 100%;
-    height: auto;
+    height: ;
     left: 817px;
     top: 48px; 
     bottom: 10.35%;
