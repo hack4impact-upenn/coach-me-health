@@ -67,7 +67,7 @@ router.get('/getPatient/:patientID', auth, (req, res) => {
     return Patient.findById(new ObjectId(id))
     .then((patient) => {
       if (!patient) return errorHandler(res, 'No patient found!');
-      return res.status(200).json(patient);
+      return res.status(200).json(patient); 
     })
     .catch((err) => errorHandler(res, err.message));
 });
