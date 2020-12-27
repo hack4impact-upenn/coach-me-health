@@ -16,6 +16,7 @@ const PatientRecords: React.FC = () => {
 
     return (
         <DashboardContainer>
+            <GlobalStyle />
             <ImageGalleryStyles></ImageGalleryStyles>
             <div className="columns">
                 <div className="column">
@@ -160,7 +161,14 @@ const Subtitle = styled.p`
 `;
 
 const DashboardContainer = styled.div`
-    margin-left: 50px;
+    padding: 20px;
+`
+
+const GlobalStyle = createGlobalStyle`
+    body {
+        background-color: #E5E5E5;
+        padding-top: 20px !important;
+    }
 `
 
 const SearchBarContainer = styled.div`
