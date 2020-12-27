@@ -146,17 +146,17 @@ router.post('/reply', function (req, res) {
         const outcome = new Outcome({
           phoneNumber: req.body.To,
           patientID: patientId,
-          response: value, // the entire text the patient sends
+          response: response, // the entire text the patient sends
           value: classifyNumeric(value), // numerical measurement 
           alertType: responseMap.get(classifyNumeric(value)), // Color
           date: date
         });
   
         outcome.save().then(() => {
-          console.log('saved');
+          console.log('saved outcome');
         }); 
       });  
-    message.body(classifyNumeric(value));
+    message.body(responseMap.get(classifyNumeric(value)));
   }
 
   // if contains no then respond with the default no response
