@@ -3,6 +3,7 @@ import { Outcome } from '../models/outcome.model';
 import { Patient, IPatient } from '../models/patient.model';
 import auth from '../middleware/auth';
 import errorHandler from './error';
+import { Message } from '../models/message.model';
 const ObjectId = require('mongoose').Types.ObjectId; 
 
 const router = express.Router();
@@ -67,6 +68,17 @@ router.get('/getPatient/:patientID', (req, res) => {
     .then((patient) => {
       if (!patient) return errorHandler(res, 'No patient found!');
       return res.status(200).json(patient);
+    })
+    .catch((err) => errorHandler(res, err.message));
+});
+
+router.get('/getPatientMessages/:patientID', (req, res) => {
+    const id = req.params.patientID;
+    return Message.find( {patientID: new ObjectId(id)})
+    .then((outcomeList) => {
+      if (!outcomeList || outcomeList.length == 0 ) return errorHandler(res, 'No outcomes found!');
+
+      return res.status(200).json(outcomeList);
     })
     .catch((err) => errorHandler(res, err.message));
 });
