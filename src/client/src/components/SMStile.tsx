@@ -1,16 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
-import TextSendBar from "../components/TextSendBar"
 
-const SMSTileContainer = styled.div`
+const TextContainer = styled.div`
     display: flex;
     border-radius: 16px; 
     padding: 16px; 
+    min-height: 100px;   
+    margin: 48px 69px;
     justify-content: space-between;
     margin: auto;
-    flex-direction: column;
-    background: #FFFFFF;
-    height: 100%;
+`;
+
+const MessageBox = styled.div`
+    position: absolute;
+    width: 554px;
+    height: auto;
+    left: 817px;
+    top: 48px; 
+    bottom: 10.35%;
+    box-shadow: 5px 5px 10px rgba(221, 225, 231, 0.5);
+    border-radius: 16px;
+`;
+
+const BoxTop = styled.div`
+    position: absolute;
+    width: 554px;
+    height: 55.63px;
+    left: 817px;
+    top: 48px;      
+    background: #DDE1E7;
+    border-radius: 16px 16px 0px 0px;
 `;
 
 const PhoneNumber = styled.p`
@@ -20,153 +39,24 @@ const PhoneNumber = styled.p`
     font-size: 18px;
     line-height: 25px;
     color: #404040;
-    padding-top: 23px;
-    padding-bottom: 15px;
-    text-align: center
+    position: absolute;
+    margin: 16px 231px 16px 231px;
 `;
 
-const BoxTop = styled.div`
-    width: 100%;
-    height: 70px;
-    left: 817px;
-    top: 48px;      
-    background: #DDE1E7;
-    border-radius: 16px 16px 0px 0px;
-`;
 
-const TextContainer = styled.table`
-    background: #FFFFFF;
-    width: 100%;
-    height: 80%;
-    overflow-y: scroll;
-`
+interface Props {
 
-enum Texter {
-    PATIENT,
-    BOT,
-    COACH
 }
 
-interface SMSProps {
-    messages: any[]
-}
-
-interface TextProps {
-    message: string,
-    type: Texter
-}
-
-const TextBubblePatient = styled.div`
-    background: #D3D3D3;
-    border-radius: 0px 15px 15px 15px;
-    float: left
-`
-
-const TextBubbleBot = styled.div`
-    background: #A6CEE3;
-    border-radius: 15px 0px 15px 15px;
-    float: right
-`
-
-const TextBubbleCoach = styled.div`
-    background: #637792;
-    border-radius: 15px 0px 15px 15px;
-    float: right
-`
-
-const TextBubbleRow = styled.div`
-    max-height: 5px;
-`
-
-const TextBubbleText = styled.div`
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 25px;
-    color: #404040;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 16px;
-    padding-right: 16px;
-    text-align: center
-`
-const SendButton = styled.button`
-    float: right;
-
-    padding: 10px 25px;
-    background-color: #F29DA4 !important;
-    font-size: 13px !important;
-    border-radius: 15px !important;
-    color: white !important;
-    border: none !important;
-    font-weight: 600;
-
-    &:hover {
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
-        border: none !important;
-        cursor: pointer;
-    }
-
-    &:focus {
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
-        border: none !important;
-    }
-`
-
-const TextSendBarContainer = styled.div`
-    className: column is-three-quarters;
-    width: 100%;
-    height: 40%;
-`
-
-const TextBubble: React.FC<TextProps> = ({message, type}: TextProps) => {
-    if (type == Texter.PATIENT) {
-        return (
-            <TextBubblePatient> 
-                <TextBubbleText> {message} </TextBubbleText>
-            </TextBubblePatient>
-        );
-    }
-    else if (type == Texter.BOT) {
-        return (
-            <TextBubbleBot> 
-                <TextBubbleText> {message} </TextBubbleText>
-            </TextBubbleBot>
-        );
-    }
-    else {
-        return (
-            <TextBubbleCoach> 
-                <TextBubbleText> {message} </TextBubbleText>
-            </TextBubbleCoach>
-        );
-    }
-}
-
-const SMSTile: React.FC<SMSProps> = ({messages}: SMSProps) => {
-    const onSend = () => {
-        alert(`You sent a message!`);
-    }
-    
-    return (
-        <SMSTileContainer>
-            <BoxTop> 
-                <PhoneNumber>914-304-3919</PhoneNumber> 
-            </BoxTop>
-            <TextContainer>
-                {messages.map((message) => <tr><TextBubbleRow><TextBubble message={message.message} type={message.type}></TextBubble></TextBubbleRow></tr>)}
-            </TextContainer>
-            <div className = "columns">
-                <TextSendBarContainer>
-                    <TextSendBar placeholder = {"Enter your response"} onSend = {onSend}> </TextSendBar>
-                </TextSendBarContainer>
-                <div className="column">
-                    <SendButton> Send </SendButton>
-                </div>
-            </div>
-        </SMSTileContainer>
-    );
+const SMSTile: React.FC<Props> = ({}) => {
+  return (
+    <TextContainer>
+        <BoxTop> 
+            <PhoneNumber>123-456</PhoneNumber> 
+        </BoxTop>
+        <MessageBox></MessageBox>
+    </TextContainer>
+  );
 };
 
-export {SMSTile, Texter};
+export default SMSTile;
