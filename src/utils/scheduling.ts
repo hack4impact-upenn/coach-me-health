@@ -3,7 +3,6 @@ import schedule from 'node-schedule';
 import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 import { accountSid, authToken } from '../keys/twilio';
-import secureAxios from '../../glacial-falls-14734/src/client/src/api/core/apiClient';
 import { Patient } from '../models/patient.model';
 import { ObjectId } from 'mongodb';
 
