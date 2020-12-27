@@ -94,7 +94,7 @@ const TextBubbleText = styled.div`
 const SendButton = styled.button`
     float: right;
 
-    padding: 9px 20px;
+    padding: 10px 25px;
     background-color: #F29DA4 !important;
     font-size: 13px !important;
     border-radius: 15px !important;
@@ -112,6 +112,12 @@ const SendButton = styled.button`
         box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
         border: none !important;
     }
+`
+
+const TextSendBarContainer = styled.div`
+    className: column is-three-quarters;
+    width: 100%;
+    height: 40%;
 `
 
 const TextBubble: React.FC<TextProps> = ({message, type}: TextProps) => {
@@ -152,7 +158,9 @@ const SMSTile: React.FC<SMSProps> = ({messages}: SMSProps) => {
                 {messages.map((message) => <tr><TextBubbleRow><TextBubble message={message.message} type={message.type}></TextBubble></TextBubbleRow></tr>)}
             </TextContainer>
             <div className = "columns">
+                <TextSendBarContainer>
                     <TextSendBar placeholder = {"Enter your response"} onSend = {onSend}> </TextSendBar>
+                </TextSendBarContainer>
                 <div className="column">
                     <SendButton> Send </SendButton>
                 </div>

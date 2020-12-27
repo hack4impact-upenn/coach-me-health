@@ -10,6 +10,8 @@ interface SendBarProps {
 const TextSendField = styled.div`
     width: 100%;
     text-align: center;
+    float: left;
+    padding: 14px 30px;
 `
 
 const inputStyles = {
@@ -22,7 +24,7 @@ const inputStyles = {
 
 }
 
-const SearchBar: React.FC<SendBarProps> = ({ onSend, placeholder }) => {
+const TextSendBar: React.FC<SendBarProps> = ({ onSend, placeholder }) => {
     const onSubmit = (values : any) => {
         onSend();
     }
