@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import express from 'express';
 import { ObjectId } from 'mongodb';
 import {
@@ -147,11 +148,12 @@ router.post('/reply', function (req, res) {
           phoneNumber: req.body.To,
           patientID: patientId,
           response: response, // the entire text the patient sends
-          value: value, // numerical measurement 
+          value: parseInt(value), // numerical measurement 
           alertType: classifyNumeric(value), // Color
           date: date
         });
-  
+        
+        console.log(typeof value);
         outcome.save().then(() => {
           console.log('saved outcome');
         }); 
