@@ -10,7 +10,7 @@ interface IPatient extends mongoose.Document {
   coachName: string;
   language: string;
   phoneNumber: string;
-  prefTime: string;
+  prefTime: number;
   messagesSent: number;
   responseCount: number;
   reports: [{
@@ -18,7 +18,7 @@ interface IPatient extends mongoose.Document {
     contentType: String;
   }];
   enabled: boolean;
-};
+};  
 
 const PatientSchema = new Schema({
   firstName: { type: String, required: true },
@@ -27,7 +27,7 @@ const PatientSchema = new Schema({
   coachName:{ type: String, required: true },
   language: { type: String, required: true },
   phoneNumber: { type: String, required: true },
-  prefTime: { type: String, required: true },
+  prefTime: { type: Number, required: true },
   messagesSent: { type: Number, required: true },
   responseCount: { type: Number, required: true },
   reports: [{

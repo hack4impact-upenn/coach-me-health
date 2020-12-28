@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Field, Form, Formik } from 'formik';
 
 interface SendBarProps {
-    onSend: () => void
+    onSend: (query: string) => void
     placeholder: string
 }
 
@@ -26,7 +26,7 @@ const inputStyles = {
 
 const TextSendBar: React.FC<SendBarProps> = ({ onSend, placeholder }) => {
     const onSubmit = (values : any) => {
-        onSend();
+        onSend(values.query);
     }
 
     return (
