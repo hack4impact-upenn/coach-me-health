@@ -84,8 +84,8 @@ router.post('/newOutcome', async (req, res) => {
     value: req.body.value,
     alertType: req.body.alertType
   });
+  Patient.findOneAndUpdate({_id : req.body.patientID}, {$inc: {responseCount: 1}});
   return newOutcome.save().then( () => {
-    Patient.findOneAndUpdate({_id : req.body.patientID}, {$inc: {responseCount : 1}});
     res.status(200).json({
       success: true
     });
