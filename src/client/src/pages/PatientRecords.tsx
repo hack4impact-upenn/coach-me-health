@@ -7,12 +7,11 @@ import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import ScheduledMessageTable from "../components/ScheduledMessageTable";
 import ResultsTable from "../components/ResultsTable";
 import SearchBar from "../components/SearchBar";
-import { getPatientOutcomes, getPatient } from '../api/patientApi';
+import { getPatientOutcomes, getPatient, getPatientMessages } from '../api/patientApi';
 import { useQuery } from 'react-query';
 import auth from '../api/core/auth';
 import { useParams } from 'react-router-dom';
 import {SMSTile, Texter} from '../components/SMSTile';
-import { type } from 'os';
 
 const PatientRecords: React.FC = () => {
     const onSearch = (query : string) => {
@@ -24,23 +23,47 @@ const PatientRecords: React.FC = () => {
         data: patient,
         isLoading: loadingPatient,
       } = useQuery(
-        [id.id, { accessToken: auth.getAccessToken() }, "Hello"],
+        [id.id, { accessToken: auth.getAccessToken() }, "Patient Loading"],
         getPatient,
         {
           refetchOnWindowFocus: false,
         }
-      );
+    );
 
     const { 
         data: outcomes,
         isLoading: loadingOutcomes,
       } = useQuery(
-        [id.id, { accessToken: auth.getAccessToken() }],
+        [id.id, { accessToken: auth.getAccessToken() }, "Outcomes Loading"],
         getPatientOutcomes,
         {
           refetchOnWindowFocus: false,
         }
-      );
+    );
+
+    const { 
+        data: messages,
+        isLoading: loadingMessages,
+      } = useQuery(
+        [id.id, { accessToken: auth.getAccessToken() }, "Messages Loading"],
+        getPatientMessages,
+        {
+          refetchOnWindowFocus: false,
+        }
+    );
+
+    if(!loadingMessages && messages) {
+        for (const row of messages as any) {
+            if (row.sender === 'PATIENT') {
+                row.type = Texter.PATIENT;
+            } else if (row.sender === 'COACH') {
+                row.type = Texter.COACH;
+            } else {
+                row.type = Texter.BOT;
+            }
+        }
+    }
+
     const getCSV = (data: any, patient: any) => {
         const id = patient._id;
         const csvData = outcomesToCSV(data);
@@ -50,7 +73,8 @@ const PatientRecords: React.FC = () => {
         return (
             <Title>{res.firstName} {res.lastName}'s Patient Records</Title>
         );
-      };
+    };
+
     return (
         <DashboardContainer>
             <GlobalStyle />
@@ -76,7 +100,9 @@ const PatientRecords: React.FC = () => {
                         {!loadingOutcomes && !outcomes && <p>No measuremnts found.</p>}
                     </div>
                 <div className="column">
-                    <SMSTile messages={testData3}> </SMSTile>
+                    {loadingMessages && loadingPatient && <div>Loading...</div>}
+                    {messages && patient && <SMSTile messages={messages as any} patient = {patient as any} > </SMSTile>}
+                    
                 </div>
             </div>
         </DashboardContainer>
@@ -164,6 +190,7 @@ const cols: Column[] = [
 
 
 // CSS for the page
+
 const Title = styled.h1`
     font-family: Avenir;
     font-style: normal;

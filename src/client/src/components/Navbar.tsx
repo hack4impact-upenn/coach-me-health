@@ -86,7 +86,7 @@ const Navbar = () => {
             </NavbarItem>
             </Link>
             <Link
-            to = '/'>
+            to = '/messageTemplate'>
                 <NavbarItem >
                     <i className="fas fa-cog icon"></i>
                 </NavbarItem>

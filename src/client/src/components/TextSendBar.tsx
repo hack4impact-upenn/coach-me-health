@@ -26,7 +26,7 @@ const inputStyles = {
 
 const TextSendBar: React.FC<SendBarProps> = ({ onSend, placeholder }) => {
     const onSubmit = (values : any) => {
-        onSend();
+        onSend(values.query);
     }
 
     return (

@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 interface IMesssageTemplate extends mongoose.Document {
   _id: string;
-  messageText: string;
+  text: string;
   language: string;
   type: string;
 }
@@ -15,6 +15,6 @@ const MessageTemplateSchema = new Schema({
   type: { type: String, required: true }
 });
 
-const User = mongoose.model<IMesssageTemplate>('MessageTemplate', MessageTemplateSchema);
+const MessageTemplate = mongoose.model<IMesssageTemplate>('MessageTemplate', MessageTemplateSchema);
 
-export { User, IMesssageTemplate };
+export { MessageTemplate, IMesssageTemplate };
