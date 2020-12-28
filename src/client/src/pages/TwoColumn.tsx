@@ -20,7 +20,7 @@ const TwoColumn: React.FC = () => {
             <Table options={table1Options} title="" data={testData} columns={cols}></Table>
         </div>
         <div className="column">
-            {/* need to add in backend integration to display messages*/}
+            {/* need to add in backend integration to display messages/phone number, currently hardcoded*/}
             <SMSTile messages = {[]}> </SMSTile>
         </div>
     </div>
