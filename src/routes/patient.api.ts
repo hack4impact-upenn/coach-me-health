@@ -9,7 +9,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 const router = express.Router();
 
-router.post("/add", async (req, res) => {
+router.post("/add", auth, async (req, res) => {
     // validate phone number
     if(!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
         return res.status(400).json({
@@ -79,7 +79,7 @@ router.post("/add", async (req, res) => {
 })
 
 // maybe make this not accessible or something not sure how
-router.get('/getPatient/:id', (req, res) => {
+router.get('/getPatient/:id', auth, (req, res) => {
   Patient.findOne({
     _id: req.params.id
   }).then( 
@@ -94,7 +94,7 @@ router.get('/getPatient/:id', (req, res) => {
   );
 });
 
-router.put('/increaseResponseCount/:id', (req, res) => {
+router.put('/increaseResponseCount/:id', auth, (req, res) => {
     if (!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
         return res.status(400).json({
           msg: 'Unable to add patient: invalid phone number'
@@ -137,9 +137,6 @@ router.put('/increaseResponseCount/:id', (req, res) => {
     );
 
 });
-
-
-
 
 router.get('/getPatientOutcomes/:patientID', auth, (req, res) => {
     const id = req.params.patientID;

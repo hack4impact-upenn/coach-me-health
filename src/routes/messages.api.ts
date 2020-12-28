@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 import express from 'express';
 import { ObjectId } from 'mongodb';
+import auth from '../middleware/auth';
 import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 import { Patient, IPatient } from '../models/patient.model';
@@ -11,7 +12,7 @@ import initializeScheduler from '../utils/scheduling';
 const router = express.Router();
 initializeScheduler();
 
-router.post('/newMessage', async (req, res) => {
+router.post('/newMessage', auth, async (req, res) => {
   // validate phone number
   if (!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
     return res.status(400).json({
@@ -56,7 +57,7 @@ router.post('/newMessage', async (req, res) => {
 });
 
 
-router.post('/newOutcome', async (req, res) => {
+router.post('/newOutcome', auth, async (req, res) => {
   // validate phone number
   if (!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
     return res.status(400).json({
@@ -92,7 +93,7 @@ router.post('/newOutcome', async (req, res) => {
   });
 });
 
-router.post('/scheduledMessage', async (req, res) => {
+router.post('/scheduledMessage', auth, async (req, res) => {
   // validate phone number
   if (!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
     return res.status(400).json({
@@ -121,11 +122,7 @@ router.post('/scheduledMessage', async (req, res) => {
     alertType: req.body.alertType
   });
   return newMessage.save().then( () => {
-    // TODO increase messages sent
-    // done?
-
     Patient.findByIdAndUpdate(new ObjectId(req.body.patientId), { $inc: { messagesSent : 1}});
-
     res.status(200).json({
       success: true
     });

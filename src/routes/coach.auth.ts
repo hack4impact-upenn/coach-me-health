@@ -17,7 +17,7 @@ const router = express.Router();
 const saltRounds = 10;
 
 // create new coach
-router.post('/signup', async (req, res) => {
+router.post('/signup', auth, async (req, res) => {
   const { firstName } = req.body;
   const { lastName } = req.body;
   const { email } = req.body;

@@ -1,10 +1,11 @@
 import express from 'express';
+import auth from '../middleware/auth';
 import { MessageTemplate, IMesssageTemplate } from '../models/messageTemplate.model';
 import errorHandler from './error';
 
 const router = express.Router();
 
-router.post("/newTemplate", async (req, res) => {
+router.post("/newTemplate", auth, async (req, res) => {
 
     if (!req.body.messageTxt || req.body.messageTxt === '') {
         res.status(400).send("Please Enter Message Text!");

@@ -13,6 +13,7 @@ import { MessageTemplate } from '../models/messageTemplate.model';
 import { accountSid, authToken, twilioNumber } from '../keys/twilio';
 import { Outcome } from '../models/outcome.model';
 import { Patient } from '../models/patient.model';
+import auth from '../middleware/auth';
 
 const twilio = require('twilio')(accountSid, authToken);
 const number = twilioNumber.replace(/[^0-9\.]/g, '');
@@ -62,7 +63,7 @@ function initializeState() {
 
 initializeState();
 
-router.post('/sendMessage', function (req, res) {
+router.post('/sendMessage', auth, function (req, res) {
   const contnet = req.body.message;
   const recept = req.body.to;
   const patientID = new ObjectId(req.body.patientID);
