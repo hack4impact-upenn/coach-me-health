@@ -85,9 +85,7 @@ router.post('/newOutcome', async (req, res) => {
     alertType: req.body.alertType
   });
   return newOutcome.save().then( () => {
-    // TODO increase messages sent
-    // done?
-    Patient.findByIdAndUpdate(new ObjectId(req.body.patientId), { $inc: { responseCount : 1}});
+    Patient.findOneAndUpdate({_id : req.body.patientID}, {$inc: {responseCount : 1}});
     res.status(200).json({
       success: true
     });
