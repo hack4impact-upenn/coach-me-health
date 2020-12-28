@@ -26,6 +26,9 @@ export interface TableProps {
     columns: Column[],
 
     options: TableOptions
+
+    // the search query for the table (optional)
+    query?: string
 }
 
 export interface TableOptions {
@@ -133,12 +136,13 @@ const PageIndicator = styled.p`
 `
 
 
-const Table: React.FC<TableProps> = ({ title, data, columns, options }: TableProps) => {
+const Table: React.FC<TableProps> = ({ title, data, columns, options, query }: TableProps) => {
     // set default sort to marked default, or null if no sorts provided
     const defaultSort = (options.sortOptions) && options.sortOptions.length >= 1 ? options.sortOptions.filter((option: SortOption) => {
         return option.default;
     })[0] : null;
 
+    console.log(query)
     const [currentSort, setCurrentSort] = useState<SortOption | null>(defaultSort);
     const [sortedData, setSortedData] = useState<any[]>([...data]);
 
@@ -164,6 +168,10 @@ const Table: React.FC<TableProps> = ({ title, data, columns, options }: TablePro
                 return cmp;
             })
             setSortedData([...newData]);
+        }
+        if ((query != undefined) && (query != "")) {
+            setSortedData(data.filter(patient => 
+                (patient.firstName + " " + patient.lastName).includes(query)))
         }
     }, [currentSort])
 
