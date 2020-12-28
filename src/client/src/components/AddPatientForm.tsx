@@ -143,6 +143,7 @@ const AddPatientForm: React.FC = () => {
             setMessage(`Patient ${data.firstName} ${data.lastName} added successfully`)
             setError(false);
             setLoading(false);
+            document.forms[0].reset();
         }).catch((err) => {
             setMessage(err.response.data.msg)
             setLoading(false)
