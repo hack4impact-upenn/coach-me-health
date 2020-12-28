@@ -51,8 +51,9 @@ const PatientDashboard: React.FC = () => {
     );
     
     const onSearch = (query : string) => {
-        alert(query);
-    }
+        (patientQuery.data as any).filter((patient: { name: string; }) => patient.name.includes(query))
+        alert(names);
+    };
 
     const firstName = profileQuery.data ? (profileQuery.data as any).data.firstName : null;
 
