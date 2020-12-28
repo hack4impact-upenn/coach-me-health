@@ -38,19 +38,14 @@ Create file called ".env.development" in root directory, it should look like the
 ```
 ATLAS_URI=mongodb-connection-string-placeholder
 JWT_SECRET=my-secret-jwt-key-placeholder
+TWILIO_ACCOUNT_SID = twilio-account-sid-placeholder
+TWILIO_AUTH_TOKEN = twilio-auth-token-placeholder
 ```
 
 Then, create another file called ".env" in "src/client", it should look like the following:
 
 ```
 REACT_APP_API_URL="http://localhost:5000"
-```
-
-Create a file called `twilio.ts` in src/keys/, it should look like the following: 
-```ts
-const accountSid = '<insert_here>';
-const authToken = '<insert_here>';
-export {accountSid, authToken};
 ```
 
 #### Running Project

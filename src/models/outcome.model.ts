@@ -8,7 +8,7 @@ interface IOutcome extends mongoose.Document {
   phoneNumber: string;
   date: Date;
   response: string,
-  value: string;
+  value: number;
   alertType: string;
 };
 
@@ -17,7 +17,7 @@ const OutcomeSchema = new Schema({
   phoneNumber: { type: String, required: true },
   date: { type: Date, required: true },
   response: { type: String, required: true },
-  value: { type: String, required: false },
+  value: { type: Number, required: false },
   alertType: { type: String, required: false }
 });
 
