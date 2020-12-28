@@ -1,7 +1,7 @@
 import { time } from 'console';
 import React from 'react';
 import styled from 'styled-components';
-import SMSTile from '../components/SMSTile';
+import {SMSTile} from '../components/SMSTile';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 
 //import ScheduledMessageTable from "../components/ScheduledMessageTable";
@@ -65,7 +65,10 @@ const cols: Column[] = [
     {
         // need to create logic for the text color, possible do it down in activetext
         name: "Analysis",
-        data: (row) => <ActiveText>Green</ActiveText>,
+        data: (row) => classifyNumeric(row.measure) == "Green" ? <ActiveTextG>{classifyNumeric(row.measure)}</ActiveTextG>:
+                       classifyNumeric(row.measure) == "Yellow" ? <ActiveTextY>{classifyNumeric(row.measure)}</ActiveTextY>:
+                       classifyNumeric(row.measure) == "Red" ? <ActiveTextR>{classifyNumeric(row.measure)}</ActiveTextR>:
+                       <ActiveTextB>{classifyNumeric(row.measure)}</ActiveTextB>,
         key: "analysis"
     },
     {
@@ -164,9 +167,42 @@ const ExportButton = styled.button`
     }
 `;
 
-const ActiveText = styled.p`
+const ActiveTextG = styled.p`
     color: #B4D983;
     font-weight: 800;
 `
+const ActiveTextY = styled.p`
+    color: #fbf36f;
+    font-weight: 800;
+`
+const ActiveTextR = styled.p`
+    color: #c92c1a;
+    font-weight: 800;
+`
+const ActiveTextB = styled.p`
+    color: #1f1e1d;
+    font-weight: 800;
+`
+function classifyNumeric(input:any) {
+        var number = parseInt(input);
+        if (number < 70) {
+            return "Too Low";
+        }
+        else if (70 <= number && number <= 79) {
+            return "<80";
+        }
+        else if (80 <= number && number <= 130) {
+            return "Green";
+        }
+        else if (131 <= number && number <= 180) {
+            return "Yellow";
+        }
+        else if (181 <= number && number <= 300) {
+            return "Red";
+        }
+        else {
+            return ">=301";
+        }
+    }
 
 export default TwoColumn;

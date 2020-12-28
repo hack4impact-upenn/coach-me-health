@@ -147,8 +147,8 @@ router.post('/reply', function (req, res) {
           phoneNumber: req.body.To,
           patientID: patientId,
           response: response, // the entire text the patient sends
-          value: classifyNumeric(value), // numerical measurement 
-          alertType: responseMap.get(classifyNumeric(value)), // Color
+          value: value, // numerical measurement 
+          alertType: classifyNumeric(value), // Color
           date: date
         });
   
