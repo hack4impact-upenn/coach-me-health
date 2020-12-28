@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Field, Form, Formik } from 'formik';
 
 interface SendBarProps {
-    onSend: () => void
+    onSend: (query: string) => void
     placeholder: string
 }
 
