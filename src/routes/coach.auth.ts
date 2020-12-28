@@ -128,4 +128,23 @@ router.get('/getPatients', auth, (req, res) => {
   });
 });
 
+
+router.get('/search', auth, async (req, res) => {
+    const query = req.query.query;
+    Coach.aggregate([
+        {$project: { "name" : { $concat : [ "$firstName", " ", "$lastName" ] } }},
+        { $match: {
+            "name": {
+                $regex: query,
+                $options: "i"
+            }
+        }}
+    ]).exec(function(err, result){
+        return res.status(200).json({
+            coaches: result
+        });
+    });
+});
+
+
 export default router;
