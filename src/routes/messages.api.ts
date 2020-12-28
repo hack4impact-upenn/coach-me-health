@@ -1,8 +1,10 @@
 /* eslint-disable no-shadow */
 import express from 'express';
+var cron = require('node-cron');
 import { ObjectId } from 'mongodb';
 import auth from '../middleware/auth';
 import { Message, IMessage } from '../models/message.model';
+import { MessageTemplate } from '../models/messageTemplate.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 import { Patient, IPatient } from '../models/patient.model';
 
@@ -11,6 +13,30 @@ import initializeScheduler from '../utils/scheduling';
 
 const router = express.Router();
 initializeScheduler();
+
+cron.schedule('* * * * *', () => {
+  Patient.find().then((patients) => {
+    var date = new Date();
+    date.setMinutes(date.getMinutes() + 1);
+    MessageTemplate.find({type: "Initial"}).then((MessageTemplates) => {
+      for (const patient of patients) {
+        const messages = MessageTemplates.filter(template => template.language === patient.language);
+        const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
+        const message = messages[randomVal].text;
+        const newMessage = new Message({
+          patientID: new ObjectId(patient._id),
+          phoneNumber: patient.phoneNumber,
+          date: date,
+          message: message,
+          sender: 'BOT',
+          sent: false
+        });
+        newMessage.save();
+      }
+    }).catch((err) => console.log(err));
+  });
+});
+
 
 router.post('/newMessage', auth, async (req, res) => {
   // validate phone number

@@ -144,7 +144,7 @@ const cols: Column[] = [
     },
     {
         name: "Phone Number",
-        data: "phoneNumber",
+        data: (row) => <React.Fragment>{row.phoneNumber.slice(0,3)}-{row.phoneNumber.slice(3,6)}-{row.phoneNumber.slice(6,10)} </React.Fragment>,
         key: "phoneNumber"
     },
     {

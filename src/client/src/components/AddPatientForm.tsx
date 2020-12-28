@@ -134,7 +134,7 @@ const AddPatientForm: React.FC = () => {
             firstName,
             lastName,
             language,
-            phoneNumber: phoneNum,
+            phoneNumber: phoneNum.replace(/[^0-9\.]/g, ''),
             coachId,
             isEnabled,
             msgTime,
