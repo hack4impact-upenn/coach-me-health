@@ -15,7 +15,7 @@ const router = express.Router();
 initializeScheduler();
 
 
-cron.schedule('5 * * * *', () => {
+cron.schedule('*/5 * * * *', () => {
   console.log("Running batch of schdueled messages");
   Patient.find().then((patients) => {
     var date = new Date();
