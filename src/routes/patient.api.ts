@@ -144,7 +144,7 @@ router.get('/getPatientOutcomes/:patientID', auth, (req, res) => {
     .then((outcomeList) => {
       if (!outcomeList || outcomeList.length == 0 ) return errorHandler(res, 'No outcomes found!');
 
-      return res.status(200).json(outcomeList);
+      return res.status(200).json(outcomeList.sort((a: any, b: any) => b.date - a.date));
     })
     .catch((err) => errorHandler(res, err.message));
 });
