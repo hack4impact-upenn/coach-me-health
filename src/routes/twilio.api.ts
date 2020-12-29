@@ -27,7 +27,6 @@ const responseMap = new Map();
 const getPatientIdFromNumber = (number: any) => {
   return Patient.findOne({ phoneNumber: number}).select('_id language')
     .then((patientId) => {
-      console.log(number);
       if (!patientId) console.log('No patient found!');
       return patientId;
     })
@@ -160,7 +159,6 @@ router.post('/reply', function (req, res) {
       const classification = classifyNumeric(value)
       const typeUpperCase = classification.charAt(0).toUpperCase() + classification.slice(1);
       const upperLang = language.charAt(0).toUpperCase() + language.slice(1);
-      console.log(typeUpperCase);
       MessageTemplate.find({language: upperLang, type: typeUpperCase}).then((messages) => {
         const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
         const messageTemp = messages[randomVal];

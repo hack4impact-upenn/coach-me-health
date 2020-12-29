@@ -131,10 +131,10 @@ const MessageTemplateForm : React.FC = () => {
                     <FieldWrapperSelect>
                         <label>Select message type: </label>
                         <Field as="select" name="type">
-                            <option value="initial">Initial</option>
-                            <option value="green">Green</option>
-                            <option value="yellow">Yellow</option>
-                            <option value="red">Red</option>
+                            <option value="Initial">Initial</option>
+                            <option value="Green">Green</option>
+                            <option value="Yellow">Yellow</option>
+                            <option value="Red">Red</option>
                          </Field>
                     </FieldWrapperSelect>
 
