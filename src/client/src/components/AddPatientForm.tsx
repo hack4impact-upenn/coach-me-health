@@ -118,7 +118,7 @@ const AddPatientForm: React.FC = () => {
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [language, setLanguage] = useState("english");
+    const [language, setLanguage] = useState("English");
     const [phoneNum, setPhoneNum] = useState("");
     const [coachId, setCoachId] = useState("");
     const [isEnabled, setEnabled] = useState(true);
@@ -134,7 +134,7 @@ const AddPatientForm: React.FC = () => {
             firstName,
             lastName,
             language,
-            phoneNumber: phoneNum,
+            phoneNumber: phoneNum.replace(/[^0-9\.]/g, ''),
             coachId,
             isEnabled,
             msgTime,
@@ -143,6 +143,7 @@ const AddPatientForm: React.FC = () => {
             setMessage(`Patient ${data.firstName} ${data.lastName} added successfully`)
             setError(false);
             setLoading(false);
+            document.forms[0].reset();
         }).catch((err) => {
             setMessage(err.response.data.msg)
             setLoading(false)

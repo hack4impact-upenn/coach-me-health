@@ -39,7 +39,7 @@ const Button = styled.button`
 const initialValues = {
     messageTxt: "",
     language: "Spanish",
-    type: "Green",
+    type: "Initial",
 }
 
 const ColoredLine = (
@@ -131,6 +131,7 @@ const MessageTemplateForm : React.FC = () => {
                     <FieldWrapperSelect>
                         <label>Select message type: </label>
                         <Field as="select" name="type">
+                            <option value="initial">Initial</option>
                             <option value="green">Green</option>
                             <option value="yellow">Yellow</option>
                             <option value="red">Red</option>

@@ -53,8 +53,8 @@ const options: SidebarOptions[] = [
     icon: 'fas fa-home',
   },
   {
-    title: 'Profile',
-    path: '/profile',
+    title: 'New Coach',
+    path: '/signup',
     icon: 'fas fa-user',
   },
 ];

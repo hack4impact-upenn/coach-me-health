@@ -26,7 +26,6 @@ const scheduleMessages = (interval : number) => {
     sent: false
   }, (err, docs) => {
     docs.forEach( (doc) => {
-      console.log(`Scheduled to send message "${doc.message}" to ${doc.phoneNumber}`);
       schedule.scheduleJob(doc.date, () => {
         sendMessage(doc);
       });
@@ -37,7 +36,6 @@ const scheduleMessages = (interval : number) => {
 const getPatientIdFromNumber = (number: any) => {
   return Patient.findOne({ phoneNumber: number}).select('_id')
     .then((patientId) => {
-      console.log(number);
       if (!patientId) console.log('No patient found!');
       return patientId;
     })

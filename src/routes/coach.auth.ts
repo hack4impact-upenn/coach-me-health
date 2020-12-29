@@ -10,6 +10,7 @@ import {
 } from './coach.util';
 import mongoose from 'mongoose';
 import { Patient } from '../models/patient.model';
+import { ObjectId } from 'mongodb';
 
 
 const router = express.Router();
@@ -108,9 +109,9 @@ router.post('/refreshToken', (req, res) => {
 // get me
 // protected route
 router.get('/me', auth, (req, res) => {
-  const { userId } = req;
 
-  return Coach.findById(userId)
+  const { userId } = req;
+  return Coach.findById(new ObjectId(userId))
     .select('firstName lastName email _id')
     .then((coach) => {
       if (!coach) return errorHandler(res, 'User does not exist.');

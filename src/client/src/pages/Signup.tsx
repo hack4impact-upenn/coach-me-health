@@ -4,6 +4,7 @@ import { Formik, Field, Form, FieldAttributes } from 'formik';
 import { signup } from '../api/userApi';
 import { useMutation } from 'react-query';
 import { useHistory } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 
 const FormContainer = styled.div`
   text-align: center;
@@ -14,6 +15,10 @@ const FormContainer = styled.div`
 const Button = styled.button`
   width: 100%;
 `;
+const FlexContainer = styled.div`
+  display: flex;
+`;
+
 
 const initialValues = {
   firstName: '',
@@ -50,20 +55,23 @@ const Signup = () => {
   const handleSubmit = async (values: IUserSignup) => {
     try {
       await signupMutate(values);
-      alert('Success');
-      history.push('/login');
+      alert('New Coach Created!');
+      document.forms[0].reset();
     } catch (error) {
       alert(`Error: ${error.response.data}`);
     }
   };
 
   return (
+    <FlexContainer>
+       <Sidebar />
+    
     <FormContainer>
-      <h1 className="title is-1">Sign Up</h1>
+      <h1 className="title is-1">Create New Coach</h1>
 
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         <Form>
-          <FieldWrapper icon="fa-signature">
+          <FieldWrapper>
             <Field
               name="firstName"
               className="input"
@@ -71,7 +79,7 @@ const Signup = () => {
               placeholder="First Name"
             />
           </FieldWrapper>
-          <FieldWrapper icon="fa-signature">
+          <FieldWrapper>
             <Field
               name="lastName"
               className="input"
@@ -79,7 +87,7 @@ const Signup = () => {
               placeholder="Last Name"
             />
           </FieldWrapper>
-          <FieldWrapper icon="fa-envelope">
+          <FieldWrapper>
             <Field
               name="email"
               className="input"
@@ -87,7 +95,7 @@ const Signup = () => {
               placeholder="Email"
             />
           </FieldWrapper>
-          <FieldWrapper icon="fa-lock">
+          <FieldWrapper>
             <Field
               name="password"
               className="input"
@@ -101,6 +109,7 @@ const Signup = () => {
         </Form>
       </Formik>
     </FormContainer>
+    </FlexContainer>
   );
 };
 
