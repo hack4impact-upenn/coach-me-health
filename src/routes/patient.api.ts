@@ -170,5 +170,16 @@ router.get('/getPatientMessages/:patientID', auth, (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
+router.post('/status', auth, (req, res) => {
+  const id = req.body.id;
+  const status = req.body.status;
+  return Patient.findByIdAndUpdate( new ObjectId(id), {enabled: status})
+  .then((updatedPaitnet) => {
+    return res.status(200).json("Patiet Status Changed!");
+  })
+  .catch((err) => errorHandler(res, err.message));
+});
+
+
 export default router;
 

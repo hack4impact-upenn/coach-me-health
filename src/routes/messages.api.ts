@@ -14,24 +14,28 @@ import initializeScheduler from '../utils/scheduling';
 const router = express.Router();
 initializeScheduler();
 
-cron.schedule('* * * * *', () => {
+
+cron.schedule('5 * * * *', () => {
+  console.log("Running batch of schdueled messages");
   Patient.find().then((patients) => {
     var date = new Date();
     date.setMinutes(date.getMinutes() + 1);
     MessageTemplate.find({type: "Initial"}).then((MessageTemplates) => {
       for (const patient of patients) {
-        const messages = MessageTemplates.filter(template => template.language === patient.language);
-        const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
-        const message = messages[randomVal].text;
-        const newMessage = new Message({
-          patientID: new ObjectId(patient._id),
-          phoneNumber: patient.phoneNumber,
-          date: date,
-          message: message,
-          sender: 'BOT',
-          sent: false
-        });
-        newMessage.save();
+        if(patient.enabled) {
+          const messages = MessageTemplates.filter(template => template.language === patient.language);
+          const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
+          const message = messages[randomVal].text;
+          const newMessage = new Message({
+            patientID: new ObjectId(patient._id),
+            phoneNumber: patient.phoneNumber,
+            date: date,
+            message: message,
+            sender: 'BOT',
+            sent: false
+          });
+          newMessage.save();
+        }
       }
     }).catch((err) => console.log(err));
   });

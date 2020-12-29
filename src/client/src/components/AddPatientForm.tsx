@@ -118,7 +118,7 @@ const AddPatientForm: React.FC = () => {
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [language, setLanguage] = useState("english");
+    const [language, setLanguage] = useState("English");
     const [phoneNum, setPhoneNum] = useState("");
     const [coachId, setCoachId] = useState("");
     const [isEnabled, setEnabled] = useState(true);

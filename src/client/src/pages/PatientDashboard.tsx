@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import SearchBar from "../components/SearchBar";
-
+import EnableSwitch from "../components/EnableSwitch";
 import { useQuery } from 'react-query';
 import auth from '../api/core/auth';
 import { fetchMe, getPatients } from '../api/userApi';
@@ -163,11 +163,9 @@ const cols: Column[] = [
         key: "responseRate"
     },
     {
-        name: "",
+        name: "Enable/Disable",
         data: (row) => (
-            <UnreadButton className="button" type="submit" >
-                { row.unread} unread
-            </UnreadButton>
+           <EnableSwitch _id = {row._id} enabled = {row.enabled}/>
         ),
         key: "unread"
     },
