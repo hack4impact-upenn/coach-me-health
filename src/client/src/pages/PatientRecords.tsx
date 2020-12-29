@@ -101,7 +101,7 @@ const PatientRecords: React.FC = () => {
                     </div>
                 <div className="column">
                     {loadingMessages && loadingPatient && <div>Loading...</div>}
-                    {messages && patient && <SMSTile messages={messages as any} patient = {patient as any} > </SMSTile>}
+                    {messages && patient && <SMSTile messages={messages as any} patient={patient as any} > </SMSTile>}
                     
                 </div>
             </div>
@@ -354,7 +354,6 @@ function outcomesToCSV(data: any) {
         const values = ["Blood Glucose", row.value, classifyNumeric(row.value), new Date(row.date).toString()];
         csvRows.push(values.join(','));
     }
-    console.log();
     return csvRows.join('\n');
 };
 
@@ -364,7 +363,6 @@ function downloadCSV(data: string, id: string) {
     const a = document.createElement('a');
     a.setAttribute('hidden', '');
     a.setAttribute('href', url);
-    console.log('Patient ' + id + ' outcomes.csv');
     const fileName = "Patient_".concat(id, "_Outcomes.csv");
     a.setAttribute('download', fileName);
     document.body.append(a);
