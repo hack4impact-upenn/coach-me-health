@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Table, { Column, SortOption, TableOptions } from "../components/Table";
 import SearchBar from "../components/SearchBar";
@@ -50,13 +50,15 @@ const PatientDashboard: React.FC = () => {
         }
     );
     
+    // search bar
     const onSearch = (query : string) => {
-        alert(query);
-    }
+        setQuery(query);
+    };
+    const [query, setQuery] = useState<string>("");
 
     const firstName = profileQuery.data ? (profileQuery.data as any).data.firstName : null;
 
-
+    
     return (
         <DashboardContainer>
             <GlobalStyle />
@@ -76,7 +78,7 @@ const PatientDashboard: React.FC = () => {
                 </div>
                 <div className="column">
                     <SearchBarContainer>
-                        <SearchBar placeholder = {"Search by patient or phone number"} onSearch={ onSearch }></SearchBar>
+                        <SearchBar placeholder = {"Search for patients"} onSearch={ onSearch }></SearchBar>
                     </SearchBarContainer>
                 </div>
             </div>
@@ -84,7 +86,8 @@ const PatientDashboard: React.FC = () => {
             {patientQuery.data &&  <Table options={tableOptions} 
                                           title="Assigned Patients"
                                           data={patientQuery.data as any} 
-                                          columns={cols}>
+                                          columns={cols}
+                                          query={query}>
                                           </Table>}
         </DashboardContainer>
     )
