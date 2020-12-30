@@ -78,7 +78,7 @@ const PatientDashboard: React.FC = () => {
                 </div>
                 <div className="column">
                     <SearchBarContainer>
-                        <SearchBar placeholder = {"Search by patient or phone number"} onSearch={ onSearch }></SearchBar>
+                        <SearchBar placeholder = {"Search for patients"} onSearch={ onSearch }></SearchBar>
                     </SearchBarContainer>
                 </div>
             </div>
