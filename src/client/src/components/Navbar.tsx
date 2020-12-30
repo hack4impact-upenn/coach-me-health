@@ -86,9 +86,16 @@ const Navbar = () => {
             </NavbarItem>
             </Link>
             <Link
-            to = '/'>
+            to = '/messageTemplate'>
                 <NavbarItem >
-                    <i className="fas fa-cog icon"></i>
+                    <i className="fas fa-comment-dots icon"></i>
+                </NavbarItem>
+            </Link>
+            
+            <Link
+            to = '/patient_add'>
+                <NavbarItem >
+                    <i className="fa fa-user-plus icon"></i>
                 </NavbarItem>
             </Link>
             

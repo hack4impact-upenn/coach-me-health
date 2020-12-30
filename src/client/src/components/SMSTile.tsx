@@ -48,7 +48,8 @@ enum Texter {
 }
 
 interface SMSProps {
-    messages: any[]
+    messages: any[],
+    patient: any
 }
 
 interface TextProps {
@@ -144,7 +145,7 @@ const TextBubble: React.FC<TextProps> = ({message, type}: TextProps) => {
     }
 }
 
-const SMSTile: React.FC<SMSProps> = ({messages}: SMSProps) => {
+const SMSTile: React.FC<SMSProps> = ({messages, patient}: SMSProps) => {
     const onSend = () => {
         alert(`You sent a message!`);
     }
@@ -152,7 +153,7 @@ const SMSTile: React.FC<SMSProps> = ({messages}: SMSProps) => {
     return (
         <SMSTileContainer>
             <BoxTop> 
-                <PhoneNumber>914-304-3919</PhoneNumber> 
+                <PhoneNumber>{patient.phoneNumber}</PhoneNumber> 
             </BoxTop>
             <TextContainer>
                 {messages.map((message) => <tr><TextBubbleRow><TextBubble message={message.message} type={message.type}></TextBubble></TextBubbleRow></tr>)}
@@ -161,9 +162,7 @@ const SMSTile: React.FC<SMSProps> = ({messages}: SMSProps) => {
                 <TextSendBarContainer>
                     <TextSendBar placeholder = {"Enter your response"} onSend = {onSend}> </TextSendBar>
                 </TextSendBarContainer>
-                <div className="column">
-                    <SendButton> Send </SendButton>
-                </div>
+
             </div>
         </SMSTileContainer>
     );

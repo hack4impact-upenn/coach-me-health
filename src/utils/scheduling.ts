@@ -2,12 +2,13 @@ import express from 'express';
 import schedule from 'node-schedule';
 import { Message, IMessage } from '../models/message.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
-import { accountSid, authToken } from '../keys/twilio';
+import { accountSid, authToken, twilioNumber } from '../keys/twilio';
 import { Patient } from '../models/patient.model';
 import { ObjectId } from 'mongodb';
 
 const twilio = require('twilio')(accountSid, authToken);
 
+const number = twilioNumber.replace(/[^0-9\.]/g, '');
 // time in seconds between each run of scheduler
 const schedulingInterval = 5;
 
@@ -25,7 +26,6 @@ const scheduleMessages = (interval : number) => {
     sent: false
   }, (err, docs) => {
     docs.forEach( (doc) => {
-      console.log(`Scheduled to send message "${doc.message}" to ${doc.phoneNumber}`);
       schedule.scheduleJob(doc.date, () => {
         sendMessage(doc);
       });
@@ -36,7 +36,6 @@ const scheduleMessages = (interval : number) => {
 const getPatientIdFromNumber = (number: any) => {
   return Patient.findOne({ phoneNumber: number}).select('_id')
     .then((patientId) => {
-      console.log(number);
       if (!patientId) console.log('No patient found!');
       return patientId;
     })
@@ -50,20 +49,10 @@ const sendMessage = (msg : IMessage) => {
   twilio.messages
     .create({
       body: msg.message,
-      from: '+14155286397', // this is hardcoded right now
+      from: number, // this is hardcoded right now
       to: msg.phoneNumber
     });
  
-  //         _    _                  _       
-  //        | |  | |                | |      
-  //        | |__| | _____      ____| |_   _ 
-  //        |  __  |/ _ \ \ /\ / / _` | | | |
-  //        | |  | | (_) \ V  V / (_| | |_| |
-  //        |_|  |_|\___/ \_/\_/ \__,_|\__, |
-  //                                    __/ |
-  //                                   |___/ 
-
-  // mark message as sent
   Message.findOneAndUpdate( { _id: msg.id }, {
     sent: true
   }, (err, res) => {
@@ -73,7 +62,6 @@ const sendMessage = (msg : IMessage) => {
   });
 
   // updates patient's sentmessages
-
   const getId = getPatientIdFromNumber(msg.phoneNumber).then(
     (id) => {
       const patientId = new ObjectId(id._id);

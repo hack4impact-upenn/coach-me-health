@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import express from 'express';
 import { ObjectId } from 'mongodb';
 import {
@@ -8,11 +9,14 @@ import {
 } from './twilio.util';
 
 import { Message, IMessage } from '../models/message.model';
-import { accountSid, authToken } from '../keys/twilio';
+import { MessageTemplate } from '../models/messageTemplate.model';
+import { accountSid, authToken, twilioNumber } from '../keys/twilio';
 import { Outcome } from '../models/outcome.model';
 import { Patient } from '../models/patient.model';
+import auth from '../middleware/auth';
 
 const twilio = require('twilio')(accountSid, authToken);
+const number = twilioNumber.replace(/[^0-9\.]/g, '');
 
 const bodyParser = require('body-parser');
 
@@ -21,9 +25,8 @@ router.use(bodyParser.urlencoded({ extended: true }));
 const responseMap = new Map();
 
 const getPatientIdFromNumber = (number: any) => {
-  return Patient.findOne({ phoneNumber: number}).select('_id')
+  return Patient.findOne({ phoneNumber: number}).select('_id language')
     .then((patientId) => {
-      console.log(number);
       if (!patientId) console.log('No patient found!');
       return patientId;
     })
@@ -32,147 +35,138 @@ const getPatientIdFromNumber = (number: any) => {
 };
 
 // function to add responses to the Map 
-function setResponse(key: string, response: string) {
+function setResponse(key: string, response: Object) {
   responseMap.set(key, response);
 }
 
 function initializeState() {
-  setResponse('many nums', 'You sent more than one number! Please send only the result without spaces');
-  setResponse('toolow', 'Your number today is too low :(');
-  setResponse('<80', 'Your number today is between 70 and 80');
-  setResponse('green', 'Green!');
-  setResponse('yellow', 'Yellow!');
-  setResponse('red', 'Red!');
-  setResponse('green', 'Green!');
-  setResponse('>=301', 'Too high (it is greater than 300!)');
-  setResponse('no', 'You have entered no in your response');
+  setResponse('many nums', { english:'You sent more than one number! Please send only the result without spaces',
+                             spanish: 'Too many numbers (Spanish)'});
+  setResponse('toolow', { english:'Your number today is too low',
+                          spanish: 'Your number today is too low (Spanish)'});
+  setResponse('<80', {english: 'Your number today is between 70 and 80',
+                      spanish: 'Your number today is between 70 and 80 (Spanish)'});
+  setResponse('green', {english: 'Green!',
+                        spanish: 'Green (Spanish)'});
+  setResponse('yellow', {english: 'Yellow!',
+                         spanish: 'Yellow (Spanish)'});
+  setResponse('red', {english: 'Red!',
+                      spanish: 'Red (Spanish)'});
+  setResponse('>=301', {english: 'Too high (it is greater than 300!) Plesae respond with a valid measurment',
+                        spanish: 'Too high (it is greater than 300!) Plesae respond with a valid measurment (Spanish)'});
+  setResponse('no', {english: 'You have entered no measurement',
+                     spanish: 'You have entered no measurement (Spanish)'});
+  setResponse('catch', {english: 'Please respond with a valid input.',
+                     spanish: 'Please respond with a valid input. (Spanish)'});
 }
 
 initializeState();
 
+router.post('/sendMessage', auth, function (req, res) {
+  const contnet = req.body.message;
+  const recept = req.body.to;
+  const patientID = new ObjectId(req.body.patientID);
+  const date = new Date();
 
-// send initial message to the user
-/*
-twilio.messages
+  twilio.messages
   .create({
-    body: 'hello!',
-    from: '+14155286397',
-    to: '+12482382012'
-  })
-  .then(function (message:any) { return console.log(message.sid); });
-*/
+    body: contnet,
+    from: number, // this is hardcoded right now
+    to: recept
+  });
 
-    
+  const outgoingMessage = new Message({
+    sent: true,
+    phoneNumber: number,
+    patientID: patientID,
+    message: contnet,
+    sender: 'COACH',
+    date: date
+  });
+
+  outgoingMessage.save().then(() => {
+    console.log('saved');
+  }).catch((err) => console.log(err));
+
+});
+
+   
 // this route receives and parses the message from one user, then responds accordingly with the appropriate output 
 router.post('/reply', function (req, res) {
   const {MessagingResponse} = require('twilio').twiml; 
   const twiml = new MessagingResponse();
   const message = twiml.message();
-  const response = req.body.Body;
-
+  if(req.body.Body) {
+    var response = req.body.Body;  
+  } else {
+    response = "Invalid Text (image)";
+  }
   // generate date 
   const date = new Date();
-  
-  // add patient's text to message log for ALL TEXTS
-  const getId = getPatientIdFromNumber(req.body.From.slice(2)).then(
-    (id) => {
-      const patientId = new ObjectId(id._id);
-      const incomingMessage = new Message({
-        sent: true,
-        phoneNumber: req.body.From,
-        patientID: patientId,
-        message: response,
-        sender: 'PATIENT',
-        date: date
-      });
-    
-      incomingMessage.save().then(() => {
-        console.log('saved');
-      });
-    });
 
-
-  
-  // if contains many numbers then respond with "too many number inputs"
-  // this is a bad outcome, only add to message log
-  if (containsMany(response)) {
-
-    const getId = getPatientIdFromNumber(req.body.From.slice(2)).then(
-      (id) => {
-        const patientId = new ObjectId(id._id);
-        const outgoingMessage = new Message({
+  getPatientIdFromNumber(req.body.From.slice(2)).then(
+    (patient) => {
+      const language = patient.language.toLowerCase();
+      const patientId = new ObjectId(patient._id);
+        const incomingMessage = new Message({
           sent: true,
-          phoneNumber: req.body.To,
-          patientID: patientId, // lost on this
-          message: responseMap.get('many nums'),
-          sender: 'BOT',
-          date: date
-        });
-  
-        outgoingMessage.save().then(() => {
-          console.log('saved');
-        }); 
-      });
-    message.body(responseMap.get('many nums'));
-  
-  }
-  
-  // if contains number then classify
-  // this is a good outcome, update backend accordingly
-  // add to message log and also call newOutcome
-  else if (containsNumber(response)) {
-    const value = getNumber(response);
-
-    const getId = getPatientIdFromNumber(req.body.From.slice(2)).then(
-      (id) => {
-        const patientId = new ObjectId(id._id);
-        const outgoingMessage = new Message({
-          sent: true,
-          phoneNumber: req.body.To,
-          patientID: patientId, // lost on this
-          message: classifyNumeric(value),
-          sender: 'BOT',
-          date: date
-        });
-  
-        outgoingMessage.save().then(() => {
-          console.log('saved');
-        }); 
-      });
-    
-    const getOutcome = getPatientIdFromNumber(req.body.From.slice(2)).then(
-      (id) => {
-        const patientId = new ObjectId(id._id);
-        const outcome = new Outcome({
           phoneNumber: req.body.To,
           patientID: patientId,
-          response: response, // the entire text the patient sends
-          value: classifyNumeric(value), // numerical measurement 
-          alertType: responseMap.get(classifyNumeric(value)), // Color
+          message: response,
+          sender: 'PATIENT',
           date: date
         });
   
-        outcome.save().then(() => {
-          console.log('saved outcome');
+        incomingMessage.save().then(() => {
+          console.log('saved');
         }); 
-      });  
-    message.body(responseMap.get(classifyNumeric(value)));
-  }
+    // if contains many numbers then respond with "too many number inputs"
+    // this is a bad outcome, only add to message log
+    if (containsMany(response)) {
+      const outgoingMessage = new Message({
+        sent: true,
+        phoneNumber: req.body.To,
+        patientID: patientId, // lost on this
+        message: responseMap.get('many nums')[language],
+        sender: 'BOT',
+        date: date
+      });
 
-  // if contains no then respond with the default no response
-  // this is a bad outcome, only add to message log
+      outgoingMessage.save().then(() => {
+        console.log('saved');
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
+        message.body(responseMap.get('many nums')[language]);
+      }); 
+    
+  //Measurement found
+  } else if (containsNumber(response)) {
+    const value = getNumber(response);
 
-  else if (response.toLowerCase() === ('no')) {
-
-    const getId = getPatientIdFromNumber(req.body.From.slice(2)).then(
-      (id) => {
-        const patientId = new ObjectId(id._id);
-
+    if (classifyNumeric(value) === "green" || classifyNumeric(value) === "yellow" || classifyNumeric(value) === "red") {
+      const outcome = new Outcome({
+        phoneNumber: req.body.From,
+        patientID: patientId,
+        response: response, // the entire text the patient sends
+        value: value[0], // numerical measurement 
+        alertType: classifyNumeric(value), // Color
+        date: date
+      });
+      
+      outcome.save().then(() => {
+        console.log('saved outcome');
+      }); 
+      const classification = classifyNumeric(value)
+      const typeUpperCase = classification.charAt(0).toUpperCase() + classification.slice(1);
+      const upperLang = language.charAt(0).toUpperCase() + language.slice(1);
+      MessageTemplate.find({language: upperLang, type: typeUpperCase}).then((messages) => {
+        const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
+        const messageTemp = messages[randomVal];
         const outgoingMessage = new Message({
           sent: true,
           phoneNumber: req.body.To,
-          patientID: patientId, // lost on this
-          message: responseMap.get('no'),
+          patientID: patientId,
+          message: messageTemp.text,
           sender: 'BOT',
           date: date
         });
@@ -180,36 +174,72 @@ router.post('/reply', function (req, res) {
         outgoingMessage.save().then(() => {
           console.log('saved');
         });
+        message.body(messageTemp.text);
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
+
+      }).catch((err) => {
+        message.body(responseMap.get(classifyNumeric(value))[language]);
       });
-    message.body(responseMap.get('no'));
-
-}
-
-  // catch-all else statement to ask for valid input
-  else {
-    const getId = getPatientIdFromNumber(req.body.From.slice(2)).then(
-      (id) => {
-        const patientId = new ObjectId(id._id);
-        // this is a bad outcome, only add to message log
-        const outgoingMessage = new Message({
-          sent: true,
-          phoneNumber: req.body.To,
-          patientID: patientId, 
-          message: 'Please respond with a valid input',
-          sender: 'BOT',
-          date
-        });
-  
-        outgoingMessage.save().then(() => {
-          console.log('saved');
-        }); 
+      
+    } else {
+      const outgoingMessage = new Message({
+        sent: true,
+        phoneNumber: req.body.To,
+        patientID: patientId,
+        message: responseMap.get(classifyNumeric(value))[language],
+        sender: 'BOT',
+        date: date
       });
-    message.body('Please respond with a valid input');
 
+      outgoingMessage.save().then(() => {
+        console.log('saved');
+        message.body(responseMap.get(classifyNumeric(value))[language]);
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
+      });
+    }
+    
+    
+  //Message is "no"
+  } else if (response.toLowerCase() === ('no')) {
+    const outgoingMessage = new Message({
+      sent: true,
+      phoneNumber: req.body.To,
+      patientID: patientId, 
+      message: responseMap.get('no')[language],
+      sender: 'BOT',
+      date: date
+    });
+
+    outgoingMessage.save().then(() => {
+      console.log('saved');
+      message.body(responseMap.get('no')[language]);
+      res.writeHead(200, {'Content-Type': 'text/xml'});
+      res.end(twiml.toString());
+    });
+   
+  //catch all
+  } else {
+    const outgoingMessage = new Message({
+      sent: true,
+      phoneNumber: req.body.To,
+      patientID: patientId, 
+      message: responseMap.get('catch')[language],
+      sender: 'BOT',
+      date
+    });
+
+      outgoingMessage.save().then(() => {
+        console.log('saved');
+        message.body(responseMap.get('catch')[language]);
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
+      }); 
   }
-
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
+  
+  });
 });
+
 
 export default router;

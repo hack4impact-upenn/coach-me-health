@@ -10,6 +10,7 @@ import {
 } from './coach.util';
 import mongoose from 'mongoose';
 import { Patient } from '../models/patient.model';
+import { ObjectId } from 'mongodb';
 
 
 const router = express.Router();
@@ -17,7 +18,7 @@ const router = express.Router();
 const saltRounds = 10;
 
 // create new coach
-router.post('/signup', async (req, res) => {
+router.post('/signup', auth, async (req, res) => {
   const { firstName } = req.body;
   const { lastName } = req.body;
   const { email } = req.body;
@@ -108,9 +109,9 @@ router.post('/refreshToken', (req, res) => {
 // get me
 // protected route
 router.get('/me', auth, (req, res) => {
-  const { userId } = req;
 
-  return Coach.findById(userId)
+  const { userId } = req;
+  return Coach.findById(new ObjectId(userId))
     .select('firstName lastName email _id')
     .then((coach) => {
       if (!coach) return errorHandler(res, 'User does not exist.');
@@ -127,5 +128,24 @@ router.get('/getPatients', auth, (req, res) => {
     return res.status(200).json(patients);
   });
 });
+
+
+router.get('/search', auth, async (req, res) => {
+    const query = req.query.query;
+    Coach.aggregate([
+        {$project: { "name" : { $concat : [ "$firstName", " ", "$lastName" ] } }},
+        { $match: {
+            "name": {
+                $regex: query,
+                $options: "i"
+            }
+        }}
+    ]).exec(function(err, result){
+        return res.status(200).json({
+            coaches: result
+        });
+    });
+});
+
 
 export default router;

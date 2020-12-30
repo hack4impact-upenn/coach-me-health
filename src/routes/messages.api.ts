@@ -1,7 +1,10 @@
 /* eslint-disable no-shadow */
 import express from 'express';
+var cron = require('node-cron');
 import { ObjectId } from 'mongodb';
+import auth from '../middleware/auth';
 import { Message, IMessage } from '../models/message.model';
+import { MessageTemplate } from '../models/messageTemplate.model';
 import { Outcome, IOutcome } from '../models/outcome.model';
 import { Patient, IPatient } from '../models/patient.model';
 
@@ -11,7 +14,35 @@ import initializeScheduler from '../utils/scheduling';
 const router = express.Router();
 initializeScheduler();
 
-router.post('/newMessage', async (req, res) => {
+
+cron.schedule('*/5 * * * *', () => {
+  console.log("Running batch of schdueled messages");
+  Patient.find().then((patients) => {
+    var date = new Date();
+    date.setMinutes(date.getMinutes() + 1);
+    MessageTemplate.find({type: "Initial"}).then((MessageTemplates) => {
+      for (const patient of patients) {
+        if(patient.enabled) {
+          const messages = MessageTemplates.filter(template => template.language === patient.language);
+          const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
+          const message = messages[randomVal].text;
+          const newMessage = new Message({
+            patientID: new ObjectId(patient._id),
+            phoneNumber: patient.phoneNumber,
+            date: date,
+            message: message,
+            sender: 'BOT',
+            sent: false
+          });
+          newMessage.save();
+        }
+      }
+    }).catch((err) => console.log(err));
+  });
+});
+
+
+router.post('/newMessage', auth, async (req, res) => {
   // validate phone number
   if (!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
     return res.status(400).json({
@@ -56,7 +87,7 @@ router.post('/newMessage', async (req, res) => {
 });
 
 
-router.post('/newOutcome', async (req, res) => {
+router.post('/newOutcome', auth, async (req, res) => {
   // validate phone number
   if (!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
     return res.status(400).json({
@@ -84,17 +115,16 @@ router.post('/newOutcome', async (req, res) => {
     value: req.body.value,
     alertType: req.body.alertType
   });
+  Patient.findOneAndUpdate({_id : req.body.patientID}, {$inc: {responseCount: 1}});
   return newOutcome.save().then( () => {
-    // TODO increase messages sent
-    // done?
-    Patient.findByIdAndUpdate(new ObjectId(req.body.patientId), { $inc: { responseCount : 1}});
+    console.log("Patient Found and Saving income from '/reply'");
     res.status(200).json({
       success: true
     });
   });
 });
 
-router.post('/scheduledMessage', async (req, res) => {
+router.post('/scheduledMessage', auth, async (req, res) => {
   // validate phone number
   if (!req.body.phoneNumber || req.body.phoneNumber.match(/\d/g) == null ||  req.body.phoneNumber.match(/\d/g).length !== 10){
     return res.status(400).json({
@@ -123,11 +153,7 @@ router.post('/scheduledMessage', async (req, res) => {
     alertType: req.body.alertType
   });
   return newMessage.save().then( () => {
-    // TODO increase messages sent
-    // done?
-
     Patient.findByIdAndUpdate(new ObjectId(req.body.patientId), { $inc: { messagesSent : 1}});
-
     res.status(200).json({
       success: true
     });

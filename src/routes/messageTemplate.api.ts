@@ -1,15 +1,16 @@
 import express from 'express';
-import { User, IMesssageTemplate } from '../models/messageTemplate.model';
+import auth from '../middleware/auth';
+import { MessageTemplate, IMesssageTemplate } from '../models/messageTemplate.model';
 import errorHandler from './error';
 
 const router = express.Router();
 
-router.post("/newTemplate", async (req, res) => {
+router.post("/newTemplate", auth, async (req, res) => {
 
     if (!req.body.messageTxt || req.body.messageTxt === '') {
         res.status(400).send("Please Enter Message Text!");
     } else if (req.body.image == null) {
-        const newMessageTemplate = new User({
+        const newMessageTemplate = new MessageTemplate({
             language: req.body.language,
             text: req.body.messageTxt,
             type: req.body.type,
@@ -20,7 +21,7 @@ router.post("/newTemplate", async (req, res) => {
             });
         }).catch((err) => {console.log(err.message) });
     } else {
-        const newMessageTemplate = new User({
+        const newMessageTemplate = new MessageTemplate({
             language: req.body.language,
             text: req.body.messageTxt,
             type: req.body.type,
