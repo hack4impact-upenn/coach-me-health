@@ -53,7 +53,6 @@ const PatientDashboard: React.FC = () => {
     // search bar
     const onSearch = (query : string) => {
         setQuery(query);
-        alert(query);
     };
     const [query, setQuery] = useState<string>("");
 

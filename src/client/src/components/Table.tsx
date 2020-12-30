@@ -142,15 +142,14 @@ const Table: React.FC<TableProps> = ({ title, data, columns, options, query }: T
         return option.default;
     })[0] : null;
 
-    console.log(query)
     const [currentSort, setCurrentSort] = useState<SortOption | null>(defaultSort);
-    const [sortedData, setSortedData] = useState<any[]>([...data]);
+    const [sortedData, setSortedData] = useState<any[]>([...data])
 
     /* Subin's comment: I think you need another state called filtered data. Imagine a use case where we search for the data, get it filtered, but now we
        need to sort on that newly filtered data rather than the old version of the data. This is the same thing with the number of pages. Right now, I 
        have the data filteration process within the useEffect and use sorted data to do it (that's why the search only really works if you change the sort)
        but with a new state hopefully these issues will be resolved. */ 
-    const [page, setPage] = useState<number>(0);
+    const [page, setPage] = useState<number>(0);    
     const [perPage, setPerPage] = useState<number>(options.defaultPerPage ? options.defaultPerPage : 15);
 
     const numPages = Math.ceil(data.length / perPage);
@@ -173,11 +172,15 @@ const Table: React.FC<TableProps> = ({ title, data, columns, options, query }: T
             })
             setSortedData([...newData]);
         }
+        
+    }, [currentSort])
+
+    useEffect(() => {
         if ((query != undefined) && (query != "")) {
             setSortedData(data.filter(patient => 
-                (patient.firstName + " " + patient.lastName).includes(query)))
+                (patient.firstName + " " + patient.lastName).toLowerCase().includes(query.toLowerCase())))
         }
-    }, [currentSort])
+    }, [query])
 
     const handleSortChange = (i: any) => {
         if(options.sortOptions){
