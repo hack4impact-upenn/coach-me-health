@@ -99,7 +99,7 @@ const MessageTemplateForm : React.FC = () => {
             setMessage(`Message template added successfully`);
             setError(false);
             setLoading(false);
-            document.forms[0].reset();
+            window.location.reload();
             
         }).catch( (err) => {
             setMessage(err.response.data);
