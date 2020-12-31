@@ -8,7 +8,14 @@ import { ObjectId } from 'mongodb';
 
 const twilio = require('twilio')(accountSid, authToken);
 
-const number = twilioNumber.replace(/[^0-9\.]/g, '');
+if(twilioNumber) {
+  var number = twilioNumber.replace(/[^0-9\.]/g, '');
+} else {
+  var number = "MISSING";
+  console.log("No phone number found!");
+}
+
+
 // time in seconds between each run of scheduler
 const schedulingInterval = 5;
 
@@ -49,9 +56,10 @@ const sendMessage = (msg : IMessage) => {
   twilio.messages
     .create({
       body: msg.message,
-      from: number, // this is hardcoded right now
+      from: number,
       to: msg.phoneNumber
     });
+
  
   Message.findOneAndUpdate( { _id: msg.id }, {
     sent: true
@@ -62,10 +70,10 @@ const sendMessage = (msg : IMessage) => {
   });
 
   // updates patient's sentmessages
-  const getId = getPatientIdFromNumber(msg.phoneNumber).then(
+  getPatientIdFromNumber(msg.phoneNumber).then(
     (id) => {
       const patientId = new ObjectId(id._id);
-      Patient.findByIdAndUpdate(patientId, { $inc: { messagesSent : 1}});
+      Patient.findByIdAndUpdate(patientId, { $inc: { messagesSent : 1}}).catch((err) => console.log(err));
     });
 
 };

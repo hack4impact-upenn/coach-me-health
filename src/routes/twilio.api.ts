@@ -15,9 +15,15 @@ import { Outcome } from '../models/outcome.model';
 import { Patient } from '../models/patient.model';
 import auth from '../middleware/auth';
 
-const twilio = require('twilio')(accountSid, authToken);
-const number = twilioNumber.replace(/[^0-9\.]/g, '');
 
+if(twilioNumber) {
+  var number = twilioNumber.replace(/[^0-9\.]/g, '');
+} else {
+  var number = "MISSING";
+  console.log("No phone number found!");
+}
+
+const twilio = require('twilio')(accountSid, authToken);
 const bodyParser = require('body-parser');
 
 const router = express.Router();
@@ -152,7 +158,7 @@ router.post('/reply', function (req, res) {
         alertType: classifyNumeric(value), // Color
         date: date
       });
-      
+      Patient.findByIdAndUpdate(patientId, { $inc: { responseCount : 1}}).catch((err) => console.log(err));
       outcome.save().then(() => {
         console.log('saved outcome');
       }); 
@@ -175,11 +181,11 @@ router.post('/reply', function (req, res) {
           console.log('saved');
         });
         message.body(messageTemp.text);
-        res.writeHead(200, {'Content-Type': 'text/xml'});
-        res.end(twiml.toString());
-
       }).catch((err) => {
         message.body(responseMap.get(classifyNumeric(value))[language]);
+      }).finally(() => {
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
       });
       
     } else {
