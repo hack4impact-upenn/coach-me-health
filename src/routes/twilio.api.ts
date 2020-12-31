@@ -152,7 +152,7 @@ router.post('/reply', function (req, res) {
         alertType: classifyNumeric(value), // Color
         date: date
       });
-      
+      Patient.findByIdAndUpdate(patientId, { $inc: { responseCount : 1}}).catch((err) => console.log(err));
       outcome.save().then(() => {
         console.log('saved outcome');
       }); 
@@ -175,11 +175,11 @@ router.post('/reply', function (req, res) {
           console.log('saved');
         });
         message.body(messageTemp.text);
-        res.writeHead(200, {'Content-Type': 'text/xml'});
-        res.end(twiml.toString());
-
       }).catch((err) => {
         message.body(responseMap.get(classifyNumeric(value))[language]);
+      }).finally(() => {
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twiml.toString());
       });
       
     } else {

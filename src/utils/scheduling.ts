@@ -49,9 +49,10 @@ const sendMessage = (msg : IMessage) => {
   twilio.messages
     .create({
       body: msg.message,
-      from: number, // this is hardcoded right now
+      from: number,
       to: msg.phoneNumber
     });
+
  
   Message.findOneAndUpdate( { _id: msg.id }, {
     sent: true
@@ -62,10 +63,10 @@ const sendMessage = (msg : IMessage) => {
   });
 
   // updates patient's sentmessages
-  const getId = getPatientIdFromNumber(msg.phoneNumber).then(
+  getPatientIdFromNumber(msg.phoneNumber).then(
     (id) => {
       const patientId = new ObjectId(id._id);
-      Patient.findByIdAndUpdate(patientId, { $inc: { messagesSent : 1}});
+      Patient.findByIdAndUpdate(patientId, { $inc: { messagesSent : 1}}).catch((err) => console.log(err));
     });
 
 };
