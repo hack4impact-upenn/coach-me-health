@@ -8,7 +8,14 @@ import { ObjectId } from 'mongodb';
 
 const twilio = require('twilio')(accountSid, authToken);
 
-const number = twilioNumber.replace(/[^0-9\.]/g, '');
+if(twilioNumber) {
+  var number = twilioNumber.replace(/[^0-9\.]/g, '');
+} else {
+  var number = "MISSING";
+  console.log("No phone number found!");
+}
+
+
 // time in seconds between each run of scheduler
 const schedulingInterval = 5;
 

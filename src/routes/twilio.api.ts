@@ -15,9 +15,15 @@ import { Outcome } from '../models/outcome.model';
 import { Patient } from '../models/patient.model';
 import auth from '../middleware/auth';
 
-const twilio = require('twilio')(accountSid, authToken);
-const number = twilioNumber.replace(/[^0-9\.]/g, '');
 
+if(twilioNumber) {
+  var number = twilioNumber.replace(/[^0-9\.]/g, '');
+} else {
+  var number = "MISSING";
+  console.log("No phone number found!");
+}
+
+const twilio = require('twilio')(accountSid, authToken);
 const bodyParser = require('body-parser');
 
 const router = express.Router();
