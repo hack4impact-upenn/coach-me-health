@@ -85,9 +85,7 @@ const PatientRecords: React.FC = () => {
                     {patient && loadHeader(patient)}
                     <Subtitle>Weekly Reports, Measurements, and SMS Chat logs</Subtitle>
                     <div className = "columns"> 
-                        <SearchBarContainer className = "column is-three-quarters">
-                            <SearchBar placeholder = {"Search for Patient Indicator"} onSearch = {onSearch}></SearchBar>
-                        </SearchBarContainer>
+
                         <div className = "column">
                         {loadingOutcomes && loadingPatient &&  <ExportButton disabled={true}>Export to CSV</ExportButton>}
                         {outcomes && patient && <ExportButton onClick = {() => getCSV(outcomes, patient)}>Export to CSV</ExportButton>}

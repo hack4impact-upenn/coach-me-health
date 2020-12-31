@@ -85,7 +85,7 @@ router.post('/sendMessage', auth, function (req, res) {
   });
 
   outgoingMessage.save().then(() => {
-    console.log('saved');
+    res.status(200).send('Message Sent!');
   }).catch((err) => console.log(err));
 
 });

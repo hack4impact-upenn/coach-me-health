@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import secureAxios from '../api/core/apiClient';
 import TextSendBar from "../components/TextSendBar"
 
 const SMSTileContainer = styled.div`
@@ -146,8 +147,17 @@ const TextBubble: React.FC<TextProps> = ({message, type}: TextProps) => {
 }
 
 const SMSTile: React.FC<SMSProps> = ({messages, patient}: SMSProps) => {
-    const onSend = () => {
-        alert(`You sent a message!`);
+    const onSend = (query: string) => {
+        const data = {
+            to: patient.phoneNumber,
+            message: query,
+            patientID: patient._id
+        };
+        secureAxios.post("/api/twilio/sendMessage", data).then( (res) => {
+            
+        }).catch( (err) => {
+            alert(err);
+        })
     }
     
     return (

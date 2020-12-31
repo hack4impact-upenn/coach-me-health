@@ -164,7 +164,6 @@ router.get('/getPatientMessages/:patientID', auth, (req, res) => {
     return Message.find( {patientID: new ObjectId(id)})
     .then((outcomeList) => {
       if (!outcomeList || outcomeList.length == 0 ) return errorHandler(res, 'No outcomes found!');
-
       return res.status(200).json(outcomeList);
     })
     .catch((err) => errorHandler(res, err.message));
