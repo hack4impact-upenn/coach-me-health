@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import secureAxios from '../api/core/apiClient';
 import TextSendBar from "../components/TextSendBar"
 
 const SMSTileContainer = styled.div`
     display: flex;
-    border-radius: 16px; 
-    padding: 16px; 
+    border-radius: 16px;  
     justify-content: space-between;
     margin: auto;
     flex-direction: column;
@@ -35,11 +34,103 @@ const BoxTop = styled.div`
     border-radius: 16px 16px 0px 0px;
 `;
 
-const TextContainer = styled.table`
+const TextTable = styled.table`
     background: #FFFFFF;
     width: 100%;
     height: 80%;
     overflow-y: scroll;
+`
+
+const TextBubblePatient = styled.div`
+    background: #D3D3D3;
+    border-radius: 0px 15px 15px 15px;
+    float: left;
+    color: #404040;
+`
+
+const TextBubbleBot = styled.div`
+    background: #A6CEE3;
+    border-radius: 15px 0px 15px 15px;
+    float: right;
+    color: #404040;
+`
+
+const TextBubbleCoach = styled.div`
+    background: #637792;
+    border-radius: 15px 0px 15px 15px;
+    float: right;
+    color: white;
+`
+
+const TextBubbleRow = styled.div`
+    max-height: 5px;
+    margin-top: 10px;
+`
+
+const TextBubbleText = styled.div`
+    font-family: Avenir;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 22px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-align: center
+`
+const SendButton = styled.button`
+    background-color: white;
+    font-size: 15px !important;
+    border-radius: 15px !important;
+    color: #F29DA4 !important;
+    border: none !important;
+    font-weight: 600;
+    padding: 6px;
+    margin-left: 10px;
+
+    &:hover {
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
+        border: none !important;
+        cursor: pointer;
+    }
+
+    &:focus {
+        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
+        border: none !important;
+    }
+`
+
+const TextContainer = styled.div`
+    padding: 20px;
+    overflow-y: scroll;
+    max-height: 936px;
+`
+
+const SendBarContainer = styled.div`
+
+`
+
+const SendInputContainer = styled.div`
+
+`
+
+const SendButtonContainer = styled.div`
+
+`
+
+const SendInput = styled.input`
+    background-color: #DDE1E7;
+    border-radius: 12px;
+    padding: 8px 20px 8px 32px;
+    border: none;
+    width: 100%;
+    box-shadow: 5px 5px 10px 0px rgba(221, 225, 231, 0.5);
+
+    &:focus{
+        outline: none;
+        box-shadow: inset 0px 0px 4px 0px rgb(99, 119, 146);
+    }
 `
 
 enum Texter {
@@ -58,124 +149,85 @@ interface TextProps {
     type: Texter
 }
 
-const TextBubblePatient = styled.div`
-    background: #D3D3D3;
-    border-radius: 0px 15px 15px 15px;
-    float: left
-`
 
-const TextBubbleBot = styled.div`
-    background: #A6CEE3;
-    border-radius: 15px 0px 15px 15px;
-    float: right
-`
-
-const TextBubbleCoach = styled.div`
-    background: #637792;
-    border-radius: 15px 0px 15px 15px;
-    float: right
-`
-
-const TextBubbleRow = styled.div`
-    max-height: 5px;
-`
-
-const TextBubbleText = styled.div`
-    font-family: Avenir;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 25px;
-    color: #404040;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 16px;
-    padding-right: 16px;
-    text-align: center
-`
-const SendButton = styled.button`
-    float: right;
-
-    padding: 10px 25px;
-    background-color: #F29DA4 !important;
-    font-size: 13px !important;
-    border-radius: 15px !important;
-    color: white !important;
-    border: none !important;
-    font-weight: 600;
-
-    &:hover {
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
-        border: none !important;
-        cursor: pointer;
-    }
-
-    &:focus {
-        box-shadow: 5px 5px 10px rgba(221, 225, 231, 1) !important;
-        border: none !important;
-    }
-`
-
-const TextSendBarContainer = styled.div`
-    className: column is-three-quarters;
-    width: 100%;
-    height: 40%;
-`
-
-const TextBubble: React.FC<TextProps> = ({message, type}: TextProps) => {
+const TextBubble: React.FC<TextProps> = ({ message, type }: TextProps) => {
     if (type == Texter.PATIENT) {
         return (
-            <TextBubblePatient> 
+            <TextBubblePatient>
                 <TextBubbleText> {message} </TextBubbleText>
             </TextBubblePatient>
         );
     }
     else if (type == Texter.BOT) {
         return (
-            <TextBubbleBot> 
+            <TextBubbleBot>
                 <TextBubbleText> {message} </TextBubbleText>
             </TextBubbleBot>
         );
     }
     else {
         return (
-            <TextBubbleCoach> 
+            <TextBubbleCoach>
                 <TextBubbleText> {message} </TextBubbleText>
             </TextBubbleCoach>
         );
     }
 }
 
-const SMSTile: React.FC<SMSProps> = ({messages, patient}: SMSProps) => {
-    const onSend = (query: string) => {
+const SMSTile: React.FC<SMSProps> = ({ messages, patient }: SMSProps) => {
+    const [newMsg, setNewMsg] = useState<string>("")
+
+    // scrolls text to bottom
+    const textScrollRef = useRef(null);
+
+    useEffect( () => {
+        if (textScrollRef.current) {
+            (textScrollRef.current! as any).scrollTop = (textScrollRef.current! as any).scrollHeight;
+            console.log("hello")
+        }
+    }, [textScrollRef.current])
+
+    const onSend = () => {
         const data = {
             to: patient.phoneNumber,
-            message: query,
+            message: newMsg,
             patientID: patient._id
         };
-        secureAxios.post("/api/twilio/sendMessage", data).then( (res) => {
-            
-        }).catch( (err) => {
+        secureAxios.post("/api/twilio/sendMessage", data).then((res) => {
+
+        }).catch((err) => {
             alert(err);
         })
     }
-    
+
     return (
         <SMSTileContainer>
-            <BoxTop> 
-                <PhoneNumber>{patient.phoneNumber}</PhoneNumber> 
+            <BoxTop>
+                <PhoneNumber>914-304-3919</PhoneNumber>
             </BoxTop>
-            <TextContainer>
-                {messages.map((message) => <tr><TextBubbleRow><TextBubble message={message.message} type={message.type}></TextBubble></TextBubbleRow></tr>)}
+            <TextContainer ref={textScrollRef}>
+                <TextTable>
+                    {messages.map((message) => <tr><TextBubbleRow><TextBubble message={message.message} type={message.type}></TextBubble></TextBubbleRow></tr>)}
+                </TextTable>
             </TextContainer>
-            <div className = "columns">
-                <TextSendBarContainer>
-                    <TextSendBar placeholder = {"Enter your response"} onSend = {onSend}> </TextSendBar>
-                </TextSendBarContainer>
 
-            </div>
+            <SendBarContainer>
+                <form onSubmit={(e) => { e.preventDefault() }}>
+
+                    <div className="field has-addons" style={{ padding: "20px" }}>
+                        <div className="control" style={{ width: "100%" }}>
+                            <SendInput name="query" type="text" placeholder="Enter your response..." onChange={(e) => setNewMsg(e.target.value)} value={newMsg} />
+                        </div>
+                        <div className="control">
+                            <SendButton type="submit" onClick={onSend}>
+                                <i className="far fa-paper-plane" aria-hidden="true"></i>
+                            </SendButton>
+                        </div>
+                    </div>
+                </form>
+            </SendBarContainer>
         </SMSTileContainer>
     );
 };
 
-export {SMSTile, Texter};
+export { SMSTile, Texter };

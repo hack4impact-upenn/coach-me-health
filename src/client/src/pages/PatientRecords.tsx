@@ -52,6 +52,8 @@ const PatientRecords: React.FC = () => {
         }
     );
 
+    console.log(messages)
+
     if(!loadingMessages && messages) {
         for (const row of messages as any) {
             if (row.sender === 'PATIENT') {
