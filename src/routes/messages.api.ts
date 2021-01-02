@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 import express from 'express';
 var cron = require('node-cron');
+const ObjectsToCsv = require('objects-to-csv');
 import { ObjectId } from 'mongodb';
 import auth from '../middleware/auth';
 import { Message, IMessage } from '../models/message.model';
@@ -10,12 +11,13 @@ import { Patient, IPatient } from '../models/patient.model';
 
 
 import initializeScheduler from '../utils/scheduling';
+import errorHandler from './error';
 
 const router = express.Router();
 initializeScheduler();
 
-
-cron.schedule('*/5 * * * *', () => {
+/*
+cron.schedule('*5 * * * *', () => {
   console.log("Running batch of schdueled messages");
   Patient.find().then((patients) => {
     var date = new Date();
@@ -40,7 +42,7 @@ cron.schedule('*/5 * * * *', () => {
     }).catch((err) => console.log(err));
   });
 });
-
+*/
 
 router.post('/newMessage', auth, async (req, res) => {
   // validate phone number
@@ -160,4 +162,11 @@ router.post('/scheduledMessage', auth, async (req, res) => {
   });
 });
 
+router.get('/allOutcomes', auth, async (req, res) => {
+  return Outcome.find()
+  .then((outcomesList) => {
+    res.status(200).send(outcomesList);
+  })
+  .catch((err) => errorHandler(res, err.msg))
+});
 export default router;
