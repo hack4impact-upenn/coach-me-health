@@ -2,8 +2,8 @@ import React, {useState, useRef} from 'react';
 
 import { Field, FieldAttributes, Form, Formik } from 'formik';
 import secureAxios from "../api/core/apiClient";
-import 'emoji-mart/css/emoji-mart.css'
-import { Picker } from 'emoji-mart'
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
 
 
 import styled from 'styled-components';
@@ -92,12 +92,13 @@ const FieldWrapper = ({
 };
 
 const MessageTemplateForm : React.FC = () => {
-    const ref =  useRef<HTMLDivElement>(null);
+    
     const [isLoading, setLoading] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
     const [isError, setError] = useState(false);
+    
+    const ref =  useRef<HTMLDivElement>(null);
     const [text, setText] = useState('');
-
     const [showEmoji, setEmoji] = useState(false);
 
     const showEmojis = (e: any) => {
@@ -110,14 +111,7 @@ const MessageTemplateForm : React.FC = () => {
         if (ref.current && !ref.current.contains(e.target)) {
             setEmoji(false);
             document.removeEventListener("click", closeMenu);
-        } else {
-            console.log('Here 2');
-/*
-            setEmoji(false);
-            document.removeEventListener("click", closeMenu);
-            emojiPicker= null;
-            */
-        }
+        } 
     };
     
     const handleSubmit = (data : any) => {        
@@ -140,7 +134,6 @@ const MessageTemplateForm : React.FC = () => {
     const addEmoji = (e: any) => {
         console.log(e);
         let emoji = e.native;
-        console.log(text)
         setText(text + emoji);
     }
     
