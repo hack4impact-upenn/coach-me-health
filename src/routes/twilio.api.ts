@@ -91,9 +91,11 @@ router.post('/sendMessage', auth, function (req, res) {
   });
 
   outgoingMessage.save().then(() => {
-    res.status(200).send('Message Sent!');
+    res.status(200).send({
+      success: true,
+      msg: outgoingMessage
+    });
   }).catch((err) => console.log(err));
-
 });
 
    
