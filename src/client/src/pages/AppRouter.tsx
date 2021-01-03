@@ -23,10 +23,9 @@ const AppRouter = () => {
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/patient_add" component={AddPatientForm} />
           <PrivateRoute exact path="/profile" component={Profile} />
-          <PrivateRoute exact path='/templates' component = {MessageTemplatePage} />
           <PrivateRoute exact path="/patients" component={PatientDashboard}/>
           <PrivateRoute exact path="/patient/:id" component={PatientRecords}/>
-          <PrivateRoute exact path="/messageTemplate" component={MessageTemplateForm}/>
+          <PrivateRoute exact path="/messageTemplate" component={MessageTemplatePage}/>
           <PublicRoute exact={false} path="/" component={Login} />
         </Switch>
     </Router>
