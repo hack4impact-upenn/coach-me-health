@@ -1,7 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 
 import { Field, FieldAttributes, Form, Formik } from 'formik';
 import secureAxios from "../api/core/apiClient";
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
+
 
 import styled from 'styled-components';
 
@@ -10,7 +13,7 @@ const inputStyles = {
     borderRadius: "15px",
     padding: "8px 20px 8px 32px",
     border: "none",
-    width: "100%"
+    width: "75%"
 }
 
 const StyledField = styled.div`
@@ -35,6 +38,7 @@ const Button = styled.button`
     &:focus {
         box-shadow: none !important;
     }
+    margin: 10px;
 `
 const initialValues = {
     messageTxt: "",
@@ -88,13 +92,38 @@ const FieldWrapper = ({
 };
 
 const MessageTemplateForm : React.FC = () => {
-
+    const ref =  useRef<HTMLDivElement>(null);
     const [isLoading, setLoading] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
     const [isError, setError] = useState(false);
+    const [text, setText] = useState('');
+
+    const [showEmoji, setEmoji] = useState(false);
+
+    const showEmojis = (e: any) => {
+        setEmoji(true);
+        document.addEventListener("click", closeMenu);
+    };
+
+    const closeMenu = (e: any) => {
+        console.log("closing menu");
+        if (ref.current && !ref.current.contains(e.target)) {
+            setEmoji(false);
+            document.removeEventListener("click", closeMenu);
+        } else {
+            console.log('Here 2');
+/*
+            setEmoji(false);
+            document.removeEventListener("click", closeMenu);
+            emojiPicker= null;
+            */
+        }
+    };
     
     const handleSubmit = (data : any) => {        
         setLoading(true);
+        data.messageTxt = text;
+        console.log(data);
         secureAxios.post("/api/messageTemplate/newTemplate", data).then( (res) => {
             setMessage(`Message template added successfully`);
             setError(false);
@@ -108,6 +137,16 @@ const MessageTemplateForm : React.FC = () => {
         })
     }
     
+    const addEmoji = (e: any) => {
+        console.log(e);
+        let emoji = e.native;
+        console.log(text)
+        setText(text + emoji);
+    }
+    
+    const textChange = (e: any) => {
+        setText(e.target.value);
+    }
 
     return (
         <div style = {{ padding: 30, backgroundColor: "white", textAlign: "center", maxWidth: 768, margin: "auto"}}>
@@ -138,14 +177,24 @@ const MessageTemplateForm : React.FC = () => {
                          </Field>
                     </FieldWrapperSelect>
 
-                    <FieldWrapper icon="fa-info">
+                    <FieldWrapper>
+                    
                         <Field 
                         name="messageTxt"
                         style = {inputStyles}
                         type="text"
                         placeholder="Message text"
                         className = "form-field"
+                        value = {text}
+                        onChange = {textChange}
                         />
+                        {showEmoji && <div ref = {ref} style={{width: "355px", margin: "auto"}} ><Picker
+                                        onSelect={addEmoji}
+                                        title="Emoji Selector"
+                                        /></div>}
+                        {!showEmoji && <a onClick={showEmojis}>
+                        {String.fromCodePoint(0x1f60a)}
+                            </a>}
                     </FieldWrapper>
 
                     <Button className={"button is-primary" + (isLoading ? " is-loading" : "")} type="submit">
@@ -154,6 +203,10 @@ const MessageTemplateForm : React.FC = () => {
                     </Form>
                     
                 </Formik>
+
+                <span>
+                    
+                    </span>
 
         </div>
     )
