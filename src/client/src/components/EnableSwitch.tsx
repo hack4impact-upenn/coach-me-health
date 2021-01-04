@@ -24,7 +24,6 @@ const EnableSwitch : React.FC<ButtonProps> = ({_id, enabled} : ButtonProps) => {
             alert(`Status Changed!`);  
         }).catch( (err) => {
             alert('Failed to change patient status!');
-            console.log(err);
         })
     }
 

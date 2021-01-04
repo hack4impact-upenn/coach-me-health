@@ -83,7 +83,6 @@ function downloadCSV(data: any) {
 };
 
 function outcomesToCSV(data: any) {
-  console.log(data);
   const csvRows = [];
   const headers = ["ID", "Phone Number", "Date", "Response", "Value", "Classification"];
   csvRows.push(headers.join(','));
@@ -93,7 +92,6 @@ function outcomesToCSV(data: any) {
                         row.response, row.value, row.alertType ];
       csvRows.push(values.join(','));
   }
-  console.log(csvRows);
   return csvRows.join('\n');
 };
 

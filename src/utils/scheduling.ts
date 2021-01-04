@@ -12,7 +12,7 @@ if(twilioNumber) {
   var number = twilioNumber.replace(/[^0-9\.]/g, '');
 } else {
   var number = "MISSING";
-  console.log("No phone number found!");
+  console.log("No phone number found in env vars!");
 }
 
 
@@ -21,7 +21,6 @@ const schedulingInterval = 5;
 
 // selects all messages which should be sent within the next __ seconds, and schedules them to be sent
 const scheduleMessages = (interval : number) => {
-  // console.log("Scheduling messages to be sent...")
   const intervalStart = new Date();
   const intervalEnd = new Date(intervalStart.getTime());
   intervalEnd.setSeconds(intervalEnd.getSeconds() + interval);
@@ -43,7 +42,7 @@ const scheduleMessages = (interval : number) => {
 const getPatientIdFromNumber = (number: any) => {
   return Patient.findOne({ phoneNumber: number}).select('_id')
     .then((patientId) => {
-      if (!patientId) console.log('No patient found!');
+      if (!patientId) console.log(`'No patient found for ${number}!'`);
       return patientId;
     })
     .catch((err) => { return (err.message);
@@ -52,7 +51,6 @@ const getPatientIdFromNumber = (number: any) => {
 
 // sends message, marks it as sent
 const sendMessage = (msg : IMessage) => {
-  console.log(`Sent message "${msg.message}" to ${msg.phoneNumber}`);
   twilio.messages
     .create({
       body: msg.message,
