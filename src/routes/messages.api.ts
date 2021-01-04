@@ -16,18 +16,19 @@ import errorHandler from './error';
 const router = express.Router();
 initializeScheduler();
 
-/*
-cron.schedule('*5 * * * *', () => {
+//run messages at 00:00 PST
+cron.schedule('0 0 * * *', () => {
   console.log("Running batch of schdueled messages");
   Patient.find().then((patients) => {
-    var date = new Date();
-    date.setMinutes(date.getMinutes() + 1);
     MessageTemplate.find({type: "Initial"}).then((MessageTemplates) => {
       for (const patient of patients) {
         if(patient.enabled) {
+          console.log(patient.prefTime);
           const messages = MessageTemplates.filter(template => template.language === patient.language);
           const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
           const message = messages[randomVal].text;
+          var date = new Date();
+          date.setMinutes(date.getMinutes() + patient.prefTime);
           const newMessage = new Message({
             patientID: new ObjectId(patient._id),
             phoneNumber: patient.phoneNumber,
@@ -41,8 +42,12 @@ cron.schedule('*5 * * * *', () => {
       }
     }).catch((err) => console.log(err));
   });
+  },{
+    scheduled: true,
+    timezone: "America/Los_Angeles"
 });
-*/
+
+
 
 router.post('/newMessage', auth, async (req, res) => {
   // validate phone number
@@ -119,7 +124,6 @@ router.post('/newOutcome', auth, async (req, res) => {
   });
   Patient.findOneAndUpdate({_id : req.body.patientID}, {$inc: {responseCount: 1}});
   return newOutcome.save().then( () => {
-    console.log("Patient Found and Saving income from '/reply'");
     res.status(200).json({
       success: true
     });

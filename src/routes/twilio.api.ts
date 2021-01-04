@@ -20,7 +20,7 @@ if(twilioNumber) {
   var number = twilioNumber.replace(/[^0-9\.]/g, '');
 } else {
   var number = "MISSING";
-  console.log("No phone number found!");
+  console.log("No phone number found in env vars!");
 }
 
 const twilio = require('twilio')(accountSid, authToken);
@@ -33,7 +33,7 @@ const responseMap = new Map();
 const getPatientIdFromNumber = (number: any) => {
   return Patient.findOne({ phoneNumber: number}).select('_id language')
     .then((patientId) => {
-      if (!patientId) console.log('No patient found!');
+      if (!patientId) console.log(`'No patient found for phone number ${number} !'`);
       return patientId;
     })
     .catch((err) => { return (err.message);
@@ -123,9 +123,7 @@ router.post('/reply', function (req, res) {
           date: date
         });
   
-        incomingMessage.save().then(() => {
-          console.log('saved');
-        }); 
+        incomingMessage.save();
     // if contains many numbers then respond with "too many number inputs"
     // this is a bad outcome, only add to message log
     if (containsMany(response)) {
@@ -139,7 +137,6 @@ router.post('/reply', function (req, res) {
       });
 
       outgoingMessage.save().then(() => {
-        console.log('saved');
         res.writeHead(200, {'Content-Type': 'text/xml'});
         res.end(twiml.toString());
         message.body(responseMap.get('many nums')[language]);
@@ -160,7 +157,6 @@ router.post('/reply', function (req, res) {
       });
       Patient.findByIdAndUpdate(patientId, { $inc: { responseCount : 1}}).catch((err) => console.log(err));
       outcome.save().then(() => {
-        console.log('saved outcome');
       }); 
       const classification = classifyNumeric(value)
       const typeUpperCase = classification.charAt(0).toUpperCase() + classification.slice(1);
@@ -177,9 +173,7 @@ router.post('/reply', function (req, res) {
           date: date
         });
   
-        outgoingMessage.save().then(() => {
-          console.log('saved');
-        });
+        outgoingMessage.save();
         message.body(messageTemp.text);
       }).catch((err) => {
         message.body(responseMap.get(classifyNumeric(value))[language]);
@@ -199,7 +193,6 @@ router.post('/reply', function (req, res) {
       });
 
       outgoingMessage.save().then(() => {
-        console.log('saved');
         message.body(responseMap.get(classifyNumeric(value))[language]);
         res.writeHead(200, {'Content-Type': 'text/xml'});
         res.end(twiml.toString());
@@ -219,7 +212,6 @@ router.post('/reply', function (req, res) {
     });
 
     outgoingMessage.save().then(() => {
-      console.log('saved');
       message.body(responseMap.get('no')[language]);
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());
@@ -237,7 +229,6 @@ router.post('/reply', function (req, res) {
     });
 
       outgoingMessage.save().then(() => {
-        console.log('saved');
         message.body(responseMap.get('catch')[language]);
         res.writeHead(200, {'Content-Type': 'text/xml'});
         res.end(twiml.toString());

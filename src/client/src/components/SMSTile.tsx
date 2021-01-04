@@ -190,7 +190,6 @@ const SMSTile: React.FC<SMSProps> = ({ messages, patient }: SMSProps) => {
     };
 
     const closeEmojiMenu = (e: any) => {
-        console.log("closing menu");
         if (ref.current && !ref.current.contains(e.target)) {
             setEmoji(false);
             document.removeEventListener("click", closeEmojiMenu);
@@ -202,7 +201,6 @@ const SMSTile: React.FC<SMSProps> = ({ messages, patient }: SMSProps) => {
     }
 
     const addEmoji = (e: any) => {
-        console.log(e);
         let emoji = e.native;
         setNewMsg(newMsg + emoji);
     }
@@ -210,7 +208,6 @@ const SMSTile: React.FC<SMSProps> = ({ messages, patient }: SMSProps) => {
     useEffect( () => {
         if (textScrollRef.current) {
             (textScrollRef.current! as any).scrollTop = (textScrollRef.current! as any).scrollHeight;
-            console.log("hello")
         }
     }, [textScrollRef.current])
 

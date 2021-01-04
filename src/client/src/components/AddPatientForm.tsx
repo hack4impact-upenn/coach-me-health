@@ -159,9 +159,7 @@ const AddPatientForm: React.FC = () => {
                 query
             }
         }).then((data) => {
-            console.log(coachDropdown)
             setCoachDropdown(data.data.coaches);
-            console.log(dropdownVisible);
         });
     }
 

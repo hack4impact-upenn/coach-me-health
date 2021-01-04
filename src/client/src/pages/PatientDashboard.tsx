@@ -68,7 +68,7 @@ const PatientDashboard: React.FC = () => {
                 </div>
                 <div className="column">
                     <SearchBarContainer>
-                        <SearchBar placeholder = {"Search by patient or phone number"} onSearch={ onSearch }></SearchBar>
+                        <SearchBar placeholder = {"Search by patient name"} onSearch={ onSearch }></SearchBar>
                     </SearchBarContainer>
                 </div>
             </Header>
@@ -123,16 +123,6 @@ const tableOptions: TableOptions = {
     sortsChoiceEnabled: true
 }
 
-const testData = new Array(30).fill(undefined).map((_, i) => ({
-    name: Math.random() > 0.5 ? "Jared Asch" : "Matthew Dong",
-    status: "Active",
-    phoneNumber: "1234567890",
-    week: Math.ceil(Math.random() * 10),
-    unread: 10 * i,
-    added: new Date(2020, 11, 20 + i),
-    coach: "Subin Lee",
-    responseRate: Math.ceil(Math.random() * 100)
-}));
 
 const cols: Column[] = [
     {

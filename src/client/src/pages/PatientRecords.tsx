@@ -115,35 +115,6 @@ const table1Options: TableOptions = {
     sortsChoiceEnabled: false
 }
 
-// test data for the right side of the page
-const testData = new Array(5).fill(undefined).map((_, i) => ({
-    indicator: "Blood Glucose Levels",
-    measure: Math.ceil(Math.random() * 200),
-    // create logic for analysis later here I guess?
-    analysis: "placeholder",
-    timeRecorded: "11:20AM 2020-10-30"
-}));
-
-const testData2 = new Array(2).fill(undefined).map((_, i) => ({
-    message: "Happy Thanksgiving bois!",
-    time: "02:00 AM KST",
-    enabled: "Yes"
-}));
-
-// change the size of this array to increase the number of sample texts
-let testData3 = new Array(15);
-for (let i = 0; i < testData3.length; i++) {
-    if (i % 3 == 0) {
-        testData3[i] = {message: "I am a patient", type: Texter.PATIENT}
-    }
-    else if (i % 3 == 1) {
-        testData3[i] = {message: "I am a bot", type: Texter.BOT}
-    }
-    else {
-        testData3[i] = {message: "I am a coach", type: Texter.COACH}
-    }
-}
-
 const images = [
     {
       original: 'https://picsum.photos/id/1018/1000/600/',

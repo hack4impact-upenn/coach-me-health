@@ -107,7 +107,6 @@ const MessageTemplateForm : React.FC = () => {
     };
 
     const closeMenu = (e: any) => {
-        console.log("closing menu");
         if (ref.current && !ref.current.contains(e.target)) {
             setEmoji(false);
             document.removeEventListener("click", closeMenu);
@@ -117,7 +116,6 @@ const MessageTemplateForm : React.FC = () => {
     const handleSubmit = (data : any) => {        
         setLoading(true);
         data.messageTxt = text;
-        console.log(data);
         secureAxios.post("/api/messageTemplate/newTemplate", data).then( (res) => {
             setMessage(`Message template added successfully`);
             setError(false);
@@ -132,7 +130,6 @@ const MessageTemplateForm : React.FC = () => {
     }
     
     const addEmoji = (e: any) => {
-        console.log(e);
         let emoji = e.native;
         setText(text + emoji);
     }
