@@ -176,8 +176,10 @@ const TextBubble: React.FC<TextProps> = ({ message, type }: TextProps) => {
     }
 }
 
-const SMSTile: React.FC<SMSProps> = ({ messages, patient }: SMSProps) => {
+const SMSTile: React.FC<SMSProps> = ({ messages: messagesProp, patient }: SMSProps) => {
     const [newMsg, setNewMsg] = useState<string>("")
+    const [messages, setMessages] = useState([...messagesProp])
+
 
     // scrolls text to bottom
     const textScrollRef = useRef(null);
@@ -209,7 +211,7 @@ const SMSTile: React.FC<SMSProps> = ({ messages, patient }: SMSProps) => {
         if (textScrollRef.current) {
             (textScrollRef.current! as any).scrollTop = (textScrollRef.current! as any).scrollHeight;
         }
-    }, [textScrollRef.current])
+    }, [textScrollRef.current, messages])
 
     const onSend = () => {
         const data = {
@@ -218,6 +220,7 @@ const SMSTile: React.FC<SMSProps> = ({ messages, patient }: SMSProps) => {
             patientID: patient._id
         };
         secureAxios.post("/api/twilio/sendMessage", data).then((res) => {
+            setMessages([...messages, res.data.msg])
             setNewMsg('');
         }).catch((err) => {
             alert(err);
