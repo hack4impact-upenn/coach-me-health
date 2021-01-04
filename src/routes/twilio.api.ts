@@ -178,6 +178,16 @@ router.post('/reply', function (req, res) {
         outgoingMessage.save();
         message.body(messageTemp.text);
       }).catch((err) => {
+        const outgoingMessage = new Message({
+          sent: true,
+          phoneNumber: req.body.To,
+          patientID: patientId,
+          message: responseMap.get(classifyNumeric(value))[language],
+          sender: 'BOT',
+          date: date
+        });
+  
+        outgoingMessage.save();
         message.body(responseMap.get(classifyNumeric(value))[language]);
       }).finally(() => {
         res.writeHead(200, {'Content-Type': 'text/xml'});
