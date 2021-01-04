@@ -62,12 +62,4 @@ const tableOptions: TableOptions = {
     defaultPerPage: 10,
 }
 
-const testData = new Array(30).fill(undefined).map((_, i) => ({
-    _id: "1223",
-    type: Math.random() > 0.5 ? "Green" : "Initial",
-    language:  Math.random() > 0.5 ? "Spanish" : "English",
-    text: "Hello, what is your blood glucose level today?",
-}));
-
-
 export default MessageTemplatePage;
