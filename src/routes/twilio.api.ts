@@ -46,23 +46,23 @@ function setResponse(key: string, response: Object) {
 }
 
 function initializeState() {
-  setResponse('many nums', { english:'You sent more than one number! Please send only the result without spaces',
-                             spanish: 'Too many numbers (Spanish)'});
-  setResponse('toolow', { english:'Your number today is too low',
+  setResponse('many nums', { english:'Hi, it looks like you sent more than one number. Please send one number in each message.',
+                             spanish: 'Hi, it looks like you sent more than one number. Please send one number in each message. (Spanish)'});
+  setResponse('toolow', { english:'Your measurement is less than 70. A level less than 70 is low and can harm you. \nTo raise your sugar levels, we recommend you eat or drink sugar now. Try fruit juice with sugar, sugary soda, eat four pieces of candy with sugar. \nAfter 15 minutes, check your sugar levels and text us your measurement. \nIf you continue to measure less than 70, seek urgent medical help.',
                           spanish: 'Your number today is too low (Spanish)'});
-  setResponse('<80', {english: 'Your number today is between 70 and 80',
+  setResponse('<80', {english: 'Thank you! How are you feeling? If you feel - sleepy, sweaty, pale, dizzy, irritable, or hungry - your sugar may be too low.\nPlease consume sugar (like juice) to raise your sugars to 80 or above.',
                       spanish: 'Your number today is between 70 and 80 (Spanish)'});
-  setResponse('green', {english: 'Green!',
+  setResponse('green', {english: 'Congratulations! You’re in the green today - keep it up!',
                         spanish: 'Green (Spanish)'});
-  setResponse('yellow', {english: 'Yellow!',
+  setResponse('yellow', {english: 'Thank you! You’re in the yellow today - what is one thing you can do to help you lower your glucose levels for tomorrow?',
                          spanish: 'Yellow (Spanish)'});
-  setResponse('red', {english: 'Red!',
+  setResponse('red', {english: 'Thank you! You’re in the red today - your sugars are high. What can you do to lower your number for tomorrow??',
                       spanish: 'Red (Spanish)'});
-  setResponse('>=301', {english: 'Too high (it is greater than 300!) Plesae respond with a valid measurment',
+  setResponse('>=301', {english: 'Your measurement is over 300. Fasting blood glucose levels of 300 or more can be dangerous.\nIf you have two readings in a row of 300 or more or are worried about how you feel, call your doctor.',
                         spanish: 'Too high (it is greater than 300!) Plesae respond with a valid measurment (Spanish)'});
-  setResponse('no', {english: 'You have entered no measurement',
+  setResponse('no', {english: 'Hi, were you able to measure your sugar today? If you need any help with measuring your sugar, please tell your coach.',
                      spanish: 'You have entered no measurement (Spanish)'});
-  setResponse('catch', {english: 'Please respond with a valid input.',
+  setResponse('catch', {english: 'Hi, I don’t recognize this. Please send a number in your message for us to track your sugar. Thanks!',
                      spanish: 'Please respond with a valid input. (Spanish)'});
 }
 
