@@ -21,10 +21,11 @@ const saltRounds = 10;
 router.post('/signup', auth, async (req, res) => {
   const { firstName } = req.body;
   const { lastName } = req.body;
-  const { email } = req.body;
+  const emailRaw = req.body.email;
+  const emailLower = emailRaw.toLowerCase();
   const { password } = req.body;
 
-  if (await Coach.findOne({ email })) {
+  if (await Coach.findOne({ email:emailLower })) {
     return errorHandler(res, 'User already exists.');
   }
 
@@ -36,7 +37,7 @@ router.post('/signup', auth, async (req, res) => {
     const newCoach = new Coach({
       firstName,
       lastName,
-      email,
+      email: emailLower,
       password: hashedPassword,
     });
     return newCoach
@@ -48,10 +49,10 @@ router.post('/signup', auth, async (req, res) => {
 
 // login coach
 router.post('/login', async (req, res) => {
-  const { email } = req.body;
+  const emailAdress  = req.body.email.toLowerCase();
   const { password } = req.body;
 
-  Coach.findOne({ email }).then((coach):
+  Coach.findOne({ email: emailAdress}).then((coach):
     | Response
     | Promise<boolean>
     | boolean
