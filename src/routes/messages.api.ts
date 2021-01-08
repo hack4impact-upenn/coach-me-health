@@ -24,7 +24,7 @@ cron.schedule('*/5 * * * *', () => {
       for (const patient of patients) {
         if(patient.enabled) {
           const messages = MessageTemplates.filter(template => template.language === patient.language);
-          const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
+          const randomVal =  Math.floor(Math.random() * ((messages.length) - 0));
           const message = messages[randomVal].text;
           var date = new Date();
           date.setMinutes(date.getMinutes() + 1);

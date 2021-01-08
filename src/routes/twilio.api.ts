@@ -164,7 +164,7 @@ router.post('/reply', function (req, res) {
       const typeUpperCase = classification.charAt(0).toUpperCase() + classification.slice(1);
       const upperLang = language.charAt(0).toUpperCase() + language.slice(1);
       MessageTemplate.find({language: upperLang, type: typeUpperCase}).then((messages) => {
-        const randomVal =  Math.floor(Math.random() * ((messages.length - 1) - 0));
+        const randomVal =  Math.floor(Math.random() * ((messages.length) - 0));
         const messageTemp = messages[randomVal];
         const outgoingMessage = new Message({
           sent: true,
