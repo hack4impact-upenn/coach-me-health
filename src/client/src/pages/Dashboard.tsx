@@ -58,16 +58,6 @@ const Dashboard = () => {
       <ContentContainer>
         {profileQuery.isLoading && <div>Loading...</div>}
         {profileQuery.data && MyProfile(profileQuery.data as any)}
-        <button
-          className="button is-primary"
-          style={{ margin: '10px 0px' }}
-          onClick={() => {
-            profileQuery.clear();
-            profileQuery.refetch();
-          }}
-        >
-          Clear Cache and Reload
-        </button>
       </ContentContainer>
     </FlexContainer>
   );

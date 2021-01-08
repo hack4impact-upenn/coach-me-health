@@ -66,11 +66,7 @@ const PatientRecords: React.FC = () => {
         }
     }
 
-    const getCSV = (data: any, patient: any) => {
-        const id = patient._id;
-        const csvData = outcomesToCSV(data);
-        downloadCSV(csvData, id);
-    }
+
     const loadHeader = (res: any) => {;
         return (
             <Title>{res.firstName} {res.lastName}'s Patient Records</Title>
@@ -86,13 +82,6 @@ const PatientRecords: React.FC = () => {
                     {loadingPatient && <div>Loading...</div>}
                     {patient && loadHeader(patient)}
                     <Subtitle>Weekly Reports, Measurements, and SMS Chat logs</Subtitle>
-                    <div className = "columns"> 
-
-                        <div className = "column">
-                        {loadingOutcomes && loadingPatient &&  <ExportButton disabled={true}>Export to CSV</ExportButton>}
-                        {outcomes && patient && <ExportButton onClick = {() => getCSV(outcomes, patient)}>Export to CSV</ExportButton>}
-                        </div>
-                    </div>
                         <ImageGallery infinite = {false} items = {images} showThumbnails={false} showPlayButton={false} showFullscreenButton={false}></ImageGallery>
             
                         {loadingOutcomes && <div>Loading...</div>}
