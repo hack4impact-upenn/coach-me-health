@@ -62,7 +62,18 @@ const options: SidebarOptions[] = [
 
 const getCSV = () => {
   secureAxios.get("/api/messages/allOutcomes").then((res: any) => {
-    const data = outcomesToCSV(res.data);
+    const merged = [];
+    for (var i = 0; i < res.data.outcomes.length; i++) {
+      for (var j = 0; j < res.data.patients.length; j++) {
+        if (res.data.outcomes[i].patientID.toString() == res.data.patients[j]._id.toString()) {
+          res.data.outcomes[i].firstName = res.data.patients[j].firstName;
+          res.data.outcomes[i].lastName = res.data.patients[j].lastName;
+          merged.push(res.data.outcomes[i]);
+        }
+      }
+
+    }
+    const data = outcomesToCSV(merged);
     downloadCSV(data);
   }).catch((err) => {
     alert(err);
@@ -84,12 +95,13 @@ function downloadCSV(data: any) {
 
 function outcomesToCSV(data: any) {
   const csvRows = [];
-  const headers = ["ID", "Phone Number", "Date", "Response", "Value", "Classification"];
+  const headers = ["First Name", "Last Name", "ID", "Phone Number", "Date", "Response", "Value", "Classification"];
   csvRows.push(headers.join(','));
   for (const row of data) {
-      const values = [row.patientID, row.phoneNumber, 
-                        new Date(row.date).toString(), 
-                        row.response, row.value, row.alertType ];
+      const values = [row.firstName, row.lastName, 
+                      row.patientID, row.phoneNumber, 
+                      new Date(row.date).toString(), 
+                      row.response, row.value, row.alertType ];
       csvRows.push(values.join(','));
   }
   return csvRows.join('\n');

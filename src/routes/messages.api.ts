@@ -168,7 +168,10 @@ router.post('/scheduledMessage', auth, async (req, res) => {
 router.get('/allOutcomes', auth, async (req, res) => {
   return Outcome.find()
   .then((outcomesList) => {
-    res.status(200).send(outcomesList);
+    Patient.find().then((patientList) => {
+      res.status(200).send({outcomes: outcomesList, patients: patientList});
+    });
+
   })
   .catch((err) => errorHandler(res, err.msg))
 });
