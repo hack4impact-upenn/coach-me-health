@@ -16,15 +16,15 @@ import errorHandler from './error';
 const router = express.Router();
 initializeScheduler();
 
-//run messages every 5 min
-cron.schedule('*/5 * * * *', () => {
+//run messages every day at midnight PST
+cron.schedule('0 0 0 * * *', () => {
   console.log("Running batch of schdueled messages");
   Patient.find().then((patients) => {
     MessageTemplate.find({type: "Initial"}).then((MessageTemplates) => {
       for (const patient of patients) {
         if(patient.enabled) {
           const messages = MessageTemplates.filter(template => template.language === patient.language);
-          const randomVal =  Math.floor(Math.random() * ((messages.length) - 0));
+          const randomVal =  Math.floor(Math.random() * (messages.length));
           const message = messages[randomVal].text;
           var date = new Date();
           date.setMinutes(date.getMinutes() + 1);
