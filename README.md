@@ -1,5 +1,9 @@
 # CoachMe Health Automated SMS Dashboard
 
+## This project has a new home! Ongoing development can be found at [coachmehealth/sms-care-portal](https://github.com/coachmehealth/sms-care-portal)
+
+---
+
 Automated SMS dashboard with chatbot for automatically monitoring and tabulating patient data. Built Fall 2020 under Hack4Impact Penn.
 
 **Project Manager/Technical Lead:** Ben Demers, Carol Li
